@@ -1,13 +1,16 @@
+
 MACRO DrawText arg0, arg1, arg2, arg3, arg4, arg5
-    ;; arg0 bank.
-    ;; arg1 label
-    ;; x 
-    ;; y
-    ;; width (columns) in tiles
-    ;; height (rows) intiles
+    ;; arg0 = bank.
+    ;; arg1 = label
+    ;; arg2 = x 
+    ;; arg3 = y
+    ;; arg4 = width (columns) in tiles
+    ;; arg5 = height (rows) intiles
+    
     LDA arg0
     STA arg0_hold
-        STA textBank ;; allows for it to flow over frames.
+    STA textBank ;; allows for it to flow over frames.
+    
     LDA arg1
     STA arg1_hold
     LDA arg2
@@ -19,18 +22,17 @@ MACRO DrawText arg0, arg1, arg2, arg3, arg4, arg5
     LDA arg5
     STA arg5_hold
     
-    ;;
     SwitchBank arg0
         LDA textQueued
         AND #%00000001
-        BNE skipSettingNewPointer ;; if there is "more text" in queue, we will skip resetting the pointer.
+        BNE +skipSettingNewPointer ;; if there is "more text" in queue, we will skip resetting the pointer.
             LDA #<arg1
             STA textPointer
             LDA #>arg1
             STA textPointer+1
-        skipSettingNewPointer:
+        +skipSettingNewPointer:
     ReturnBank
     
     JSR doDrawText
+ENDM
 
-    ENDM

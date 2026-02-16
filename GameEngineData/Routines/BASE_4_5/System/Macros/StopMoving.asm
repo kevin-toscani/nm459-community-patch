@@ -1,6 +1,8 @@
+
 MACRO StopMoving arg0, arg1
-    ;arg0 = object
-    ;arg1 = stop inertia in what direction, FF = all
+    ;; arg0 = object
+    ;; arg1 = stop inertia in what direction, FF = all
+
     TXA
     PHA
     
@@ -13,4 +15,5 @@ MACRO StopMoving arg0, arg1
 
     PLA
     TAX
-    ENDM
+ENDM
+

@@ -1,9 +1,8 @@
-MACRO DoObjectAction arg0, arg1
-    ;arg0 = what object?
-    ;arg1 = what behavior?
 
-    
-    
+MACRO DoObjectAction arg0, arg1
+    ;; arg0 = what object?
+    ;; arg1 = what behavior?
+
     TXA
     PHA
     
@@ -15,7 +14,8 @@ MACRO DoObjectAction arg0, arg1
     SwitchBank #$1C
         JSR doObjectAction
     ReturnBank
+
     PLA
     TAX
-    
-    ENDM
+ENDM
+

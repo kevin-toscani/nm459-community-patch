@@ -1,3 +1,4 @@
+
 MACRO CreateObjectOnScreen arg0, arg1, arg2, arg3, arg4
     ;; arg0 = x
     ;; arg1 = y
@@ -7,8 +8,8 @@ MACRO CreateObjectOnScreen arg0, arg1, arg2, arg3, arg4
     JSR FindFreeObjectSlot
     CPX #$FF
     BNE +CreateThisObject
-    JMP +NoFreeSpaces
-+CreateThisObject:
+        JMP +NoFreeSpaces
+    +CreateThisObject:
     
     LDA arg0
     STA arg0_hold
@@ -29,4 +30,5 @@ MACRO CreateObjectOnScreen arg0, arg1, arg2, arg3, arg4
     PLA
     TAY
 +NoFreeSpaces:
-    ENDM
+ENDM
+

@@ -1,6 +1,7 @@
+
 MACRO StartMoving arg0, arg1
-    ;arg0 = object
-    ;arg1 = direction
+    ;; arg0 = object
+    ;; arg1 = direction
 
     TXA
     PHA
@@ -9,12 +10,10 @@ MACRO StartMoving arg0, arg1
     STA arg0_hold
     LDA arg1
     STA arg1_hold
-
     
     JSR oStartMovingInADirection
     
     PLA
     TAX
-    
-    
-    ENDM
+ENDM
+

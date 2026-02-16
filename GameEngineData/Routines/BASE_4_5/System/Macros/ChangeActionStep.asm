@@ -1,8 +1,7 @@
-MACRO ChangeActionStep arg0, arg1
-    ;arg0 = what object?
-    ;arg1 = what step?
 
-    
+MACRO ChangeActionStep arg0, arg1
+    ;; arg0 = what object?
+    ;; arg1 = what step?
     
     TXA
     PHA
@@ -12,10 +11,9 @@ MACRO ChangeActionStep arg0, arg1
     LDA arg1
     STA arg1_hold
     
-    
     JSR doChangeActionStep
     
     PLA
     TAX
-    
-    ENDM
+ENDM
+

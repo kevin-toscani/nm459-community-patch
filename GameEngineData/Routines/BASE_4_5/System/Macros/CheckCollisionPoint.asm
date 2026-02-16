@@ -1,3 +1,4 @@
+
 MACRO CheckCollisionPoint arg0, arg1, arg2, arg3
     ;; arg0 = x
     ;; arg1 = y
@@ -10,12 +11,12 @@ MACRO CheckCollisionPoint arg0, arg1, arg2, arg3
     LDA arg1
     STA tileY
     JSR GetTileAtPosition
+
     ;; now the offset is loaded into y
+
     LDA arg3
-    ;LDA Object_screen,x
-    ;AND #%00000001
     BNE +checkCollisionScreenRight
-        ;;; check left collision screen
+        ;; check left collision screen
         LDA collisionTable,y
         CMP arg2
         JMP +checkedCollisionScreen
@@ -23,6 +24,7 @@ MACRO CheckCollisionPoint arg0, arg1, arg2, arg3
         LDA collisionTable2,y
         CMP arg2
     +checkedCollisionScreen:
-    ;;; now, accumulator will be zero if they are equal.
-    
-    ENDM
+
+    ;; now, accumulator will be zero if they are equal.
+ENDM
+

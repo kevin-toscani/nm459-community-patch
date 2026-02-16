@@ -1,7 +1,9 @@
+
 MACRO UpdatePosition arg0, arg1, arg2
-    ;arg0 = object
-    ;arg1 = new x
-    ;arg2 = new y
+    ;; arg0 = object
+    ;; arg1 = new x
+    ;; arg2 = new y
+
     TXA
     PHA
     
@@ -16,5 +18,5 @@ MACRO UpdatePosition arg0, arg1, arg2
     
     PLA
     TAX
-    
-    ENDM
+ENDM
+

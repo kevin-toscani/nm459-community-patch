@@ -1,6 +1,7 @@
+
 MACRO ChangeFacingDirection arg0, arg1
-    ;arg0 = object
-    ;arg1 = what should be the new facing direction?
+    ;; arg0 = object
+    ;; arg1 = what should be the new facing direction?
     TXA
     PHA
     
@@ -13,4 +14,5 @@ MACRO ChangeFacingDirection arg0, arg1
 
     PLA
     TAX
-    ENDM
+ENDM
+
