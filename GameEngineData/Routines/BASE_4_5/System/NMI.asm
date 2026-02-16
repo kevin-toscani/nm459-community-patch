@@ -168,11 +168,13 @@ skipScreenUpdates:
 	STA $2000
 	
 
-	LDA camX
-	STA $2005	;reset scroll values to zero
-	LDA camY
-	STA $2005	;reset scroll values to zero
-	
+	LDA soft2001
+	BEQ +ignorePpuScroll
+		LDA camX
+		STA $2005	;reset scroll values to zero
+		LDA camY
+		STA $2005	;reset scroll values to zero
+	+ignorePpuScroll:
 
 skipNMIstuff:		
 
