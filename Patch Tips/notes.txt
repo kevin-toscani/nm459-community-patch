@@ -1,0 +1,9 @@
+1 - Player's graphics randomly glitchs?
+
+	- set animations of player to the same number
+
+		-e.g: if the walking animation is 6 frames...
+		the idle animation must be 6 frames (no matter if there is substantially no animation)
+			
+
+2 - Appropiate size for playable area in MetroidVania - leave 1 tile free in both top and bottom of the screen. You will prevent any issues regarding transitions to vertical screens.
