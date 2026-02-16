@@ -124,8 +124,7 @@ doDrawVariableTiles_update:
         
         JMP loop_doDrawVar_update
     done_loop_doDrawVar_update:
-        TYA
-        STA maxScrollOffsetCounter
+        STY maxScrollOffsetCounter
         
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;; Turn on update screen on next frame.

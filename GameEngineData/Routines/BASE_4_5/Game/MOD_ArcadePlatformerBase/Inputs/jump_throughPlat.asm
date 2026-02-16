@@ -60,8 +60,7 @@
         BEQ +doJump   ;; check second point.
             JMP +skipJumping
 +doJump:
-    TXA
-    STA temp ;; assumes the object we want to move is in x.
+    STX temp ;; assumes the object we want to move is in x.
         
     LDY Object_type,x
     LDA ObjectJumpSpeedLo,y
@@ -71,8 +70,7 @@
     EOR #$FF
     STA Object_v_speed_hi,x
         
-    TXA
-    STA temp ;; assumes the object we want to move is in x.
+    STX temp ;; assumes the object we want to move is in x.
  ;  change the object's action so that he is in jump mode.
 
 +skipJumping:

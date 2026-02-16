@@ -1,5 +1,4 @@
-    TXA
-    STA temp ;; assumes the object we want to move is in x.
+    STX temp ;; assumes the object we want to move is in x.
     ;;; It is possible that we are pressing multiple directions, and let go of one of them.
     ;;; If this happens, we would have our behavior change to stop, even though we'd continue to move.
     ;;; What we need to do is checkt o see if the relevant dpad buttons are pressed.  If any buttons

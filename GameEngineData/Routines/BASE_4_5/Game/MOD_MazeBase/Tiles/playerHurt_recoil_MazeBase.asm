@@ -6,8 +6,7 @@
     BEQ +doHurtRecoil
         JMP +dontHurtRecoil
     +doHurtRecoil
-    TXA
-    STA temp
+    STX temp
     GetActionStep temp
     CMP #$07
     BNE +canHurtPlayer

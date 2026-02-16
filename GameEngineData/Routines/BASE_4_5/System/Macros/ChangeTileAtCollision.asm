@@ -123,8 +123,7 @@ MACRO ChangeTileAtCollision arg0, arg1
         STA scrollUpdateRam,y
         INY
     
-    TYA
-    STA maxScrollOffsetCounter
+    STY maxScrollOffsetCounter
     
     
             

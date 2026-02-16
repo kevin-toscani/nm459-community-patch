@@ -43,8 +43,7 @@
             LDX #$00
             doObjectCollisionLoop:
 
-                    TXA
-                    STA otherObject
+                    STX otherObject
                     LDA Object_status,x
                     AND #%10000000
                     BNE doCheckForObjectCollision

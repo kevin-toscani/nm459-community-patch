@@ -6,8 +6,7 @@
     BEQ +canHurtPlayer
         JMP +skipHurt
 +canHurtPlayer:
-    TXA
-    STA temp
+    STX temp
     GetActionStep temp
     CMP #$07
     BNE +canHurtPlayer

@@ -5,8 +5,7 @@
  
     
  
-    TXA
-    STA temp ;; assumes the object that we want is in x.
+    STX temp ;; assumes the object that we want is in x.
 
     GetActionStep temp
     CMP #$02 ;; is it already attacking?
@@ -36,8 +35,7 @@
         ;; We will need to determine the direction
         ;; of the player.
         LDX player1_object
-        TXA
-        STA temp
+        STX temp
         GetObjectDirection temp ;; temp still observed from above.
             ;;; this object's direction is now loaded into the 
             ;;; accumulator for comparison after the macro.

@@ -139,8 +139,7 @@ MACRO ChangeTileAtPosition arg0, arg1, arg2, arg3
         STA scrollUpdateRam,y
         INY
     
-    TYA
-    STA maxScrollOffsetCounter
+    STY maxScrollOffsetCounter
     
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

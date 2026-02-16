@@ -61,8 +61,7 @@
             TAY
             LDA DirectionTableOrdered,y
             STA temp1
-            TXA
-            STA temp
+            STX temp
             StartMoving temp, temp1
     PLA
     TAY

@@ -45,8 +45,7 @@ doTileObservationLogic:
         
         ;; Now, we do the trampoline based on the tile type that is in
         ;; the accumulator.
-        TYA
-        STA temp1 ;; This now holds the y offset of collisionTable,
+        STY temp1 ;; This now holds the y offset of collisionTable,
                   ;; representing the tile that saw collision.
                   ;; temp2 is 0 if we were in collisionTable and 1 if we were
                   ;; in collisionTable2. The combination above will allow us

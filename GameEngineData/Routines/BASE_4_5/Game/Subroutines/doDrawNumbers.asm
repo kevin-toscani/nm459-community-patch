@@ -102,8 +102,7 @@ doDrawNumbers_update:
         DEC arg3_hold
         LDA arg3_hold
         BNE doDrawNumbersLoop_update
-        TXA
-        STA maxScrollOffsetCounter
+        STX maxScrollOffsetCounter
         
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;; Turn on update screen on next frame.

@@ -15,8 +15,7 @@ MACRO MoveTowardsPoint arg0, arg1, arg2, arg3
     STA arg2_hold
     LDA arg3
     STA arg3_hold
-    TXA
-    STA tempx
+    STX tempx
     SwitchBank #$18
     
         JSR doMoveTowardsPoint

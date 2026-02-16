@@ -10,8 +10,7 @@
     ;; is the monster below our feet?
     ;; and are we moving downward?
 
-    TXA
-    STA temp
+    STX temp
     GetActionStep temp
     CMP #$07
     BNE +canHurtPlayer

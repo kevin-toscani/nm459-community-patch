@@ -609,8 +609,7 @@ updateScrollColumnToTheRight:
             STA scrollOffsetCounter
             
             ;LDA #180
-            TXA
-            STA maxScrollOffsetCounter
+            STX maxScrollOffsetCounter
         
             LDA updateScreenData
             ORA #%0000100

@@ -11,9 +11,8 @@
     +doCheckSelfForObjectCollision:
 ;;STEP 2: Check for hurt state.
     ;;; In this module, monsters will use action step 7 for their hurt state.
-    TXA
-    STA selfObject
-    STA temp
+    STX selfObject
+    STX temp
     GetActionStep temp
     CMP #$07
     BNE +notHurt
@@ -81,8 +80,7 @@
                         ;;; if they have collided, it is a 1
                         ;;; if not, it is a zero.
                         BEQ +skipCollision
-                            TXA
-                            STA otherObject
+                            STX otherObject
                             ;; There was a collision between a monster and a weapon.
                             ;; weapon is self.
                             ;; monster is other.
@@ -138,8 +136,7 @@
                                 BNE +dontSkipCol
                                     JMP +skipCollision
                                 +dontSkipCol
-                                    TXA
-                                    STA otherObject
+                                    STX otherObject
                                     ;; There was a collision between a monster and a weapon.
                                     ;; player is self.
                                     ;; monster is other.
@@ -161,8 +158,7 @@
                                 BNE +doCollision
                                     JMP +skipCollision
                                 +doCollision
-                                    TXA
-                                    STA otherObject
+                                    STX otherObject
                                     ;; There was a collision between a player and a powerup.
                                     ;; player is self.
                                     ;; powerup is other.
@@ -179,8 +175,7 @@
                                 JSR getOtherColBox
                                 JSR doCompareBoundingBoxes
                                 BEQ +skipCollision
-                                    TXA
-                                    STA otherObject
+                                    STX otherObject
                                     ;; There was a collision between a player and a powerup.
                                     ;; player is self.
                                     ;; powerup is other.

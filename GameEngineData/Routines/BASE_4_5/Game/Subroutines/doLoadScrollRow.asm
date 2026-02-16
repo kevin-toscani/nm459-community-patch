@@ -195,8 +195,7 @@ JSR doNonsense
         LDX #$00
         
             JSR updateTopRow
-            TXA
-            STA maxScrollOffsetCounter
+            STX maxScrollOffsetCounter
 
         doneWithLoadRowData:
 
@@ -696,8 +695,7 @@ doNonsense:
     
     
     doLoadCollisionRowLoop:
-            TYA
-            STA tempB
+            STY tempB
             
             LDA camX 
             CMP #$80

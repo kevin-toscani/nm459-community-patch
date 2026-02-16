@@ -37,8 +37,7 @@ doUpdateHudTiles:
             STA scrollUpdateRam,y
             INY
             
-        TYA
-        STA maxScrollOffsetCounter
+        STY maxScrollOffsetCounter
         
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;; Turn on update screen on next frame.

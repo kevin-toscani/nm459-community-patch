@@ -19,9 +19,8 @@ loop_LoadScrollColumn:
     LDA scrollUpdateRam,y
     STA $2007
     INY 
-    TYA
-    STA scrollOffsetCounter
-    CMP maxScrollOffsetCounter ;; this should probably be variable.
+    STY scrollOffsetCounter
+    CPY maxScrollOffsetCounter ;; this should probably be variable.
     BEQ doneUpdatingColumn
     
     DEX

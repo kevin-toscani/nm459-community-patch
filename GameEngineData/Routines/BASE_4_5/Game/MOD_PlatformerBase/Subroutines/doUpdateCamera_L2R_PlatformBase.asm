@@ -550,8 +550,7 @@ forceScrollColumnUpdate:
                     +doneWithAtLoad
                     
                     
-                TXA
-                STA maxScrollOffsetCounter
+                STX maxScrollOffsetCounter
 
                 LDA updateScreenData
                 ORA #%00000100

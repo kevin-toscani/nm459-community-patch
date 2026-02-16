@@ -1,7 +1,6 @@
 ;;;; reverse direction.
 
-    TXA
-    STA temp
+    STX temp
     GetActionStep temp
     CMP #$07 ;; we will use action step 7 for hurt.
     BNE +notHurt

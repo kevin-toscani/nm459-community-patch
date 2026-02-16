@@ -1,5 +1,4 @@
-    TXA
-    STA temp ;; assumes the object we want to move is in x.
+    STX temp ;; assumes the object we want to move is in x.
 
     ;; It is possible that we are pressing multiple directions, and let go of
     ;; one of them. If this happens, we would have our behavior change to stop,

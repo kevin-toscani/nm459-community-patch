@@ -62,8 +62,7 @@ doUpdateHudVarTiles:
     
             
         
-        TYA
-        STA maxScrollOffsetCounter
+        STY maxScrollOffsetCounter
         
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;; Turn on update screen on next frame.

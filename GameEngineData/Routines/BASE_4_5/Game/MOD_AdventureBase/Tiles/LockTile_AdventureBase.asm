@@ -139,8 +139,7 @@
         STA scrollUpdateRam,y
         INY
     
-    TYA
-    STA maxScrollOffsetCounter
+    STY maxScrollOffsetCounter
     
     
             

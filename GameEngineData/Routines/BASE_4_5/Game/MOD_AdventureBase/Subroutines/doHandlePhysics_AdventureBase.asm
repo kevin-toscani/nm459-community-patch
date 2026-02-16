@@ -19,8 +19,7 @@
         ;; it was the player.
         ;; if this object is in attack action, currently set to 2,
         ;; he should not move, and should skip physics check
-        TXA
-        STA temp
+        STX temp
         GetActionStep temp
         CMP #$02
         BNE +notPlayer ;; skip, because was not 2.
@@ -237,8 +236,7 @@ doHandlePhysics:
     RECOIL_SPEED_LO = #$00
     
     
-        TXA
-        STA temp
+        STX temp
         GetActionStep temp
         CMP #$07
         BNE +notHurt
@@ -609,8 +607,7 @@ gotVmoveDirection:
         BEQ checkLeftBounds_NoScroll
             JMP doneWithH
         checkLeftBounds_NoScroll:
-            TXA
-            STA temp
+            STX temp
             GetActionStep temp
             CMP #$07
             BNE +notHurt
@@ -652,8 +649,7 @@ doMoveRight:
         BEQ checkRightBounds_NoScroll
             JMP doneWithH
         checkRightBounds_NoScroll:
-            TXA
-            STA temp
+            STX temp
             GetActionStep temp
             CMP #$07
             BNE +notHurt
@@ -710,8 +706,7 @@ doneWithH:
         BEQ checkTopBounds_NoScroll
             JMP doneWithV
         checkTopBounds_NoScroll:
-            TXA
-            STA temp
+            STX temp
             GetActionStep temp
             CMP #$07
             BNE +notHurt
@@ -744,8 +739,7 @@ doMoveDown:
         BEQ checkBottomBounds_NoScroll
             JMP doneWithV
         checkBottomBounds_NoScroll:
-            TXA
-            STA temp
+            STX temp
             GetActionStep temp
             CMP #$07
             BNE +notHurt

@@ -1,9 +1,7 @@
 doHandleInputScripts:
 
-    TXA
-    STA tempx
-    TYA
-    STA tempy
+    STX tempx
+    STY tempy
 
     LDA currentBank
     STA tempBank

@@ -24,8 +24,7 @@
     +updateActionStep:
         ;; jump to next action state.
         
-        TXA
-        STA temp
+        STX temp
         GetActionStep temp
         CLC
         ADC #$01

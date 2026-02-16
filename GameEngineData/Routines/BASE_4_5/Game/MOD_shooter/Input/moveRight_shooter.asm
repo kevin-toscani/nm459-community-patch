@@ -1,6 +1,5 @@
 ;;;; 
-    TXA
-    STA temp ;; assumes the object we want to move is in x.
+    STX temp ;; assumes the object we want to move is in x.
 
         StartMoving temp, #RIGHT
      ;   TXA

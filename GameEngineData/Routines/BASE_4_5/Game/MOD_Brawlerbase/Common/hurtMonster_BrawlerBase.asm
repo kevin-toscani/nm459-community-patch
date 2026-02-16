@@ -14,8 +14,7 @@
     ; +canHurtPlayer
     ;;; will presume there is a variable myHealth
     ;;; and that player hurt state is action state 7.
-    TXA
-    STA temp
+    STX temp
     GetActionStep temp
     CMP #$07 ;; hurt state.
     BNE +notAlreadyInHurtState

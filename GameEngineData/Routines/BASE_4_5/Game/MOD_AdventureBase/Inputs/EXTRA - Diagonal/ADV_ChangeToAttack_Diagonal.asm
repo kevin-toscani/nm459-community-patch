@@ -26,8 +26,7 @@
         RTS
     +notAttack
 
-    TXA
-    STA temp ;; assumes the object that we want is in x.
+    STX temp ;; assumes the object that we want is in x.
 
     ChangeActionStep temp, #$02 ;; assumes that "attack" is in action 2
     ;arg0 = what object?
@@ -76,8 +75,7 @@
         ;; We will need to determine the direction
         ;; of the player.
         LDX player1_object
-        TXA
-        STA temp
+        STX temp
         GetObjectDirection temp ;; temp still observed from above.
             ;;; this object's direction is now loaded into the 
             ;;; accumulator for comparison after the macro.

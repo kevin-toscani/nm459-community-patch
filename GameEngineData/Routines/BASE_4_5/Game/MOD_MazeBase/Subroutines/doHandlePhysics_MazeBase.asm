@@ -19,8 +19,7 @@
         ;; it was the player.
         ;; if this object is in attack action, currently set to 2,
         ;; he should not move, and should skip physics check
-        TXA
-        STA temp
+        STX temp
         GetActionStep temp
         CMP #$02
         BNE +notPlayer ;; skip, because was not 2.
@@ -233,8 +232,7 @@ doHandlePhysics:
     ;SwitchBank #$1C
     
     
-        TXA
-        STA temp
+        STX temp
         GetActionStep temp
         CMP #$07
         BNE +notHurt
@@ -578,8 +576,7 @@ gotVmoveDirection:
         JMP doneWithH
     doLeftBounds
         
-            TXA
-            STA temp
+            STX temp
             GetActionStep temp
             CMP #$07
             BNE +notHurt
@@ -618,8 +615,7 @@ doMoveRight:
         doRightBounds:
         
       
-            TXA
-            STA temp
+            STX temp
             GetActionStep temp
             CMP #$07
             BNE +notHurt
@@ -672,8 +668,7 @@ doneWithH:
         JMP doneWithV
     doTopBounds
        
-            TXA
-            STA temp
+            STX temp
             GetActionStep temp
             CMP #$07
             BNE +notHurt
@@ -702,8 +697,7 @@ doMoveDown:
         JMP doneWithV
     doBottomBounds:
        
-            TXA
-            STA temp
+            STX temp
             GetActionStep temp
             CMP #$07
             BNE +notHurt

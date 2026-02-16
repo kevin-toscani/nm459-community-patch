@@ -12,8 +12,7 @@ LDA #$00
     
 
 
-    TYA
-    STA tempA
+    STY tempA
     ;tempA_hold is how we can now restore y if we have to 
                 ;; corrupt it.
         

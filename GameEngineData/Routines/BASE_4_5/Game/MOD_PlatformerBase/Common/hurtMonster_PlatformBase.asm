@@ -1,5 +1,4 @@
-    TXA
-    STA temp
+    STX temp
     GetActionStep temp
     CMP #$07 ;; we will use action step 7 for hurt.
     BEQ +doSkipHurtingThisObject ;; if he is hurt, he can't be hurt again.

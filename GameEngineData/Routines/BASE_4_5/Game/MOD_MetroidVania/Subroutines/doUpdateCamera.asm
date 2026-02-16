@@ -348,8 +348,7 @@ doUpdateCamera:
                 JMP loop_LoadAttribute_column
             +doneWithAtLoad
 
-        TXA
-        STA maxScrollOffsetCounter
+        STX maxScrollOffsetCounter
 
         LDA updateScreenData
         ORA #%00000100

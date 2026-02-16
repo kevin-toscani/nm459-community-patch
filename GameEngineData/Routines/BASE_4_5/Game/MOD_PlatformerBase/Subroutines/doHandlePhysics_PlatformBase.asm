@@ -166,8 +166,7 @@ doHandlePhysics:
     RECOIL_SPEED_LO = #$00 ;;always stays as 0, because changing it never really produces any effects
     
     
-        TXA
-        STA temp
+        STX temp
         GetActionStep temp
         CMP #$07
         BNE +notHurt
@@ -694,8 +693,7 @@ isSolidSoLand:
     ;; move to position
     ;;; load the top of the tile that is being run into.
     ;;check if in a jumping state.
-    TXA
-    STA temp
+    STX temp
     GetActionStep temp
     CMP #$02 ;; presums jump is in state 2
     BNE +dontChangeToIdle

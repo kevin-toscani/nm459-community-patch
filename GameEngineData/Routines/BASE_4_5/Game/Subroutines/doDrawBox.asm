@@ -145,8 +145,7 @@ currentlyUpdatingQueuedTiles:
             LDX Box_width ;; load the width into x.
 
             doDrawBoxLoop_inner:
-                TYA
-                STA tempy
+                STY tempy
                 ;;;;;;;;;;;;; What do we draw?
                 ;;;;;;;;;;;;; If we are creating a box, we just draw a blank tile.
                 ;;;;;;;;;;;;; If we are erasing a box, we will get the tile data of the
@@ -354,8 +353,7 @@ LDY tempy
     ;;; Push the offset so we know how many tiles to update.
     ;;; max would be 85 tiles.
     ;;; could make this metatiles to get more out of this.
-        TYA
-        STA maxScrollOffsetCounter
+        STY maxScrollOffsetCounter
         
         
                 
@@ -427,8 +425,7 @@ currentlyUpdatingQueuedAttribtues:
         TAY
         
         doDrawBoxAttributesLoop:    
-            TYA
-            STA tempy
+            STY tempy
             
             LDA tempB
             ASL
@@ -581,8 +578,7 @@ currentlyUpdatingQueuedAttribtues:
                             QueueText #$19, textToWrite, Box_x_origin, Box_y_origin, #$01
                         notDo04EndBoxAction:
             moreBoxAttributes:
-                TYA
-                STA maxScrollOffsetCounter
+                STY maxScrollOffsetCounter
             justUpdateScreenData:
         
                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

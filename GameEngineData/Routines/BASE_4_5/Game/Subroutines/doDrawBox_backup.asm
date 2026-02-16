@@ -336,8 +336,7 @@ currentlyUpdatingQueuedTiles:
     ;;; Push the offset so we know how many tiles to update.
     ;;; max would be 85 tiles.
     ;;; could make this metatiles to get more out of this.
-        TYA
-        STA maxScrollOffsetCounter
+        STY maxScrollOffsetCounter
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;;; Turn on update screen on next frame.
@@ -404,8 +403,7 @@ currentlyUpdatingQueuedAttribtues:
         TAY
         
         doDrawBoxAttributesLoop:    
-            TYA
-            STA tempy
+            STY tempy
             
             LDA tempB
             ASL
@@ -557,8 +555,7 @@ currentlyUpdatingQueuedAttribtues:
                             QueueText #$19, textToWrite, Box_x_origin, Box_y_origin, #$01
                         notDo04EndBoxAction:
             moreBoxAttributes:
-                TYA
-                STA maxScrollOffsetCounter
+                STY maxScrollOffsetCounter
             justUpdateScreenData:
         
                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

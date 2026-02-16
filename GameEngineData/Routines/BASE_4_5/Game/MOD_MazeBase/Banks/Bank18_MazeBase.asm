@@ -41,15 +41,13 @@ doTileObservationLogic
                 BEQ ObjectDoesNotObserveTiles
                     STA temp ;; store the tile value into temp
                     ;;; now, we do the trampoline based on the tile type that is in the accumulator.
-                    TYA
-                    STA temp1 ;; this now holds the y offset of collisionTable representing the tile that saw collision.
+                    STY temp1 ;; this now holds the y offset of collisionTable representing the tile that saw collision.
                     ;;; and temp2 is 0 if we were in collisionTable and 1 if we were in collisionTable2
                     ;;; the combination above will allow us to affect the tile that we just collided with.
                     
                     ;; if it is hurt and it hit a non 0 tile type, it should probably regard it as solid.
                     ;; otherwise it will fly through doors and whatnot if they are not simply solid tile types.
-                    TXA
-                    STA tempz
+                    STX tempz
                     GetActionStep tempz
                     CMP #$07
                     BNE +notHurtState
