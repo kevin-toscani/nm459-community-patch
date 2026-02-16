@@ -44,6 +44,7 @@ _Here's a list of patches that have been applied, in no particular order, groupe
 - More space in Zero Page RAM by deleting unnecessary bytes (saves 2 bytes in ZP)
 - ROM space optimization in Bank18 (saves 192 bytes in ROM)
 - NMI optimization by removing unnecessary pushes (saves at least 192 bytes in the static bank)
+- Remove trigger initialization by default (saves 128 bytes in the static bank)
 
 ## Added content
 - UntriggerScreen macro, by Dale Coop

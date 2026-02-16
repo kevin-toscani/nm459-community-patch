@@ -136,7 +136,8 @@
     
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Triggers
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+.ifdef ENABLE_TRIGGER_TESTING    
     LDA #INIT_TRIG_00
     STA screenTriggers+0
     LDA #INIT_TRIG_01
@@ -201,7 +202,7 @@
     STA screenTriggers+30
     LDA #INIT_TRIG_1f
     STA screenTriggers+31
-    
+.endif
     
     ;;;;;;;;;;;;;;DELETE ME
     .include "GameData\InitializationScripts\hudVarInits.asm"

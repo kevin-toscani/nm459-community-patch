@@ -104,6 +104,8 @@
     LDA #BOSSES_DEFEATED
     STA weaponsUnlocked
 
+
+.ifdef ENABLE_TRIGGER_TESTING
     ;; Triggers
     ;; If your game does not use initial triggers, you can remove these lines.
     LDA #INIT_TRIG_00
@@ -170,6 +172,8 @@
     STA screenTriggers+30
     LDA #INIT_TRIG_1f
     STA screenTriggers+31
+.endif
+
 
     ;; Initialize HUD
     .include "GameData\InitializationScripts\hudVarInits.asm"
