@@ -21,81 +21,10 @@ NMI:
     PHP
     
     ;; Push RAM values to stack
-    ;; @TODO cleanup which values need pushing and which don't
-    LDA temp
-    PHA 
-    LDA temp1
-    PHA 
-    LDA temp2
-    PHA 
-    LDA temp3
-    PHA 
-    LDA tempx
-    PHA 
-    LDA tempy
-    PHA 
-    LDA tempz
-    PHA 
-    
-    LDA tempA
-    PHA
-    LDA tempB
-    PHA
-    LDA tempC
-    PHA
-    LDA tempD
-    PHA
-
-    LDA arg0_hold
-    PHA
-    LDA arg1_hold
-    PHA
-    LDA arg2_hold
-    PHA
-    LDA arg3_hold
-    PHA
-    LDA arg4_hold
-    PHA
-    LDA arg5_hold
-    PHA
-    LDA arg6_hold
-    PHA
-    LDA arg7_hold
-    PHA
-    
-    LDA temp16
-    PHA 
-    LDA temp16+1
-    PHA 
-    
-    LDA pointer
-    PHA
-    LDA pointer+1
-    PHA
-    
-    LDA pointer2
-    PHA
-    LDA pointer2+1
-    PHA
-    
-    LDA pointer3
-    PHA
-    LDA pointer3+1
-    PHA
-    
-    LDA pointer6
-    PHA
-    LDA pointer6+1
-    PHA
-    
     LDA currentBank
     PHA 
     LDA prevBank
     PHA 
-    LDA tempBank
-    PHA 
-    LDA chrRamBank
-    PHA
 
     ;; Check if PPU updates must be skipped or not
     LDA skipNMI
@@ -193,79 +122,10 @@ NMI:
     ReturnBank
 
     ;; Pull RAM values from stack
-    PLA
-    STA chrRamBank
-    PLA 
-    STA tempBank
     PLA 
     STA prevBank
-    PLA
+    PLA 
     STA currentBank
-    
-    PLA
-    STA pointer6+1
-    PLA
-    STA pointer6
-    PLA
-    STA pointer3+1
-    PLA
-    STA pointer3
-    
-    PLA
-    STA pointer2+1
-    PLA
-    STA pointer2
-    
-    PLA
-    STA pointer+1
-    PLA
-    STA pointer
-    
-    PLA
-    STA temp16+1
-    PLA
-    STA temp16
-
-    PLA
-    STA arg7_hold
-    PLA
-    STA arg6_hold
-    PLA
-    STA arg5_hold
-    PLA
-    STA arg4_hold
-    PLA
-    STA arg3_hold
-    PLA
-    STA arg2_hold
-    PLA
-    STA arg1_hold
-    PLA
-    STA arg0_hold
-    
-    PLA 
-    STA tempD
-    PLA
-    STA tempC
-    PLA
-    STA tempB
-    PLA 
-    STA tempA
-    
-    PLA 
-    STA tempz
-    PLA 
-    STA tempy
-    PLA
-    STA tempx
-    PLA 
-    STA temp3
-    PLA 
-    STA temp2
-    PLA 
-    STA temp1
-    PLA 
-    STA temp
     
     ;; Tell game that NMI is done
     DEC doNMI
