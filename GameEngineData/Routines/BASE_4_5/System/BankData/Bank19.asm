@@ -1,3 +1,4 @@
-;;; Text Bank.
 
-    .include "ScreenData\npcText01.dat"
+;; Text Bank.
+.include "ScreenData\npcText01.dat"
+

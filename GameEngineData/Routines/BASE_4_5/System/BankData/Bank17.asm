@@ -4,7 +4,6 @@
     .include SCR_CHANGE_ATTRIBUTE
     .include SCR_CHANGE_BACKGROUND_PALETTE
     .include SCR_CHANGE_BACKGROUND_TILE
-    ;.include SCR_CHANGE_FACING_DIRECTION
     .include SCR_CHANGE_GAME_STATE
     .include SCR_CHANGE_GAME_SUB_STATE
     .include SCR_CHANGE_GRAVITY
@@ -30,18 +29,9 @@
     .include SCR_RUN_SUBROUTINE
     .include SCR_SET_GLOBAL_VARIABLE
     .include SCR_SET_LOCAL_VARIABLE
-    ;.include SCR_START_MOVING
     .include SCR_STOP_SOUNDS
-    ;.include SCR_STOP_MOVING
     .include SCR_UPDATE_HUD
-    ;.include SCR_UPDATE_POSITION
     
 Object_Behavior_Offset_table:
+    ;; Old behavior method
 
-
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;; OLD BEHAVIOR METHOD
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

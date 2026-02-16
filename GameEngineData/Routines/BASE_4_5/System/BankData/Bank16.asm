@@ -1,12 +1,14 @@
-;;Move doLoadScreen to Bank 16 by JamesNES
-;;https://www.nesmakers.com/index.php?threads/4-5-x-move-doloadscreen-to-bank-16.7019/
+
+;; Move doLoadScreen to Bank 16 by JamesNES
+;; https://www.nesmakers.com/index.php?threads/4-5-x-move-doloadscreen-to-bank-16.7019/
 .include SCR_LOADSCREEN16
+
 
 AllTextGroups:    
     .include "ScreenData\npcTextGroup.dat"
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;BACKGROUND PALETTE POINTERS:
+
+;; Background palette pointers
 GameBckPalLo:
     .db <BckPal00, <BckPal01, <BckPal02, <BckPal03, <BckPal04, <BckPal05, <BckPal06, <BckPal07
     .db <BckPal08, <BckPal09, <BckPal0a, <BckPal0b, <BckPal0c, <BckPal0d, <BckPal0e, <BckPal0f
@@ -27,8 +29,8 @@ GameBckPalHi:
     .db >BckPal30, >BckPal31, >BckPal32, >BckPal33, >BckPal34, >BckPal35, >BckPal36, >BckPal37
     .db >BckPal38, >BckPal39, >BckPal3a, >BckPal3b, >BckPal3c, >BckPal3d, >BckPal3e, >BckPal3f
     
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;OBJECT PALETTE POINTERS
+
+;; Sprite palette pointers
 ObjectPaletteDataLo:
     .db <objectPal_0, <objectPal_1, <objectPal_2, <objectPal_3, <objectPal_4, <objectPal_5, <objectPal_6, <objectPal_7
     .db <objectPal_8, <objectPal_9, <objectPal_10, <objectPal_11, <objectPal_12, <objectPal_13, <objectPal_14, <objectPal_15
@@ -38,7 +40,6 @@ ObjectPaletteDataLo:
     .db <objectPal_40, <objectPal_41, <objectPal_42, <objectPal_43, <objectPal_44, <objectPal_45, <objectPal_46, <objectPal_47 
     .db <objectPal_48, <objectPal_49, <objectPal_50, <objectPal_51, <objectPal_52, <objectPal_53, <objectPal_54, <objectPal_55 
     .db <objectPal_56, <objectPal_57, <objectPal_58, <objectPal_59, <objectPal_60, <objectPal_61, <objectPal_62, <objectPal_63 
-
 
 ObjectPaletteDataHi:
     .db >objectPal_0, >objectPal_1, >objectPal_2, >objectPal_3, >objectPal_4, >objectPal_5, >objectPal_6, >objectPal_7
@@ -50,11 +51,8 @@ ObjectPaletteDataHi:
     .db >objectPal_48, >objectPal_49, >objectPal_50, >objectPal_51, >objectPal_52, >objectPal_53, >objectPal_54, >objectPal_55 
     .db >objectPal_56, >objectPal_57, >objectPal_58, >objectPal_59, >objectPal_60, >objectPal_61, >objectPal_62, >objectPal_63
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;NAMETABLE POINTERS:
+;; Nametable pointers
 NameTablePointers_Map1_lo:
     .db <NT_Rm00, <NT_Rm01, <NT_Rm02, <NT_Rm03, <NT_Rm04, <NT_Rm05, <NT_Rm06, <NT_Rm07, <NT_Rm08
     .db <NT_Rm09, <NT_Rm10, <NT_Rm11, <NT_Rm12, <NT_Rm13, <NT_Rm14, <NT_Rm15, <NT_Rm16, <NT_Rm17
@@ -85,8 +83,7 @@ NameTablePointers_Map1_lo:
     .db <NT_Rm234, <NT_Rm235, <NT_Rm236, <NT_Rm237, <NT_Rm238, <NT_Rm239, <NT_Rm240, <NT_Rm241, <NT_Rm242
     .db <NT_Rm243, <NT_Rm244, <NT_Rm245, <NT_Rm246, <NT_Rm247, <NT_Rm248, <NT_Rm249, <NT_Rm250, <NT_Rm251 
     .db <NT_Rm252, <NT_Rm253, <NT_Rm254, <NT_Rm255
-    
-    
+
 NameTablePointers_Map1_hi:
     .db >NT_Rm00, >NT_Rm01, >NT_Rm02, >NT_Rm03, >NT_Rm04, >NT_Rm05, >NT_Rm06, >NT_Rm07, >NT_Rm08
     .db >NT_Rm09, >NT_Rm10, >NT_Rm11, >NT_Rm12, >NT_Rm13, >NT_Rm14, >NT_Rm15, >NT_Rm16, >NT_Rm17
@@ -117,7 +114,6 @@ NameTablePointers_Map1_hi:
     .db >NT_Rm234, >NT_Rm235, >NT_Rm236, >NT_Rm237, >NT_Rm238, >NT_Rm239, >NT_Rm240, >NT_Rm241, >NT_Rm242
     .db >NT_Rm243, >NT_Rm244, >NT_Rm245, >NT_Rm246, >NT_Rm247, >NT_Rm248, >NT_Rm249, >NT_Rm250, >NT_Rm251 
     .db >NT_Rm252, >NT_Rm253, >NT_Rm254, >NT_Rm255    
-    
 
 NameTablePointers_Map2_lo:
     .db <bNT_Rm00, <bNT_Rm01, <bNT_Rm02, <bNT_Rm03, <bNT_Rm04, <bNT_Rm05, <bNT_Rm06, <bNT_Rm07, <bNT_Rm08, <bNT_Rm09, <bNT_Rm10 
@@ -146,8 +142,7 @@ NameTablePointers_Map2_lo:
     .db <bNT_Rm231, <bNT_Rm232, <bNT_Rm233, <bNT_Rm234, <bNT_Rm235, <bNT_Rm236, <bNT_Rm237, <bNT_Rm238, <bNT_Rm239, <bNT_Rm240
     .db <bNT_Rm241, <bNT_Rm242, <bNT_Rm243, <bNT_Rm244, <bNT_Rm245, <bNT_Rm246, <bNT_Rm247, <bNT_Rm248, <bNT_Rm249, <bNT_Rm250
     .db <bNT_Rm251, <bNT_Rm252, <bNT_Rm253, <bNT_Rm254, <bNT_Rm255
-    
-    
+
 NameTablePointers_Map2_hi:
     .db >bNT_Rm00, >bNT_Rm01, >bNT_Rm02, >bNT_Rm03, >bNT_Rm04, >bNT_Rm05, >bNT_Rm06, >bNT_Rm07, >bNT_Rm08, >bNT_Rm09, >bNT_Rm10 
     .db >bNT_Rm11, >bNT_Rm12, >bNT_Rm13, >bNT_Rm14, >bNT_Rm15, >bNT_Rm16, >bNT_Rm17, >bNT_Rm18, >bNT_Rm19, >bNT_Rm20 
@@ -175,13 +170,9 @@ NameTablePointers_Map2_hi:
     .db >bNT_Rm231, >bNT_Rm232, >bNT_Rm233, >bNT_Rm234, >bNT_Rm235, >bNT_Rm236, >bNT_Rm237, >bNT_Rm238, >bNT_Rm239, >bNT_Rm240
     .db >bNT_Rm241, >bNT_Rm242, >bNT_Rm243, >bNT_Rm244, >bNT_Rm245, >bNT_Rm246, >bNT_Rm247, >bNT_Rm248, >bNT_Rm249, >bNT_Rm250
     .db >bNT_Rm251, >bNT_Rm252, >bNT_Rm253, >bNT_Rm254, >bNT_Rm255
-    
-    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; ATTRIBUTE TABLES
-        
+
+;; Attribute table pointers
 AttributeTables_Map1_Lo:
     .db <AT_Rm00, <AT_Rm01, <AT_Rm02, <AT_Rm03, <AT_Rm04, <AT_Rm05, <AT_Rm06, <AT_Rm07, <AT_Rm08, <AT_Rm09
     .db <AT_Rm10, <AT_Rm11, <AT_Rm12, <AT_Rm13, <AT_Rm14, <AT_Rm15, <AT_Rm16, <AT_Rm17, <AT_Rm18, <AT_Rm19 
@@ -242,7 +233,6 @@ AttributeTables_Map1_Hi:
     .db >AT_Rm244, >AT_Rm245, >AT_Rm246, >AT_Rm247, >AT_Rm248, >AT_Rm249, >AT_Rm250, >AT_Rm251, >AT_Rm252
     .db >AT_Rm253, >AT_Rm254, >AT_Rm255
 
-
 AttributeTables_Map2_Lo:
     .db <bAT_Rm00, <bAT_Rm01, <bAT_Rm02, <bAT_Rm03, <bAT_Rm04, <bAT_Rm05, <bAT_Rm06, <bAT_Rm07, <bAT_Rm08, <bAT_Rm09
     .db <bAT_Rm10, <bAT_Rm11, <bAT_Rm12, <bAT_Rm13, <bAT_Rm14, <bAT_Rm15, <bAT_Rm16, <bAT_Rm17, <bAT_Rm18,  <bAT_Rm19 
@@ -272,6 +262,7 @@ AttributeTables_Map2_Lo:
     .db <bAT_Rm235, <bAT_Rm236, <bAT_Rm237, <bAT_Rm238, <bAT_Rm239, <bAT_Rm240, <bAT_Rm241, <bAT_Rm242, <bAT_Rm243
     .db <bAT_Rm244, <bAT_Rm245, <bAT_Rm246, <bAT_Rm247, <bAT_Rm248, <bAT_Rm249, <bAT_Rm250, <bAT_Rm251, <bAT_Rm252
     .db <bAT_Rm253, <bAT_Rm254, <bAT_Rm255
+
 AttributeTables_Map2_Hi:    
     .db >bAT_Rm00, >bAT_Rm01, >bAT_Rm02, >bAT_Rm03, >bAT_Rm04, >bAT_Rm05, >bAT_Rm06, >bAT_Rm07, >bAT_Rm08, >bAT_Rm09
     .db >bAT_Rm10, >bAT_Rm11, >bAT_Rm12, >bAT_Rm13, >bAT_Rm14, >bAT_Rm15, >bAT_Rm16, >bAT_Rm17, >bAT_Rm18,  >bAT_Rm19 
@@ -303,10 +294,9 @@ AttributeTables_Map2_Hi:
     .db >bAT_Rm253, >bAT_Rm254, >bAT_Rm255    
 
 
-
+;; Collision table pointers
 CollisionTables_Map1_Lo:    
     .db <Ct00, <Ct01, <Ct02, <Ct03, <Ct04, <Ct05, <Ct06, <Ct07, <Ct08, <Ct09, <Ct10, <Ct11, <Ct12, <Ct13, <Ct14, <Ct15, <Ct16, <Ct17, <Ct18, <Ct19, <Ct20, <Ct21, <Ct22, <Ct23, <Ct24, <Ct25, <Ct26, <Ct27, <Ct28, <Ct29, <Ct30, <Ct31, <Ct32, <Ct33, <Ct34, <Ct35, <Ct36, <Ct37, <Ct38, <Ct39, <Ct40, <Ct41, <Ct42, <Ct43, <Ct44, <Ct45, <Ct46, <Ct47, <Ct48, <Ct49, <Ct50, <Ct51, <Ct52, <Ct53, <Ct54, <Ct55, <Ct56, <Ct57, <Ct58, <Ct59, <Ct60, <Ct61, <Ct62, <Ct63, <Ct64, <Ct65, <Ct66, <Ct67, <Ct68, <Ct69, <Ct70, <Ct71, <Ct72, <Ct73, <Ct74, <Ct75, <Ct76, <Ct77, <Ct78, <Ct79, <Ct80, <Ct81, <Ct82, <Ct83, <Ct84, <Ct85, <Ct86, <Ct87, <Ct88, <Ct89, <Ct90, <Ct91, <Ct92, <Ct93, <Ct94, <Ct95, <Ct96, <Ct97, <Ct98, <Ct99, <Ct100, <Ct101, <Ct102, <Ct103, <Ct104, <Ct105, <Ct106, <Ct107, <Ct108, <Ct109, <Ct110, <Ct111, <Ct112, <Ct113, <Ct114, <Ct115, <Ct116, <Ct117, <Ct118, <Ct119, <Ct120, <Ct121, <Ct122, <Ct123, <Ct124, <Ct125, <Ct126, <Ct127, <Ct128, <Ct129, <Ct130, <Ct131, <Ct132, <Ct133, <Ct134, <Ct135, <Ct136, <Ct137, <Ct138, <Ct139, <Ct140, <Ct141, <Ct142, <Ct143, <Ct144, <Ct145, <Ct146, <Ct147, <Ct148, <Ct149, <Ct150, <Ct151, <Ct152, <Ct153, <Ct154, <Ct155, <Ct156, <Ct157, <Ct158, <Ct159, <Ct160, <Ct161, <Ct162, <Ct163, <Ct164, <Ct165, <Ct166, <Ct167, <Ct168, <Ct169, <Ct170, <Ct171, <Ct172, <Ct173, <Ct174, <Ct175, <Ct176, <Ct177, <Ct178, <Ct179, <Ct180, <Ct181, <Ct182, <Ct183, <Ct184, <Ct185, <Ct186, <Ct187, <Ct188, <Ct189, <Ct190, <Ct191, <Ct192, <Ct193, <Ct194, <Ct195, <Ct196, <Ct197, <Ct198, <Ct199, <Ct200, <Ct201, <Ct202, <Ct203, <Ct204, <Ct205, <Ct206, <Ct207, <Ct208, <Ct209, <Ct210, <Ct211, <Ct212, <Ct213, <Ct214, <Ct215, <Ct216, <Ct217, <Ct218, <Ct219, <Ct220, <Ct221, <Ct222, <Ct223, <Ct224, <Ct225, <Ct226, <Ct227, <Ct228, <Ct229, <Ct230, <Ct231, <Ct232, <Ct233, <Ct234, <Ct235, <Ct236, <Ct237, <Ct238, <Ct239, <Ct240, <Ct241, <Ct242, <Ct243, <Ct244, <Ct245, <Ct246, <Ct247, <Ct248, <Ct249, <Ct250, <Ct251, <Ct252, <Ct253, <Ct254, <Ct255
-
 
 CollisionTables_Map2_Lo:    
     .db <bCt00, <bCt01, <bCt02, <bCt03, <bCt04, <bCt05, <bCt06, <bCt07, <bCt08, <bCt09 
@@ -337,7 +327,6 @@ CollisionTables_Map2_Lo:
     .db <bCt235, <bCt236, <bCt237, <bCt238, <bCt239, <bCt240, <bCt241, <bCt242, <bCt243 
     .db <bCt244, <bCt245, <bCt246, <bCt247, <bCt248, <bCt249, <bCt250, <bCt251, <bCt252 
     .db <bCt253, <bCt254, <bCt255    
-
 
 CollisionTables_Map1_Hi:    
     .db >Ct00, >Ct01, >Ct02, >Ct03, >Ct04, >Ct05, >Ct06, >Ct07, >Ct08, >Ct09, >Ct10, >Ct11, >Ct12, >Ct13, >Ct14, >Ct15, >Ct16, >Ct17, >Ct18, >Ct19, >Ct20, >Ct21, >Ct22, >Ct23, >Ct24, >Ct25, >Ct26, >Ct27, >Ct28, >Ct29, >Ct30, >Ct31, >Ct32, >Ct33, >Ct34, >Ct35, >Ct36, >Ct37, >Ct38, >Ct39, >Ct40, >Ct41, >Ct42, >Ct43, >Ct44, >Ct45, >Ct46, >Ct47, >Ct48, >Ct49, >Ct50, >Ct51, >Ct52, >Ct53, >Ct54, >Ct55, >Ct56, >Ct57, >Ct58, >Ct59, >Ct60, >Ct61, >Ct62, >Ct63, >Ct64, >Ct65, >Ct66, >Ct67, >Ct68, >Ct69, >Ct70, >Ct71, >Ct72, >Ct73, >Ct74, >Ct75, >Ct76, >Ct77, >Ct78, >Ct79, >Ct80, >Ct81, >Ct82, >Ct83, >Ct84, >Ct85, >Ct86, >Ct87, >Ct88, >Ct89, >Ct90, >Ct91, >Ct92, >Ct93, >Ct94, >Ct95, >Ct96, >Ct97, >Ct98, >Ct99, >Ct100, >Ct101, >Ct102, >Ct103, >Ct104, >Ct105, >Ct106, >Ct107, >Ct108, >Ct109, >Ct110, >Ct111, >Ct112, >Ct113, >Ct114, >Ct115, >Ct116, >Ct117, >Ct118, >Ct119, >Ct120, >Ct121, >Ct122, >Ct123, >Ct124, >Ct125, >Ct126, >Ct127, >Ct128, >Ct129, >Ct130, >Ct131, >Ct132, >Ct133, >Ct134, >Ct135, >Ct136, >Ct137, >Ct138, >Ct139, >Ct140, >Ct141, >Ct142, >Ct143, >Ct144, >Ct145, >Ct146, >Ct147, >Ct148, >Ct149, >Ct150, >Ct151, >Ct152, >Ct153, >Ct154, >Ct155, >Ct156, >Ct157, >Ct158, >Ct159, >Ct160, >Ct161, >Ct162, >Ct163, >Ct164, >Ct165, >Ct166, >Ct167, >Ct168, >Ct169, >Ct170, >Ct171, >Ct172, >Ct173, >Ct174, >Ct175, >Ct176, >Ct177, >Ct178, >Ct179, >Ct180, >Ct181, >Ct182, >Ct183, >Ct184, >Ct185, >Ct186, >Ct187, >Ct188, >Ct189, >Ct190, >Ct191, >Ct192, >Ct193, >Ct194, >Ct195, >Ct196, >Ct197, >Ct198, >Ct199, >Ct200, >Ct201, >Ct202, >Ct203, >Ct204, >Ct205, >Ct206, >Ct207, >Ct208, >Ct209, >Ct210, >Ct211, >Ct212, >Ct213, >Ct214, >Ct215, >Ct216, >Ct217, >Ct218, >Ct219, >Ct220, >Ct221, >Ct222, >Ct223, >Ct224, >Ct225, >Ct226, >Ct227, >Ct228, >Ct229, >Ct230, >Ct231, >Ct232, >Ct233, >Ct234, >Ct235, >Ct236, >Ct237, >Ct238, >Ct239, >Ct240, >Ct241, >Ct242, >Ct243, >Ct244, >Ct245, >Ct246, >Ct247, >Ct248, >Ct249, >Ct250, >Ct251, >Ct252, >Ct253, >Ct254, >Ct255
@@ -371,18 +360,18 @@ CollisionTables_Map2_Hi:
     .db >bCt235, >bCt236, >bCt237, >bCt238, >bCt239, >bCt240, >bCt241, >bCt242, >bCt243 
     .db >bCt244, >bCt245, >bCt246, >bCt247, >bCt248, >bCt249, >bCt250, >bCt251, >bCt252 
     .db >bCt253, >bCt254, >bCt255        
-    
-;;;;; Background Palettes:
-    .include "ScreenData\PaletteInfo.pal"
-;;;;; Objecdt palettes:
-    .include "ScreenData\ObjectPals.pal"
-    
-    
-    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Screen graphics pointers.
-;; In banks 10, 11, and 12.
 
+
+;; Background Palettes
+.include "ScreenData\PaletteInfo.pal"
+
+
+;; Object palettes
+.include "ScreenData\ObjectPals.pal"
+
+
+;; Screen graphics pointers
+;; (found in banks 10, 11, and 12)
 BckCHRAddLo:
     .db <BckChr00, <BckChr01, <BckChr02, <BckChr03, <BckChr04, <BckChr05
     .db <BckChr06, <BckChr07, <BckChr08, <BckChr09, <BckChr10, <BckChr11
@@ -392,8 +381,7 @@ BckCHRAddHi:
     .db >BckChr00, >BckChr01, >BckChr02, >BckChr03, >BckChr04, >BckChr05
     .db >BckChr06, >BckChr07, >BckChr08, >BckChr09, >BckChr10, >BckChr11
     .db >BckChr12, >BckChr13, >BckChr14, >BckChr15, >BckChr16, >BckChr17
-        
-    
+
 BckSSChrAddLo:    
     .db <BckSSChr00, <BckSSChr01, <BckSSChr02, <BckSSChr03, <BckSSChr04, <BckSSChr05, <BckSSChr06, <BckSSChr07, <BckSSChr08, <BckSSChr09
     .db <BckSSChr10, <BckSSChr11, <BckSSChr12, <BckSSChr13, <BckSSChr14, <BckSSChr15, <BckSSChr16, <BckSSChr17, <BckSSChr18, <BckSSChr19    
@@ -403,7 +391,6 @@ BckSSChrAddHi: ;; chr type 2
     .db >BckSSChr00, >BckSSChr01,>BckSSChr02, >BckSSChr03, >BckSSChr04, >BckSSChr05, >BckSSChr06, >BckSSChr07, >BckSSChr08, >BckSSChr09
     .db >BckSSChr10, >BckSSChr11, >BckSSChr12, >BckSSChr13, >BckSSChr14, >BckSSChr15, >BckSSChr16, >BckSSChr17, >BckSSChr18, >BckSSChr19    
     .db >BckSSChr20, >BckSSChr21, >BckSSChr22, >BckSSChr23, >BckSSChr24, >BckSSChr25, >BckSSChr26, >BckSSChr27, >BckSSChr28, >BckSSChr29
-
 
 PathCHRAddLo:  ;; chr type 1
     ;paths
@@ -416,35 +403,34 @@ PathCHRAddHi:
     .db >PathTiles00, >PathTiles01, >PathTiles02, >PathTiles03, >PathTiles04, >PathTiles05, >PathTiles06, >PathTiles07
     .db >PathTiles08, >PathTiles09, >PathTiles10, >PathTiles11, >PathTiles12, >PathTiles13, >PathTiles14, >PathTiles15
     .db >PathTiles16, >PathTiles17, >PathTiles18, >PathTiles19, >PathTiles20, >PathTiles21, >PathTiles22, >PathTiles23    
-    
-    
+
 GameObjectCHRAddLo:
     .db <GameObjectTiles00
+
 GameObjectCHRAddHi:
     .db >GameObjectTiles00
 
 OtherChrTiles_Lo:
     .db <HudTiles
+
 OtherChrTiles_Hi
     .db >HudTiles
     
 MonsterAddressLo:
     .db <monster_0_00, <monster_0_01, <monster_0_02, <monster_0_03, <monster_0_04, <monster_0_05, <monster_0_06, <monster_0_07
     .db <monster_1_00, <monster_1_01, <monster_1_02, <monster_1_03, <monster_1_04, <monster_1_05, <monster_1_06, <monster_1_07
+
 MonsterAddressHi:
     .db >monster_0_00, >monster_0_01, >monster_0_02, >monster_0_03, >monster_0_04, >monster_0_05, >monster_0_06, >monster_0_07
     .db >monster_1_00, >monster_1_01, >monster_1_02, >monster_1_03, >monster_1_04, >monster_1_05, >monster_1_06, >monster_1_07
-    
-    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; OBJECT BEHAVIOR POINTERS
 
+
+;; Object behavior pointers
 Obj_behavior_table_lo:
     .db <oNoBehavior
     .db <oChangeGameState
     .db <oChangeGameSubState
     .db <oStartMovingInADirection
-
 
 Obj_behavior_table_hi:
     .db >oNoBehavior
@@ -461,13 +447,11 @@ Object_Behavior_Table:
     .dw oUpdatePosition
     .dw oMoveTowardsPosition
     .dw oMoveTowardsObject
-    ;;;;;;;;;;;;;;;;;;;
     .dw oChangeAIstep
     .dw oChangeAnimationStep
     .dw oChangeSubpalette
     .dw oChangeSpritePriority
     .dw oChangeFacingDirection
-    ;;;;;;
     .dw oCreateObjectAtPosition
     .dw oDestroyCurrentObject
     .dw oDestroySelectedObject
@@ -491,15 +475,12 @@ Object_Behavior_Table:
     .dw oReverseDirection
     .dw oChangeSpeed
     .dw oChangeGravity
-    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+.include GameData\ObjectStatusPointers.asm
+.include GameData\ObjectBehaviorLuts.asm
 
 
-    .include GameData\ObjectStatusPointers.asm
-    .include GameData\ObjectBehaviorLuts.asm
-
-
-
+;; Text string pointers
 TextStrings00_Lo:
     .db #<Text0, #<Text1, #<Text2, #<Text3, #<Text4, #<Text5,#<Text6, #<Text7, #<Text8, #<Text9, #<Text10, #<Text11, #<Text12, #<Text13,#<Text14, #<Text15
     .db #<Text16, #<Text17, #<Text18, #<Text19, #<Text20, #<Text21,#<Text22, #<Text23, #<Text24, #<Text25, #<Text26, #<Text27, #<Text28, #<Text29,#<Text30, #<Text31
@@ -517,6 +498,7 @@ TextStrings00_Lo:
     .db #<Text208, #<Text209, #<Text210, #<Text211, #<Text212, #<Text213,#<Text214, #<Text215, #<Text216, #<Text217, #<Text218, #<Text219, #<Text220, #<Text221,#<Text222, #<Text223
     .db #<Text224, #<Text225, #<Text226, #<Text227, #<Text228, #<Text229,#<Text230, #<Text231, #<Text232, #<Text233, #<Text234, #<Text235, #<Text236, #<Text237,#<Text238, #<Text239
     .db #<Text240, #<Text241, #<Text242, #<Text243, #<Text244, #<Text245,#<Text246, #<Text247, #<Text248, #<Text249, #<Text250, #<Text251, #<Text252, #<Text253,#<Text254, #<Text255
+
 TextStrings00_Hi:
     .db #>Text0, #>Text1, #>Text2, #>Text3, #>Text4, #>Text5,#>Text6, #>Text7, #>Text8, #>Text9, #>Text10, #>Text11, #>Text12, #>Text13,#>Text14, #>Text15
     .db #>Text16, #>Text17, #>Text18, #>Text19, #>Text20, #>Text21,#>Text22, #>Text23, #>Text24, #>Text25, #>Text26, #>Text27, #>Text28, #>Text29,#>Text30, #>Text31
