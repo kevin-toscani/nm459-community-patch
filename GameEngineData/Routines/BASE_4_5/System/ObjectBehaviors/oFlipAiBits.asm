@@ -1,3 +1,3 @@
 oFlipAiBits:
 
-	RTS
+    RTS

@@ -69,12 +69,12 @@
     ;; Bit 5 = left
     ;; Bit 4 = right
 
-	;; Initialize sound driver    
+    ;; Initialize sound driver    
     SwitchBank #$1B ;; Switch to the music bank, which contains
                     ;; the initializtion scripts.
 
-	;; This sets up the music engine. If you use a different music engine,
-	;; change this to fit your needs of initializing your music engine.
+    ;; This sets up the music engine. If you use a different music engine,
+    ;; change this to fit your needs of initializing your music engine.
     lda #SOUND_REGION_NTSC ;; or #SOUND_REGION_PAL, or #SOUND_REGION_DENDY
     sta sound_param_byte_0
     lda #<(song_list)
@@ -97,15 +97,15 @@
 
     ReturnBank
 
-	;; Obtainable weapons
-	;; Right now, "bosses defeated" translates to weapons unlocked at the
-	;; start of the game. This is found in the game info, and can be set there
-	;; for a starting state.
+    ;; Obtainable weapons
+    ;; Right now, "bosses defeated" translates to weapons unlocked at the
+    ;; start of the game. This is found in the game info, and can be set there
+    ;; for a starting state.
     LDA #BOSSES_DEFEATED
     STA weaponsUnlocked
 
-	;; Triggers
-	;; If your game does not use initial triggers, you can remove these lines.
+    ;; Triggers
+    ;; If your game does not use initial triggers, you can remove these lines.
     LDA #INIT_TRIG_00
     STA screenTriggers+0
     LDA #INIT_TRIG_01
@@ -171,8 +171,8 @@
     LDA #INIT_TRIG_1f
     STA screenTriggers+31
 
-	;; Initialize HUD
-	.include "GameData\InitializationScripts\hudVarInits.asm"
+    ;; Initialize HUD
+    .include "GameData\InitializationScripts\hudVarInits.asm"
 
     ;; Initialize soft PPUMASK
     ;; (enable graphics, also on the left screen edge)

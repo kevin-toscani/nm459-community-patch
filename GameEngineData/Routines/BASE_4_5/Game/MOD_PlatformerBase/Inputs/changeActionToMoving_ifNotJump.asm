@@ -5,10 +5,10 @@
     BNE +notHurt
         RTS
     +notHurt
-	CMP #$02 ;; assumes action 2 is jump
-	BNE +notJump
-		RTS
-	+notJump
+    CMP #$02 ;; assumes action 2 is jump
+    BNE +notJump
+        RTS
+    +notJump
         ChangeActionStep temp, #$01 ;; assumes that "walk" is in action 1
             ;arg0 = what object?
             ;arg1 = what behavior?

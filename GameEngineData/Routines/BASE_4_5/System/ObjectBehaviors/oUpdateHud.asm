@@ -1,3 +1,3 @@
 oUpdateHud:
 
-	RTS
+    RTS

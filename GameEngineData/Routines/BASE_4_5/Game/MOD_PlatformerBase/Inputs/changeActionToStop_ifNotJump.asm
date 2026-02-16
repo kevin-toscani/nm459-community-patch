@@ -10,11 +10,11 @@
     BNE +notHurt
         RTS
     +notHurt
-	CMP #$02 ;; assumes 2 is jump
-	BNE +notJump
-		
-		RTS
-	+notJump
+    CMP #$02 ;; assumes 2 is jump
+    BNE +notJump
+        
+        RTS
+    +notJump
     LDA controllerNumber_hold
     BNE weAreCheckingCOntroller2
         ;; we are checking controller 1.

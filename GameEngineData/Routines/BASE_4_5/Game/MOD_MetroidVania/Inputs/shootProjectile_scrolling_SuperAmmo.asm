@@ -4,18 +4,18 @@
 ;;; assumes myAmmo is in hud element 8.
     LDA myAmmo
     BNE +canShootMega
-		LDA #$01 ;; assumes normal projectile is in 1
-		STA tempz ;; we will use tempz to hold which type of projectile.
-					;;; if I had no special ammo, i'll just use normal projectile
+        LDA #$01 ;; assumes normal projectile is in 1
+        STA tempz ;; we will use tempz to hold which type of projectile.
+                    ;;; if I had no special ammo, i'll just use normal projectile
         JMP +shootThing
     +canShootMega:
-		;;; but if i DID have ammo, I'll shoot mega shot!
-		LDA #$02 ;; assumes mega projectile is in 2.
-		STA tempz
+        ;;; but if i DID have ammo, I'll shoot mega shot!
+        LDA #$02 ;; assumes mega projectile is in 2.
+        STA tempz
     ;; there is ammo here.
     DEC myAmmo
   ;  UpdateHudElement #$03 ;; change this to which element shows myAmmo.
-	+shootThing
+    +shootThing
     TXA
     PHA
     TYA

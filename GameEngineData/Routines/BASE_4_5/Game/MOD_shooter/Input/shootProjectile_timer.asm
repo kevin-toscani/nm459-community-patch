@@ -1,12 +1,12 @@
 ;;; Create a Projectile.
 ;;; Assumes that the projectile you want to create is in GameObject Slot 01.
-	LDA bulletTimer
-	BEQ +canShoot
-		;; bullet timer not reset yet.
-		;; we will decrease bullet timer in game timer scripts.
-		;; and if it is zero, keep it at zero.
-		RTS
-	+canShoot
+    LDA bulletTimer
+    BEQ +canShoot
+        ;; bullet timer not reset yet.
+        ;; we will decrease bullet timer in game timer scripts.
+        ;; and if it is zero, keep it at zero.
+        RTS
+    +canShoot
 
     TXA
     PHA
@@ -39,9 +39,9 @@
             TXA
             STA temp
             StartMoving temp, temp1
-			
-		LDA #$10
-		STA bulletTimer
+            
+        LDA #$10
+        STA bulletTimer
     PLA
     TAY
     PLA

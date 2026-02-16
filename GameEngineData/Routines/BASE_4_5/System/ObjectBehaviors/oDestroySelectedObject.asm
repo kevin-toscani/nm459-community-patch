@@ -1,3 +1,3 @@
 oDestroySelectedObject:
 
-	RTS
+    RTS

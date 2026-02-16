@@ -12,38 +12,38 @@
     TXA
     PHA
     LDX player1_object
-	
-	;;;As always, check if it's appropiate to make the player climb
+    
+    ;;;As always, check if it's appropiate to make the player climb
     GetActionStep player1_object        ; Get the current action step of the player
     CMP #$07                            ; Check if action step is 7, which is commonly the "hurt" state)
         BNE +notHurt                    ; If the player is NOT in the hurt state, branch to continue checking movement
             JMP +notClimbing            ; If the player is in the hurt state, don't execute this by jumping to the end of the code
         +notHurt
-	
+    
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; For checking bottom boundary.
-	LDA Object_y_hi,x
+    LDA Object_y_hi,x
     SEC
     SBC #4
     BCS +notAtTop
         GetActionStep player1_object
         CMP #$03 ;; in this module, the player's action step 3 is for climbing 
         BNE +notAtTop
-			LDA #BOUNDS_BOTTOM;#$EF
-			SEC
-			SBC #$02
-			SEC
-			SBC self_bottom
-			STA newY
-			LDA Object_x_hi,x
-			STA newX
-			LDA camScreen ;currentNametable
-			SEC
-			SBC #$10
-			STA camScreen ;currentNametable
-			STA Object_screen,x
-			;STA camScreen
-			STA temp2
+            LDA #BOUNDS_BOTTOM;#$EF
+            SEC
+            SBC #$02
+            SEC
+            SBC self_bottom
+            STA newY
+            LDA Object_x_hi,x
+            STA newX
+            LDA camScreen ;currentNametable
+            SEC
+            SBC #$10
+            STA camScreen ;currentNametable
+            STA Object_screen,x
+            ;STA camScreen
+            STA temp2
             WarpToScreen #$00, temp2, #$00
     ;; arg0 = warp to map.  0= map1.  1= map2.
     ;; arg1 = screen to warp to.
@@ -51,11 +51,11 @@
             JMP +notClimbing
     +notAtTop
     
-	;;;;First let's store player height (just so we we it out of the way)
-	LDA #PLAYER_HEIGHT	;;Load the height of the player - can be modified on the UI
-	CLC					;;Clear Carry
-	SBC #1				;;SUBSTRACT 1
-	STA tempz			;;store it on tempz, which will be used later
+    ;;;;First let's store player height (just so we we it out of the way)
+    LDA #PLAYER_HEIGHT    ;;Load the height of the player - can be modified on the UI
+    CLC                    ;;Clear Carry
+    SBC #1                ;;SUBSTRACT 1
+    STA tempz            ;;store it on tempz, which will be used later
 
 ;;; if up is engaged, check for a collision with a ladder.
 ;;; check the pixel just below feet, and the pixel just below top of bounding box.
@@ -63,15 +63,15 @@
     LDX player1_object
     LDA Object_x_hi,x
     CLC
-    ADC #$08       		;; MIDDLE OF PLAYER
+    ADC #$08               ;; MIDDLE OF PLAYER
     STA temp
     JSR getPointColTable
 
     LDA Object_y_hi,x
     CLC
-    ADC tempz 			;;
+    ADC tempz             ;;
     
-	STA temp1
+    STA temp1
     ;;; CHECK FOR SOLID TILE, which is tile type 1 in this module.
     CheckCollisionPoint temp, temp1, #$0A, tempA ;; is it a solid?
     BNE +notLadder
@@ -109,7 +109,7 @@
 +alreadyOnLadder
     PLA
     TAX
-	RTS
+    RTS
 
 +notLadder
     GetActionStep player1_object
@@ -118,7 +118,7 @@
     ChangeActionStep player1_object, #$00
 
 +notClimbing
-	PLA
+    PLA
     TAX
     RTS   ; Return from subroutine - in input scripts, it is
     ;;;;;;; imperative for input scripts to end on RTS, so

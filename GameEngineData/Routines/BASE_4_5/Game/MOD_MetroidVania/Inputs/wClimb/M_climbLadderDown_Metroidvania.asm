@@ -11,8 +11,8 @@
     TXA
     PHA
     LDX player1_object
-	
-	;;;As always, check if it's appropiate to make the player climb
+    
+    ;;;As always, check if it's appropiate to make the player climb
     GetActionStep player1_object        ; Get the current action step of the player
     CMP #$07                            ; Check if action step is 7, which is commonly the "hurt" state)
         BNE +notHurt                    ; If the player is NOT in the hurt state, branch to continue checking movement
@@ -49,15 +49,15 @@
     +notAtBottom
     
     
-	;;;;First let's make some calculations on player's height (just so we we it out of the way)
-	LDA #PLAYER_HEIGHT	;;Load the height of the player - can be modified on the UI
-	CLC					;;Clear Carry
-	ADC #1				;;ADD 1
-	STA tempz			;;store it on tempz, which will be used later
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;; We do this becase...
-	;; if we give the exact player height, the player will never be able to go down if standing on top of a ladder
-	
+    ;;;;First let's make some calculations on player's height (just so we we it out of the way)
+    LDA #PLAYER_HEIGHT    ;;Load the height of the player - can be modified on the UI
+    CLC                    ;;Clear Carry
+    ADC #1                ;;ADD 1
+    STA tempz            ;;store it on tempz, which will be used later
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; We do this becase...
+    ;; if we give the exact player height, the player will never be able to go down if standing on top of a ladder
+    
 ;;; if up is engaged, check for a collision with a ladder.
 ;;; check the pixel just below feet, and the pixel just below top of bounding box.
 
@@ -109,7 +109,7 @@
 +alreadyOnLadder
     PLA
     TAX
-	RTS
+    RTS
 
 +notLadder
     GetActionStep player1_object
@@ -120,6 +120,6 @@
 +notClimbing
     PLA
     TAX
-	RTS   ; Return from subroutine - in input scripts, it is
+    RTS   ; Return from subroutine - in input scripts, it is
     ;;;;;;; imperative for input scripts to end on RTS, so
     ;;;;;;; the game won't crash

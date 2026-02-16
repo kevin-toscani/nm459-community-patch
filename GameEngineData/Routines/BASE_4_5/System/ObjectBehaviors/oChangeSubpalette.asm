@@ -1,3 +1,3 @@
 oChangeSubpalette:
 
-	RTS
+    RTS

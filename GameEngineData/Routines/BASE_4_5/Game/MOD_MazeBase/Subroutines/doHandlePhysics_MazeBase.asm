@@ -1,6 +1,6 @@
 ;; do handle physics.
     
-	LDA Object_x_lo,x
+    LDA Object_x_lo,x
     STA xHold_lo
     LDA Object_x_hi,x
     STA xHold_hi
@@ -13,36 +13,36 @@
     STA yHold_hi
     STA yPrev
 ;;;;;;;;;;;;;;;;;;;;;;;;;;; FOR ADVENTURE PHYSICS
-;;;;;;;;;;;;;;;;;;;;;;;;;;; DON'T UPDATE POSITIONING IF ATTACKING	
-	CPX player1_object
-	BNE +notPlayer
-		;; it was the player.
-		;; if this object is in attack action, currently set to 2,
-		;; he should not move, and should skip physics check
-		TXA
-		STA temp
-		GetActionStep temp
-		CMP #$02
-		BNE +notPlayer ;; skip, because was not 2.
-			JMP skipPhysics
-	
-	+notPlayer
-	
-	
-	;;;;;;;;;;;; CUSTOMIZATION: IGNORE PHYSICS IF NOT ON MAIN GAME MODE
-		LDA gameState
-		BEQ +doHandlePhysics
-			JMP skipPhysics
-		+doHandlePhysics
-	
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;; Reset the vars we will use for movement.
-	LDA #$00
-	STA tempA
-	STA tempB
-	STA tempC
-	STA tempD
-	
+;;;;;;;;;;;;;;;;;;;;;;;;;;; DON'T UPDATE POSITIONING IF ATTACKING    
+    CPX player1_object
+    BNE +notPlayer
+        ;; it was the player.
+        ;; if this object is in attack action, currently set to 2,
+        ;; he should not move, and should skip physics check
+        TXA
+        STA temp
+        GetActionStep temp
+        CMP #$02
+        BNE +notPlayer ;; skip, because was not 2.
+            JMP skipPhysics
+    
+    +notPlayer
+    
+    
+    ;;;;;;;;;;;; CUSTOMIZATION: IGNORE PHYSICS IF NOT ON MAIN GAME MODE
+        LDA gameState
+        BEQ +doHandlePhysics
+            JMP skipPhysics
+        +doHandlePhysics
+    
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; Reset the vars we will use for movement.
+    LDA #$00
+    STA tempA
+    STA tempB
+    STA tempC
+    STA tempD
+    
     
     LDA Object_status,x
     AND #%00000100
@@ -57,11 +57,11 @@ doHandlePhysics:
     LDA Object_direction,x
     AND #%00001000
     BNE +useAimedPhysics
-		JMP useNormalDirectionalPhysics
-	+useAimedPhysics
-		LDA #%00001111
-		STA collisionsToCheck
-		LDY Object_type,x
+        JMP useNormalDirectionalPhysics
+    +useAimedPhysics
+        LDA #%00001111
+        STA collisionsToCheck
+        LDY Object_type,x
         LDA ObjectMaxSpeed,y
         LSR
         LSR
@@ -71,39 +71,39 @@ doHandlePhysics:
         ;; use aimed physics.
         ;; Aimed physics doesn't need to update speed.
         LDA Object_x_lo,x
-		STA xHold_lo
-		LDA Object_x_hi,x
-		STA xHold_hi
-		
-		LDA Object_y_lo,x
-		STA yHold_lo
-		LDA Object_y_hi,x
-		STA yHold_hi
-		
+        STA xHold_lo
+        LDA Object_x_hi,x
+        STA xHold_hi
+        
+        LDA Object_y_lo,x
+        STA yHold_lo
+        LDA Object_y_hi,x
+        STA yHold_hi
+        
         LDA Object_h_speed_lo,x
         BPL AddHspeedToAimedX
             ;; subtract h speed to aimed x
             LDA Object_h_speed_lo,x
             EOR #$FF
             STA temp
-			LDY tempA
-			doAimLoop1:
-				LDA xHold_lo
-				sec
-				sbc temp
-				STA xHold_lo
-				LDA xHold_hi
-				sbc Object_h_speed_hi,x
-				STA xHold_hi
-				DEY
-				BPL doAimLoop1
-				
-				
-			
+            LDY tempA
+            doAimLoop1:
+                LDA xHold_lo
+                sec
+                sbc temp
+                STA xHold_lo
+                LDA xHold_hi
+                sbc Object_h_speed_hi,x
+                STA xHold_hi
+                DEY
+                BPL doAimLoop1
+                
+                
+            
             JMP figureAimedVspeed
         AddHspeedToAimedX:
-			LDY tempA
-			doAimLoop2:
+            LDY tempA
+            doAimLoop2:
             LDA xHold_lo
             CLC
             ADC Object_h_speed_lo,x
@@ -111,8 +111,8 @@ doHandlePhysics:
             LDA xHold_hi
             ADC Object_h_speed_hi,x
             STA xHold_hi
-			DEY
-			BPL doAimLoop2
+            DEY
+            BPL doAimLoop2
         
         figureAimedVspeed:
 
@@ -122,8 +122,8 @@ doHandlePhysics:
             LDA Object_v_speed_lo,x
             EOR #$FF
             STA temp
-			LDY tempA
-			doAimLoop3:
+            LDY tempA
+            doAimLoop3:
             LDA yHold_lo
             clc
             adc temp
@@ -131,13 +131,13 @@ doHandlePhysics:
             LDA yHold_hi
             adc Object_v_speed_hi,x
             STA yHold_hi
-			DEY
-			BPL doAimLoop3
-			
+            DEY
+            BPL doAimLoop3
+            
             JMP doneWithAimedV
         AddVSpeedToAimedY:
-			LDY tempA
-			doAimLoop4:
+            LDY tempA
+            doAimLoop4:
             LDA yHold_lo
             sec
             sbc Object_v_speed_lo,x
@@ -145,72 +145,72 @@ doHandlePhysics:
             LDA yHold_hi
             sbc Object_v_speed_hi,x
             STA yHold_hi
-			DEY
-			BPL doAimLoop4
+            DEY
+            BPL doAimLoop4
         doneWithAimedV:
         
-		;;;;;;;;;;;;; check xHold_hi and yHold_hi against bounds.
-			LDA yHold_hi
-			CMP #BOUNDS_TOP
-			BEQ +doTopBounds
-			BCC +doTopBounds
-				JMP +doneWithTop
-			+doTopBounds
-					LDA #$02
-					STA screenUpdateByte
-			
-					JSR doHandleBounds
-					JMP skipPhysics
-					
-			+doneWithTop
-		
-			STA yHold_hi
-			CLC
-			ADC self_bottom
-			CMP #BOUNDS_BOTTOM ;#240
-		;   BEQ doBottomBounds
-			BCS +doBottomBounds
-				JMP +doneWithBottom
-			+doBottomBounds:
-					STA screenUpdateByte
-					JSR doHandleBounds
-					JMP skipPhysics
-					
-			+doneWithBottom
+        ;;;;;;;;;;;;; check xHold_hi and yHold_hi against bounds.
+            LDA yHold_hi
+            CMP #BOUNDS_TOP
+            BEQ +doTopBounds
+            BCC +doTopBounds
+                JMP +doneWithTop
+            +doTopBounds
+                    LDA #$02
+                    STA screenUpdateByte
+            
+                    JSR doHandleBounds
+                    JMP skipPhysics
+                    
+            +doneWithTop
         
-		
-		
-			    LDA xHold_hi
-				clc
-				ADC self_right 
-				BCS +doRightBounds
-					JMP +doneWithRight
-				+doRightBounds:
-				
-					LDA #$01
-					STA screenUpdateByte
-					JSR doHandleBounds
-					JMP skipPhysics
-					
-				+doneWithRight
-				LDA xHold_hi
-				CMP #BOUNDS_LEFT
-				BEQ +doLeftBounds
-				BCC +doLeftBounds
-					JMP +doneWithLeft
-				+doLeftBounds
-						LDA #$03
-						STA screenUpdateByte
-						JSR doHandleBounds
-						JMP skipPhysics
-				+doneWithLeft
+            STA yHold_hi
+            CLC
+            ADC self_bottom
+            CMP #BOUNDS_BOTTOM ;#240
+        ;   BEQ doBottomBounds
+            BCS +doBottomBounds
+                JMP +doneWithBottom
+            +doBottomBounds:
+                    STA screenUpdateByte
+                    JSR doHandleBounds
+                    JMP skipPhysics
+                    
+            +doneWithBottom
+        
+        
+        
+                LDA xHold_hi
+                clc
+                ADC self_right 
+                BCS +doRightBounds
+                    JMP +doneWithRight
+                +doRightBounds:
+                
+                    LDA #$01
+                    STA screenUpdateByte
+                    JSR doHandleBounds
+                    JMP skipPhysics
+                    
+                +doneWithRight
+                LDA xHold_hi
+                CMP #BOUNDS_LEFT
+                BEQ +doLeftBounds
+                BCC +doLeftBounds
+                    JMP +doneWithLeft
+                +doLeftBounds
+                        LDA #$03
+                        STA screenUpdateByte
+                        JSR doHandleBounds
+                        JMP skipPhysics
+                +doneWithLeft
         JMP skipPhysics ;; skips all the acc/dec stuff and goes right to movement based on speed
                             ;; which was figured out in the directional macro.
                             
     useNormalDirectionalPhysics:
-		LDY Object_type,x
-		
-		LDA ObjectBboxLeft,y
+        LDY Object_type,x
+        
+        LDA ObjectBboxLeft,y
         STA self_left
         CLC
         ADC ObjectWidth,y
@@ -231,27 +231,27 @@ doHandlePhysics:
         STA self_center_y ;; self center in the vertical direction.
     ;;; jump out to bank 1C to load in physics values.
     ;SwitchBank #$1C
-	
-	
-		TXA
-		STA temp
-		GetActionStep temp
-		CMP #$07
-		BNE +notHurt
-			;;; this object is hurt.
-			;;; so it's speed will be determined by the recoil speed above.
-			;;; any caveats to that, put here.  For instance, if there is a monster bit
-			;;; that prevents recoil.
-			LDA #$00
-			STA Object_v_speed_hi,x
-			STA Object_v_speed_lo,x
-			STA Object_h_speed_hi,x
-			STA Object_h_speed_lo,x
-			JMP gotHandVspeeds
+    
+    
+        TXA
+        STA temp
+        GetActionStep temp
+        CMP #$07
+        BNE +notHurt
+            ;;; this object is hurt.
+            ;;; so it's speed will be determined by the recoil speed above.
+            ;;; any caveats to that, put here.  For instance, if there is a monster bit
+            ;;; that prevents recoil.
+            LDA #$00
+            STA Object_v_speed_hi,x
+            STA Object_v_speed_lo,x
+            STA Object_h_speed_hi,x
+            STA Object_h_speed_lo,x
+            JMP gotHandVspeeds
 
-			
-			
-		+notHurt
+            
+            
+        +notHurt
    
         LDY Object_type,x
         LDA ObjectMaxSpeed,y
@@ -269,7 +269,7 @@ doHandlePhysics:
         STA myMaxSpeed+1
         ;;; now high max speed byte is the actual high byte of speed
         ;;; low max speed byte is the low byte of speed
-		LDA #$00
+        LDA #$00
         STA myAcc+1
         LDA ObjectAccAmount,y
         STA myAcc
@@ -549,7 +549,7 @@ gotVmoveDirection:
     LDA Object_x_hi,x
     SBC tempB
     STA xHold_hi
-	LDA currentNametable
+    LDA currentNametable
    ; LDA Object_screen,x
    ; SBC #$00
     STA xHold_screen
@@ -578,15 +578,15 @@ gotVmoveDirection:
         JMP doneWithH
     doLeftBounds
         
-			TXA
-			STA temp
-			GetActionStep temp
-			CMP #$07
-			BNE +notHurt
-				JMP stopMovingDueToHurtState
-			+notHurt
-		
-		
+            TXA
+            STA temp
+            GetActionStep temp
+            CMP #$07
+            BNE +notHurt
+                JMP stopMovingDueToHurtState
+            +notHurt
+        
+        
             LDA #$03
             STA screenUpdateByte
             JSR doHandleBounds
@@ -603,7 +603,7 @@ doMoveRight:
     STA xHold_hi
    ; LDA Object_screen,x
   ; ADC #$00
-	LDA currentNametable
+    LDA currentNametable
     STA xHold_screen
     
 
@@ -616,18 +616,18 @@ doMoveRight:
         BCS doRightBounds
             JMP doneWithH
         doRightBounds:
-		
+        
       
-			TXA
-			STA temp
-			GetActionStep temp
-			CMP #$07
-			BNE +notHurt
-				JMP stopMovingDueToHurtState
-			+notHurt
+            TXA
+            STA temp
+            GetActionStep temp
+            CMP #$07
+            BNE +notHurt
+                JMP stopMovingDueToHurtState
+            +notHurt
             LDA #$01
             STA screenUpdateByte
-	
+    
             JSR doHandleBounds
             JMP skipPhysics
 doneWithH:
@@ -672,16 +672,16 @@ doneWithH:
         JMP doneWithV
     doTopBounds
        
-			TXA
-			STA temp
-			GetActionStep temp
-			CMP #$07
-			BNE +notHurt
-				JMP stopMovingDueToHurtState
-			+notHurt
+            TXA
+            STA temp
+            GetActionStep temp
+            CMP #$07
+            BNE +notHurt
+                JMP stopMovingDueToHurtState
+            +notHurt
             LDA #$02
             STA screenUpdateByte
-	
+    
             JSR doHandleBounds
             JMP skipPhysics
 doMoveDown:
@@ -702,37 +702,37 @@ doMoveDown:
         JMP doneWithV
     doBottomBounds:
        
-			TXA
-			STA temp
-			GetActionStep temp
-			CMP #$07
-			BNE +notHurt
-				JMP stopMovingDueToHurtState
-			+notHurt
+            TXA
+            STA temp
+            GetActionStep temp
+            CMP #$07
+            BNE +notHurt
+                JMP stopMovingDueToHurtState
+            +notHurt
             LDA #$00
             STA screenUpdateByte
             JSR doHandleBounds
             JMP skipPhysics
 doneWithV
-	JMP skipPhysics
-	
+    JMP skipPhysics
+    
 stopMovingDueToHurtState:
-	LDA #$00
-	STA Object_x_lo,x
-	STA Object_y_lo,x
-	STA Object_h_speed_hi,x
-	STA Object_h_speed_lo,x
-	STA Object_v_speed_hi,x
-	STA Object_v_speed_lo,x
-	STA xHold_lo
-	STA yHold_lo
-	LDA xPrev
-	STA Object_x_hi,x
-	STA xHold_hi
-	LDA yPrev
-	STA Object_y_hi,x
-	STA yHold_hi
-	
+    LDA #$00
+    STA Object_x_lo,x
+    STA Object_y_lo,x
+    STA Object_h_speed_hi,x
+    STA Object_h_speed_lo,x
+    STA Object_v_speed_hi,x
+    STA Object_v_speed_lo,x
+    STA xHold_lo
+    STA yHold_lo
+    LDA xPrev
+    STA Object_x_hi,x
+    STA xHold_hi
+    LDA yPrev
+    STA Object_y_hi,x
+    STA yHold_hi
+    
 
 
 skipPhysics:

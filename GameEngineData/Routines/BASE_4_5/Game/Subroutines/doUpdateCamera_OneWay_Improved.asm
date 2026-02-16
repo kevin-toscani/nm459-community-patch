@@ -7,10 +7,10 @@
 ;;Method by B-Board to prevent graphic glitches in single screens
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 LDA ScreenFlags00
-AND #%00110000			;;;are 'Left Edge for Scroll' and 'Right Edge for Scroll' checked?
+AND #%00110000            ;;;are 'Left Edge for Scroll' and 'Right Edge for Scroll' checked?
 CMP #%00110000
 BNE +notStaticScreen
-    RTS					;;;if so, it's not necessary to handle camera logic
+    RTS                    ;;;if so, it's not necessary to handle camera logic
 +notStaticScreen:
 
 ;;;With that out of the way, we will handle camera logic
@@ -23,9 +23,9 @@ BNE +
 
 ;;autoscroll is checked, so first we get the speed
 
-    LDA screenSpeed 	;;;	Load Screen Speed
+    LDA screenSpeed     ;;;    Load Screen Speed
 
-    CMP #$01 			;;; PRETTY SLOW SPEED
+    CMP #$01             ;;; PRETTY SLOW SPEED
     BNE +
     LDA #$44 ; LO
         STA tempA
@@ -33,7 +33,7 @@ BNE +
         STA tempB
         JMP ++
     +    
-    CMP #$02 			;;; FAST/MEDIUM SPEED
+    CMP #$02             ;;; FAST/MEDIUM SPEED
     BNE +
         LDA #$88 ; LO
         STA tempA
@@ -41,7 +41,7 @@ BNE +
         STA tempB
         JMP ++
     +
-    CMP #$03 			;;;	FASTEST SPEED
+    CMP #$03             ;;;    FASTEST SPEED
     BNE +
         LDA #$00 ; LO
         STA tempA
@@ -74,34 +74,34 @@ RTS
 +scrollfollowsplayer
 
     ;RIGHT_SCROLL_PAD is a constant whose number can be modified in the UI
-	;;the constant stores the value that will make the screen move once the
-	;;player has reached that position on the screen while moving to the right
-	
-    LDX player1_object               		; Load the player
-    LDA Object_x_hi,x                		; Load the player's X-coordinate
-    SEC                              		; Set carry flag before subtraction (for SBC)
-    SBC camX                         		; Subtract the camera's X position from player's X position
-    CMP #RIGHT_SCROLL_PAD            		; Compare the result to the value of RIGHT_SCROLL_PAD
-    BEQ +doActivateScrollByte        		; If equal, branch to activate the scroll byte
-    BCS +doActivateScrollByte        		; If carry set (player is beyond the threshold), also branch to activate scroll
+    ;;the constant stores the value that will make the screen move once the
+    ;;player has reached that position on the screen while moving to the right
+    
+    LDX player1_object                       ; Load the player
+    LDA Object_x_hi,x                        ; Load the player's X-coordinate
+    SEC                                      ; Set carry flag before subtraction (for SBC)
+    SBC camX                                 ; Subtract the camera's X position from player's X position
+    CMP #RIGHT_SCROLL_PAD                    ; Compare the result to the value of RIGHT_SCROLL_PAD
+    BEQ +doActivateScrollByte                ; If equal, branch to activate the scroll byte
+    BCS +doActivateScrollByte                ; If carry set (player is beyond the threshold), also branch to activate scroll
 
-        LDA scrollByte               		; Load the current scroll byte
-        AND #%00111111               		; Mask off the high bits (clear bits 6 and 7)
-        STA scrollByte               		; Store the updated scroll byte
-        JMP +leftscrolling           		; Jump to the left scrolling logic if not scrolling right
+        LDA scrollByte                       ; Load the current scroll byte
+        AND #%00111111                       ; Mask off the high bits (clear bits 6 and 7)
+        STA scrollByte                       ; Store the updated scroll byte
+        JMP +leftscrolling                   ; Jump to the left scrolling logic if not scrolling right
 
 +doActivateScrollByte:
-    LDA scrollByte                   		; Load the scroll byte.
-    AND #%01000000                   		; Check if bit 6 is set (indicating direction is already right)
-    BNE +notChangingCamDirectionForUpdate 	; If bit 6 is set, skip the camera direction change
+    LDA scrollByte                           ; Load the scroll byte.
+    AND #%01000000                           ; Check if bit 6 is set (indicating direction is already right)
+    BNE +notChangingCamDirectionForUpdate     ; If bit 6 is set, skip the camera direction change
     
-    LDA scrollByte                   		; Load the scroll byte again
-    ORA #%00000010                   		; Set bit 1 to indicate the camera should start scrolling
+    LDA scrollByte                           ; Load the scroll byte again
+    ORA #%00000010                           ; Set bit 1 to indicate the camera should start scrolling
     
 +notChangingCamDirectionForUpdate:
-    AND #%00111111                   		; Clear bits 6 and 7 again
-    ORA #%11000000                   		; Set bits 6 and 7 to indicate scrolling right
-    STA scrollByte                   		; Store the updated scroll byte.
+    AND #%00111111                           ; Clear bits 6 and 7 again
+    ORA #%11000000                           ; Set bits 6 and 7 to indicate scrolling right
+    STA scrollByte                           ; Store the updated scroll byte.
 
     ;;; Comments explaining the scrollByte:
     ;;; Bit 7: Indicates horizontal movement.
@@ -114,34 +114,34 @@ RTS
 +leftscrolling
 
     ;LEFT_SCROLL_PAD is a constant whose number can be modified in the UI
-	;;the constant stores the value that will make the screen move once the
-	;;player has reached that position on the screen while moving to the left
-	
-    ;LDX player1_object               		; Load the player
-    ;LDA Object_x_hi,x                		; Load the player's X-coordinate
-    ;SEC                              		; Set carry flag before subtraction (for SBC)
-    ;SBC camX                         		; Subtract the camera's X position from the player's X position
-    ;CMP #LEFT_SCROLL_PAD             		; Compare the result to the left scroll threshold
-    ;BEQ +doActivateScrollByte        		; If equal, branch to activate the scroll byte
-    ;BCC +doActivateScrollByte        		; If carry clear (player is to the left of the threshold), branch to activate scroll
+    ;;the constant stores the value that will make the screen move once the
+    ;;player has reached that position on the screen while moving to the left
+    
+    ;LDX player1_object                       ; Load the player
+    ;LDA Object_x_hi,x                        ; Load the player's X-coordinate
+    ;SEC                                      ; Set carry flag before subtraction (for SBC)
+    ;SBC camX                                 ; Subtract the camera's X position from the player's X position
+    ;CMP #LEFT_SCROLL_PAD                     ; Compare the result to the left scroll threshold
+    ;BEQ +doActivateScrollByte                ; If equal, branch to activate the scroll byte
+    ;BCC +doActivateScrollByte                ; If carry clear (player is to the left of the threshold), branch to activate scroll
 
-   ;     LDA scrollByte               		; Load the current scroll byte
-  ;      AND #%00111111               		; Mask off the high bits (clear bits 6 and 7)
- ;       STA scrollByte               		; Store the updated scroll byte
- ;       RTS                          		; Return from subroutine if no scrolling needed
+   ;     LDA scrollByte                       ; Load the current scroll byte
+  ;      AND #%00111111                       ; Mask off the high bits (clear bits 6 and 7)
+ ;       STA scrollByte                       ; Store the updated scroll byte
+ ;       RTS                                  ; Return from subroutine if no scrolling needed
 
 +doActivateScrollByte:
-    LDA scrollByte                   		; Load the scroll byte
-    AND #%01000000                   		; Check if bit 6 is set (indicating direction is already right)
-    BEQ +notChangingCamDirectionForUpdate 	; If bit 6 is clear (meaning scrolling left), skip direction change
+    LDA scrollByte                           ; Load the scroll byte
+    AND #%01000000                           ; Check if bit 6 is set (indicating direction is already right)
+    BEQ +notChangingCamDirectionForUpdate     ; If bit 6 is clear (meaning scrolling left), skip direction change
     
-    LDA scrollByte                   		; Load the scroll byte again
-    ORA #%00000010                   		; Set bit 1 to indicate the camera should start scrolling
+    LDA scrollByte                           ; Load the scroll byte again
+    ORA #%00000010                           ; Set bit 1 to indicate the camera should start scrolling
     
 +notChangingCamDirectionForUpdate:
-    ;AND #%00111111                   		; Clear bits 6 and 7 again
-    ;ORA #%10000000                   		; Set bit 7 to force an update
-    ;STA scrollByte                   		; Store the updated scroll byte
+    ;AND #%00111111                           ; Clear bits 6 and 7 again
+    ;ORA #%10000000                           ; Set bit 7 to force an update
+    ;STA scrollByte                           ; Store the updated scroll byte
 
     ;;; Comments explaining the scrollByte:
     ;;; Bit 7: Indicates horizontal movement.
@@ -223,27 +223,27 @@ doUpdateCamera:
     BNE doRightCameraUpdate
         
         ;; is left camera update
-		; LDA camX_lo
-		; sec
-		; sbc tempA
-		; STA camX_lo
-		; LDA camX
-		; sbc tempB
-		; STA temp
-			; BCS +skipCheckForScrollScreenEdge
-				; LDA ScreenFlags00
-				; AND #%00100000
-				; BEQ +skipCheckForScrollScreenEdge
-					; JMP noHorizontalCameraUpdate
-		; +skipCheckForScrollScreenEdge
-		; LDA temp
-		; STA camX
+        ; LDA camX_lo
+        ; sec
+        ; sbc tempA
+        ; STA camX_lo
+        ; LDA camX
+        ; sbc tempB
+        ; STA temp
+            ; BCS +skipCheckForScrollScreenEdge
+                ; LDA ScreenFlags00
+                ; AND #%00100000
+                ; BEQ +skipCheckForScrollScreenEdge
+                    ; JMP noHorizontalCameraUpdate
+        ; +skipCheckForScrollScreenEdge
+        ; LDA temp
+        ; STA camX
         
-		; LDA camX_hi
-		; sbc #$00
-		; STA camX_hi
-		; JSR getCamSeam
-		;JMP noHorizontalCameraUpdate
+        ; LDA camX_hi
+        ; sbc #$00
+        ; STA camX_hi
+        ; JSR getCamSeam
+        ;JMP noHorizontalCameraUpdate
     doRightCameraUpdate
         LDA camX_lo
         clc
@@ -290,77 +290,77 @@ forceScrollColumnUpdate:
     STA scrollByte
 +canUpdateScrollColumn2
 
-	LDA scrollByte
-	ORA #%00000101
-	STA scrollByte
-	;;;;;;;;;; DO SCROLL UPDATE.
-	SwitchBank #$16
-	LDY scrollUpdateScreen
-	LDA warpMap
-	BEQ +loadOverWorldMap
-	;;;load from map 2 table aka Underworld
-	LDA NameTablePointers_Map2_lo,y
-	STA temp16
-	LDA NameTablePointers_Map2_hi,y
-	STA temp16+1
-	LDA AttributeTables_Map2_Lo,y
-	STA pointer
-	LDA AttributeTables_Map2_Hi,y
-	STA pointer+1
-	LDA AttributeTables_Map2_Lo,y
-	STA pointer
-	LDA AttributeTables_Map2_Hi,y
-	STA pointer+1
-	LDA CollisionTables_Map2_Lo,y
-	STA pointer6
-	LDA CollisionTables_Map2_Hi,y
-	STA pointer6+1
-	JMP +skip
+    LDA scrollByte
+    ORA #%00000101
+    STA scrollByte
+    ;;;;;;;;;; DO SCROLL UPDATE.
+    SwitchBank #$16
+    LDY scrollUpdateScreen
+    LDA warpMap
+    BEQ +loadOverWorldMap
+    ;;;load from map 2 table aka Underworld
+    LDA NameTablePointers_Map2_lo,y
+    STA temp16
+    LDA NameTablePointers_Map2_hi,y
+    STA temp16+1
+    LDA AttributeTables_Map2_Lo,y
+    STA pointer
+    LDA AttributeTables_Map2_Hi,y
+    STA pointer+1
+    LDA AttributeTables_Map2_Lo,y
+    STA pointer
+    LDA AttributeTables_Map2_Hi,y
+    STA pointer+1
+    LDA CollisionTables_Map2_Lo,y
+    STA pointer6
+    LDA CollisionTables_Map2_Hi,y
+    STA pointer6+1
+    JMP +skip
 
 +loadOverWorldMap
-	LDA NameTablePointers_Map1_lo,y
-	STA temp16
-	LDA NameTablePointers_Map1_hi,y
-	STA temp16+1
+    LDA NameTablePointers_Map1_lo,y
+    STA temp16
+    LDA NameTablePointers_Map1_hi,y
+    STA temp16+1
 
-	LDA AttributeTables_Map1_Lo,y
-	STA pointer
-	LDA AttributeTables_Map1_Hi,y
-	STA pointer+1
+    LDA AttributeTables_Map1_Lo,y
+    STA pointer
+    LDA AttributeTables_Map1_Hi,y
+    STA pointer+1
 
 
-	LDA CollisionTables_Map1_Lo,y
-	STA pointer6
-	LDA CollisionTables_Map1_Hi,y
-	STA pointer6+1
+    LDA CollisionTables_Map1_Lo,y
+    STA pointer6
+    LDA CollisionTables_Map1_Hi,y
+    STA pointer6+1
 +skip
 
-	ReturnBank
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;; now we have pointers for the fetch.
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ReturnBank
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; now we have pointers for the fetch.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;; We can read from the pointers to get metatile data.
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;; jump to the bank
-	LDA scrollUpdateScreen
-	LSR
-	LSR
-	LSR
-	LSR
-	LSR
-	STA temp ; bank
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; We can read from the pointers to get metatile data.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; jump to the bank
+    LDA scrollUpdateScreen
+    LSR
+    LSR
+    LSR
+    LSR
+    LSR
+    STA temp ; bank
 
-	LDA warpMap
-	BEQ +loadOverWorldMap
-	;;modify the bank if we are in the underworld
-	LDA temp
-	CLC
-	ADC #$08
-	STA temp
+    LDA warpMap
+    BEQ +loadOverWorldMap
+    ;;modify the bank if we are in the underworld
+    LDA temp
+    CLC
+    ADC #$08
+    STA temp
 
-	+loadOverWorldMap
+    +loadOverWorldMap
         SwitchBank temp
             
             LDX screenState
@@ -661,61 +661,61 @@ skipScrollUpdate
     RTS
     
 getCamSeam:
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;; Since we use camScreen in this subroutine, we'll have to make sure it's properly updated
-	;;; before get our column and screen.
-	LDA camY_hi
-	ASL
-	ASL
-	ASL
-	ASL
-	CLC
-	ADC camX_hi
-	CMP camScreen
-	BNE +
-	JMP +skipchanges
-	+
-	STA camScreen
-	;;THE SCREEN HAS CHANGED BY SCROLLING TO THE NEXT!
-	;;UPDATE STUFF HERE
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; Since we use camScreen in this subroutine, we'll have to make sure it's properly updated
+    ;;; before get our column and screen.
+    LDA camY_hi
+    ASL
+    ASL
+    ASL
+    ASL
+    CLC
+    ADC camX_hi
+    CMP camScreen
+    BNE +
+    JMP +skipchanges
+    +
+    STA camScreen
+    ;;THE SCREEN HAS CHANGED BY SCROLLING TO THE NEXT!
+    ;;UPDATE STUFF HERE
 
-	SwitchBank #$16
-	LDY camScreen
-	LDA warpMap
-	BEQ +loadOverWorldMap
-	;;;load from map 2 table aka Underworld
-	LDA CollisionTables_Map2_Lo,y
-	STA temp16
-	LDA CollisionTables_Map2_Hi,y
-	STA temp16+1
-	JMP +skip
+    SwitchBank #$16
+    LDY camScreen
+    LDA warpMap
+    BEQ +loadOverWorldMap
+    ;;;load from map 2 table aka Underworld
+    LDA CollisionTables_Map2_Lo,y
+    STA temp16
+    LDA CollisionTables_Map2_Hi,y
+    STA temp16+1
+    JMP +skip
 
-	+loadOverWorldMap
-	LDA CollisionTables_Map1_Lo,y
-	STA temp16
-	LDA CollisionTables_Map1_Hi,y
-	STA temp16+1
+    +loadOverWorldMap
+    LDA CollisionTables_Map1_Lo,y
+    STA temp16
+    LDA CollisionTables_Map1_Hi,y
+    STA temp16+1
 
-	+skip
-	ReturnBank
+    +skip
+    ReturnBank
 
-	LDA camScreen
-	LSR
-	LSR
-	LSR
-	LSR
-	LSR
-	STA temp ; bank
-	LDA warpMap
-	BEQ +loadOverWorldMap
-	;; modify the bank if we are in the underworld
-	LDA temp
-	CLC
-	ADC #$08
-	STA temp
+    LDA camScreen
+    LSR
+    LSR
+    LSR
+    LSR
+    LSR
+    STA temp ; bank
+    LDA warpMap
+    BEQ +loadOverWorldMap
+    ;; modify the bank if we are in the underworld
+    LDA temp
+    CLC
+    ADC #$08
+    STA temp
 
 +loadOverWorldMap
-	SwitchBank temp
+    SwitchBank temp
         
             LDY #124
             LDA (temp16),y
@@ -733,11 +733,11 @@ getCamSeam:
             LDY #127
             LDA (temp16),y
             STA warpToScreen
-			
-			LDY #130
-			LDA (temp16),y
-			AND #%00000001 ;; is this overworld or underworld map?
-			STA warpToMap
+            
+            LDY #130
+            LDA (temp16),y
+            AND #%00000001 ;; is this overworld or underworld map?
+            STA warpToMap
             
             LDY #178
             LDA (temp16),y

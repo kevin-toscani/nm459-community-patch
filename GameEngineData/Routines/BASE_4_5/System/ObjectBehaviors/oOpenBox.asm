@@ -1,3 +1,3 @@
 oOpenBox:
 
-	RTS
+    RTS

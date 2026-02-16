@@ -35,7 +35,7 @@
     ADC temp2
     STA temp1
     
-	CheckCollisionPoint temp, temp1, #$01, tempA ;; check below feet to see if it is solid.
+    CheckCollisionPoint temp, temp1, #$01, tempA ;; check below feet to see if it is solid.
                                         ;;; if it is (equal), can jump.
                                         ;;; if not, skips jumping.
     BNE +checkMore 

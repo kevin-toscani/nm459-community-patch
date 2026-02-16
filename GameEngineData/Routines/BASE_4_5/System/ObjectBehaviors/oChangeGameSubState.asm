@@ -1,3 +1,3 @@
 oChangeGameSubState:
 
-	RTS
+    RTS

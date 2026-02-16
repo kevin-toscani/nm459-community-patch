@@ -88,7 +88,7 @@ AT_Rm07:
 
 
 NT_Rm08: 
-	.include "ScreenData\Nametables\Screen_Over_08.nam" 
+    .include "ScreenData\Nametables\Screen_Over_08.nam" 
 
 Ct08: 
 .include "ScreenData\CollisionTables\Screen_Over_08.col" 
@@ -99,7 +99,7 @@ AT_Rm08:
 
 
 NT_Rm09: 
-	.include "ScreenData\Nametables\Screen_Over_09.nam" 
+    .include "ScreenData\Nametables\Screen_Over_09.nam" 
 
 Ct09: 
 .include "ScreenData\CollisionTables\Screen_Over_09.col" 

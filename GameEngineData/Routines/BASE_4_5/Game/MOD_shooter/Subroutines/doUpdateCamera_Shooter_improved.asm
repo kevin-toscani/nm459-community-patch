@@ -172,77 +172,77 @@ forceScrollColumnUpdate:
     STA scrollByte
 +canUpdateScrollColumn2
 
-	LDA scrollByte
-	ORA #%00000101
-	STA scrollByte
-	;;;;;;;;;; DO SCROLL UPDATE.
-	SwitchBank #$16
-	LDY scrollUpdateScreen
-	LDA warpMap
-	BEQ +loadOverWorldMap
-	;;;load from map 2 table aka Underworld
-	LDA NameTablePointers_Map2_lo,y
-	STA temp16
-	LDA NameTablePointers_Map2_hi,y
-	STA temp16+1
-	LDA AttributeTables_Map2_Lo,y
-	STA pointer
-	LDA AttributeTables_Map2_Hi,y
-	STA pointer+1
-	LDA AttributeTables_Map2_Lo,y
-	STA pointer
-	LDA AttributeTables_Map2_Hi,y
-	STA pointer+1
-	LDA CollisionTables_Map2_Lo,y
-	STA pointer6
-	LDA CollisionTables_Map2_Hi,y
-	STA pointer6+1
-	JMP +skip
+    LDA scrollByte
+    ORA #%00000101
+    STA scrollByte
+    ;;;;;;;;;; DO SCROLL UPDATE.
+    SwitchBank #$16
+    LDY scrollUpdateScreen
+    LDA warpMap
+    BEQ +loadOverWorldMap
+    ;;;load from map 2 table aka Underworld
+    LDA NameTablePointers_Map2_lo,y
+    STA temp16
+    LDA NameTablePointers_Map2_hi,y
+    STA temp16+1
+    LDA AttributeTables_Map2_Lo,y
+    STA pointer
+    LDA AttributeTables_Map2_Hi,y
+    STA pointer+1
+    LDA AttributeTables_Map2_Lo,y
+    STA pointer
+    LDA AttributeTables_Map2_Hi,y
+    STA pointer+1
+    LDA CollisionTables_Map2_Lo,y
+    STA pointer6
+    LDA CollisionTables_Map2_Hi,y
+    STA pointer6+1
+    JMP +skip
 
 +loadOverWorldMap
-	LDA NameTablePointers_Map1_lo,y
-	STA temp16
-	LDA NameTablePointers_Map1_hi,y
-	STA temp16+1
+    LDA NameTablePointers_Map1_lo,y
+    STA temp16
+    LDA NameTablePointers_Map1_hi,y
+    STA temp16+1
 
-	LDA AttributeTables_Map1_Lo,y
-	STA pointer
-	LDA AttributeTables_Map1_Hi,y
-	STA pointer+1
+    LDA AttributeTables_Map1_Lo,y
+    STA pointer
+    LDA AttributeTables_Map1_Hi,y
+    STA pointer+1
 
 
-	LDA CollisionTables_Map1_Lo,y
-	STA pointer6
-	LDA CollisionTables_Map1_Hi,y
-	STA pointer6+1
+    LDA CollisionTables_Map1_Lo,y
+    STA pointer6
+    LDA CollisionTables_Map1_Hi,y
+    STA pointer6+1
 +skip
 
-	ReturnBank
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;; now we have pointers for the fetch.
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ReturnBank
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; now we have pointers for the fetch.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;; We can read from the pointers to get metatile data.
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;; jump to the bank
-	LDA scrollUpdateScreen
-	LSR
-	LSR
-	LSR
-	LSR
-	LSR
-	STA temp ; bank
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; We can read from the pointers to get metatile data.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; jump to the bank
+    LDA scrollUpdateScreen
+    LSR
+    LSR
+    LSR
+    LSR
+    LSR
+    STA temp ; bank
 
-	LDA warpMap
-	BEQ +loadOverWorldMap
-	;;modify the bank if we are in the underworld
-	LDA temp
-	CLC
-	ADC #$08
-	STA temp
+    LDA warpMap
+    BEQ +loadOverWorldMap
+    ;;modify the bank if we are in the underworld
+    LDA temp
+    CLC
+    ADC #$08
+    STA temp
 
-	+loadOverWorldMap
+    +loadOverWorldMap
         SwitchBank temp
             
             LDX screenState
@@ -543,61 +543,61 @@ skipScrollUpdate
     RTS
     
 getCamSeam:
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;;; Since we use camScreen in this subroutine, we'll have to make sure it's properly updated
-	;;; before get our column and screen.
-	LDA camY_hi
-	ASL
-	ASL
-	ASL
-	ASL
-	CLC
-	ADC camX_hi
-	CMP camScreen
-	BNE +
-	JMP +skipchanges
-	+
-	STA camScreen
-	;;THE SCREEN HAS CHANGED BY SCROLLING TO THE NEXT!
-	;;UPDATE STUFF HERE
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;;; Since we use camScreen in this subroutine, we'll have to make sure it's properly updated
+    ;;; before get our column and screen.
+    LDA camY_hi
+    ASL
+    ASL
+    ASL
+    ASL
+    CLC
+    ADC camX_hi
+    CMP camScreen
+    BNE +
+    JMP +skipchanges
+    +
+    STA camScreen
+    ;;THE SCREEN HAS CHANGED BY SCROLLING TO THE NEXT!
+    ;;UPDATE STUFF HERE
 
-	SwitchBank #$16
-	LDY camScreen
-	LDA warpMap
-	BEQ +loadOverWorldMap
-	;;;load from map 2 table aka Underworld
-	LDA CollisionTables_Map2_Lo,y
-	STA temp16
-	LDA CollisionTables_Map2_Hi,y
-	STA temp16+1
-	JMP +skip
+    SwitchBank #$16
+    LDY camScreen
+    LDA warpMap
+    BEQ +loadOverWorldMap
+    ;;;load from map 2 table aka Underworld
+    LDA CollisionTables_Map2_Lo,y
+    STA temp16
+    LDA CollisionTables_Map2_Hi,y
+    STA temp16+1
+    JMP +skip
 
-	+loadOverWorldMap
-	LDA CollisionTables_Map1_Lo,y
-	STA temp16
-	LDA CollisionTables_Map1_Hi,y
-	STA temp16+1
+    +loadOverWorldMap
+    LDA CollisionTables_Map1_Lo,y
+    STA temp16
+    LDA CollisionTables_Map1_Hi,y
+    STA temp16+1
 
-	+skip
-	ReturnBank
+    +skip
+    ReturnBank
 
-	LDA camScreen
-	LSR
-	LSR
-	LSR
-	LSR
-	LSR
-	STA temp ; bank
-	LDA warpMap
-	BEQ +loadOverWorldMap
-	;; modify the bank if we are in the underworld
-	LDA temp
-	CLC
-	ADC #$08
-	STA temp
+    LDA camScreen
+    LSR
+    LSR
+    LSR
+    LSR
+    LSR
+    STA temp ; bank
+    LDA warpMap
+    BEQ +loadOverWorldMap
+    ;; modify the bank if we are in the underworld
+    LDA temp
+    CLC
+    ADC #$08
+    STA temp
 
 +loadOverWorldMap
-	SwitchBank temp
+    SwitchBank temp
         
             LDY #124
             LDA (temp16),y
@@ -615,11 +615,11 @@ getCamSeam:
             LDY #127
             LDA (temp16),y
             STA warpToScreen
-			
-			LDY #130
-			LDA (temp16),y
-			AND #%00000001 ;; is this overworld or underworld map?
-			STA warpToMap
+            
+            LDY #130
+            LDA (temp16),y
+            AND #%00000001 ;; is this overworld or underworld map?
+            STA warpToMap
             
             LDY #178
             LDA (temp16),y

@@ -3,8 +3,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Note: in order for this to work:
 ;;
-;; 			1 - The player's acceleration must be 255
-;;			2 - The height and width of your player's bounding box must be multiples of 8.
+;;             1 - The player's acceleration must be 255
+;;            2 - The height and width of your player's bounding box must be multiples of 8.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; SOLID FOR ALL OBJECTS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

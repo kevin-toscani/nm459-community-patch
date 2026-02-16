@@ -1,8 +1,8 @@
 ;;Before drawing HUD, let's check if we want to
-LDA ScreenFlags00           	; Load ScreenFlags
-AND #%01000000              	; Is the HideHud box checked on Screen Details?
-BEQ +doNotTurnOffSpriteHud  	; If not, jump to the label +doNotTurnOffSpriteHud (continue showing HUD)
-    JMP skipDrawingSpriteHud 	; If so, jump to the label skipDrawingSpriteHud (this skips drawing the sprite HUD)
+LDA ScreenFlags00               ; Load ScreenFlags
+AND #%01000000                  ; Is the HideHud box checked on Screen Details?
+BEQ +doNotTurnOffSpriteHud      ; If not, jump to the label +doNotTurnOffSpriteHud (continue showing HUD)
+    JMP skipDrawingSpriteHud     ; If so, jump to the label skipDrawingSpriteHud (this skips drawing the sprite HUD)
 +doNotTurnOffSpriteHud:  
 
 ;;; Here is an example of how to do a sprite hud.
@@ -11,14 +11,14 @@ BEQ +doNotTurnOffSpriteHud  	; If not, jump to the label +doNotTurnOffSpriteHud 
 
 
 ;DrawSpriteHud #$08, #$08, #$11, #$10, #$10, myVar, #$00
-	; arg0 = starting position in pixels, x
-	; arg1 = starting position in pixels, y
-	; arg2 = sprite to draw, CONTAINER
-	; arg3 = MAX	
-	; arg4 = sprite to draw, FILLED
-	; arg5 = variable.
-	; arg6 = attribute
-	
+    ; arg0 = starting position in pixels, x
+    ; arg1 = starting position in pixels, y
+    ; arg2 = sprite to draw, CONTAINER
+    ; arg3 = MAX    
+    ; arg4 = sprite to draw, FILLED
+    ; arg5 = variable.
+    ; arg6 = attribute
+    
 DrawSpriteHud #HUD_LIVES_X, #HUD_LIVES_Y, #$7F, #$03, #$30, myLives, #%00000000  ;;;; this draws lives
 
 

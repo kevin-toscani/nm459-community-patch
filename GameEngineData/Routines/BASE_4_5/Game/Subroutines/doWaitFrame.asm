@@ -1,7 +1,7 @@
 doWaitFrame:
-	inc waiting
-	waitLoop:
-		lda waiting
-		BNE waitLoop
-	
-	RTS
+    inc waiting
+    waitLoop:
+        lda waiting
+        BNE waitLoop
+    
+    RTS

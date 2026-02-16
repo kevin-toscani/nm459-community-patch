@@ -1,3 +1,3 @@
 oChangeSpritePriority:
 
-	RTS
+    RTS

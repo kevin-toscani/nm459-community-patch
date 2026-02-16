@@ -1,3 +1,3 @@
 oCheckGlobalVariable
 
-	RTS
+    RTS

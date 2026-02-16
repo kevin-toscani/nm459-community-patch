@@ -1,3 +1,3 @@
 oChangeSpriteSubpalette
 
-	RTS
+    RTS

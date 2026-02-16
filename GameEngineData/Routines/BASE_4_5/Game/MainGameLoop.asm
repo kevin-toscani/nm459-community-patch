@@ -16,11 +16,11 @@ MainGameLoop:
         JMP +handleUpdateScreen
     +
 
-	;; Handle box updates that need to be carried over a frame
-	LDA queueFlags
-	AND #%00000101
-	BNE +
-		JMP dontDoBoxUpdate
+    ;; Handle box updates that need to be carried over a frame
+    LDA queueFlags
+    AND #%00000101
+    BNE +
+        JMP dontDoBoxUpdate
     +
     TXA
     PHA
@@ -35,13 +35,13 @@ MainGameLoop:
 
 dontDoBoxUpdate:
     
-	;; Handle text updates that need to be carried over a frame
+    ;; Handle text updates that need to be carried over a frame
     LDA textHandler
     BEQ +
         JSR doDrawText
-	+
+    +
 
-	;; Read controller inputs
+    ;; Read controller inputs
     SwitchBank #$1A
         JSR doHandleInputReads
     ReturnBank
@@ -73,14 +73,14 @@ dontDoBoxUpdate:
 
 +handleUpdateScreen:
 
-	;; Do screen update (if needed)
+    ;; Do screen update (if needed)
     JSR doHandleUpdateScreen
 
     ;; Prepare music updates
     SwitchBank #$1B
-		JSR doHandleUpdateMusic
-	ReturnBank
+        JSR doHandleUpdateMusic
+    ReturnBank
 
-	;; Repeat main game loop routine
+    ;; Repeat main game loop routine
     JMP MainGameLoop
 

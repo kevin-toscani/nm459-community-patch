@@ -57,7 +57,7 @@ NPC_HEIGHT = #$10
                         CMP tempD
                         BCC +noNPCcollision
                             LDA textHandler
-							BNE +noNPCcollision
+                            BNE +noNPCcollision
                                 LDA Object_id,x
                                 TXA
                                 PHA

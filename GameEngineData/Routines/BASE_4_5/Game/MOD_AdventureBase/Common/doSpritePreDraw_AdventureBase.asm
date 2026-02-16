@@ -30,9 +30,9 @@ WEAPON_SPRITE_BLANK = #$1C
  ;        LDA weaponChoiceTable,y
  ;        AND weaponsUnlocked
  ;        BNE +drawWeapon
-			 ;;;;; We don't have this weapon yet, so draw it blank.
-;			 LDA #WEAPON_SPRITE_BLANK;
-;			 STA temp
+             ;;;;; We don't have this weapon yet, so draw it blank.
+;             LDA #WEAPON_SPRITE_BLANK;
+;             STA temp
 ; +drawWeapon
 
 ; DrawSprite #$8C, #$0F, temp, #$00

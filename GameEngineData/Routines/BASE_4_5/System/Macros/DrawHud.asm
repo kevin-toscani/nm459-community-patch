@@ -1,3 +1,3 @@
 MACRO DrawHud
-	JSR doDrawHud
-	ENDM
+    JSR doDrawHud
+    ENDM

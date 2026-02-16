@@ -1,2 +1,2 @@
 GameObjectTiles00:
-	.incbin "Graphics\Sprites\CHR_GameObjectTiles.chr"
+    .incbin "Graphics\Sprites\CHR_GameObjectTiles.chr"

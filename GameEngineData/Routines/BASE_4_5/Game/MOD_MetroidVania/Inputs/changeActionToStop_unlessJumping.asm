@@ -10,11 +10,11 @@
     BNE +notHurt
         RTS
     +notHurt
-	CMP #$02 ;; the state of your jump animation
-	BNE +notJumping
-		RTS
-	+notJumping
-	
+    CMP #$02 ;; the state of your jump animation
+    BNE +notJumping
+        RTS
+    +notJumping
+    
     LDA controllerNumber_hold
     BNE weAreCheckingCOntroller2
         ;; we are checking controller 1.

@@ -1,3 +1,3 @@
 oChangeAnimationStep:
 
-	RTS
+    RTS

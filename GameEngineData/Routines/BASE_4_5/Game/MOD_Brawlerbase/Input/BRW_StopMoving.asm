@@ -2,13 +2,13 @@
 ;;Simplified Movement Base - crazygrouptrio;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-    STX temp 			;; assumes the object we want to move is in x.
-	GetActionStep temp 	;; don't move if you're in Action Step...
-    CMP #$07			;; 07 - Hurt
+    STX temp             ;; assumes the object we want to move is in x.
+    GetActionStep temp     ;; don't move if you're in Action Step...
+    CMP #$07            ;; 07 - Hurt
     BNE +notHurt
         RTS
     +notHurt
-	CMP #$02 			;; 02 - Attack
+    CMP #$02             ;; 02 - Attack
     BNE +notAttack
         RTS
     +notAttack
