@@ -7,10 +7,8 @@
     +isPlayerForBounds
     
     LDA screenUpdateByte
-    BEQ +doBounds ;; if it is zero, that means it is moving down.
-    
-    CMP #$02
-    BEQ +doBounds ;; if 2, that means it is moving up.
+    AND #%11111101
+    BEQ +doBounds ;; if it is zero or two, that means it is moving down or up
         RTS
     +doBounds
 
@@ -19,26 +17,29 @@
     ORA #%10000000
     STA gameHandler
 
+    ;; Turn screen off
     LDA #$00
     STA soft2001    
     JSR doWaitFrame
 
-    ;; Screen is now off.
-
+    ;; Get the screen number the player is leaving
     LDX player1_object
     LDA Object_screen,x
     STA currentNametable
-    
+
+    ;; Reset the camera offset
     LDA #$00 
     STA camX
     STA camY
     STA camX_lo
     STA camY_lo
-    
+
+    ;; Check if the player is moving up or down
     LDA screenUpdateByte
     BNE notHandlingBottomBounds
-        ;; handling bottom bounds.
-        LDA #BOUNDS_TOP ; #$02
+
+        ;; Player is moving down a screen
+        LDA #BOUNDS_TOP
         CLC
         ADC #$02
         STA newY
@@ -48,24 +49,9 @@
         CLC
         ADC #$10
         JMP DoScreenUpdate
+
     notHandlingBottomBounds:
-
-    CMP #$01
-    BNE notHandlingRightBounds
-        LDA #BOUNDS_LEFT ; #$02
-        CLC
-        ADC #$02
-        STA newX
-        LDA Object_y_hi,x
-        STA newY
-        LDA currentNametable
-        CLC
-        ADC #$01
-        JMP DoScreenUpdate
-    notHandlingRightBounds:
-
-    CMP #$02
-    BNE notHandlingTopBounds
+        ;; Player is moving up a screen
         LDA #BOUNDS_BOTTOM ; #$EF
         SEC
         SBC #$02
@@ -77,27 +63,9 @@
         LDA currentNametable
         SEC
         SBC #$10
-        JMP DoScreenUpdate
-    notHandlingTopBounds:
 
-    CMP #$03
-    BNE notHandlingLeftBounds
-        LDA #BOUNDS_RIGHT ; #$FE
-        SEC
-        SBC #$04
-        SEC
-        SBC self_right
-        STA newX
-        LDA Object_y_hi,x
-        STA newY
-        LDA currentNametable
-        SEC
-        SBC #$01
-        JMP DoScreenUpdate
-    notHandlingLeftBounds:
+    DoScreenUpdate:
 
-    
-DoScreenUpdate:
     ;; Non normal screen updates
     STA currentNametable
     STA Object_screen,x
