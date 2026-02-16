@@ -1,5 +1,5 @@
-NMI:
-;; Blank NMI
 
-	
-	RTI
+NMI:
+    ;; Blank NMI
+    RTI
+

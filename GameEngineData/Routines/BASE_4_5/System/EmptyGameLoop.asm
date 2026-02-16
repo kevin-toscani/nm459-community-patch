@@ -1,3 +1,5 @@
+
 MainGameLoop:
-	;;; Empty Game Loop
-	JMP MainGameLoop
+    ;; Empty Game Loop
+    JMP MainGameLoop
+

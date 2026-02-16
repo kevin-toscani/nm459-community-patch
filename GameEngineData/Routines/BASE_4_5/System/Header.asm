@@ -1,17 +1,21 @@
-;;;; DEFAULT HEADER FILE
 
-	.db "NES",$1a       ;iNES identifier
-	.db $20         ;number of PRG-ROM blocks
-					;;32 prg rom blocks
-	.db $00         ;number of CHR-ROM blocks
-					;;0 chr rom blocks, using chr ram
-	.db %11100011 
-	;;   ||||
-	    ;MAP 3 2 1 0
-	
-	.db %00010000    ;ROM control bytes: Horizontal mirroring,
-	;;   ||||
-	; MAP - 7 6 5 4
-					;;mapper 30
-	
-	.db $00,$00,$00,$00,$00,$00,$00,$00   ;filler
+;; Default header file
+
+.db "NES",$1a  ;; iNES identifier
+.db 32         ;; # of PRG-ROM blocks (32)
+.db 0          ;; # of CHR-ROM blocks (0, using chr ram)
+
+.db %11100011
+;;   |||||||+-- Set vertical mirroring
+;;   ||||||+--- Cartridge has persistent memory (flash saving)
+;;   |||||+---- No trainer
+;;   ||||+----- Standard nametable layout
+;;   ++++------ Mapper-30 (lower nybble)
+
+.db %00010000   
+;;   ||||||++-- Standard cartridge (no VS/PC10)
+;;   ||||++---- iNES 1.0 format
+;;   ++++------ Mapper-30 (upper nybble)
+
+.db $00,$00,$00,$00,$00,$00,$00,$00  ;; Filler
+

@@ -1,27 +1,35 @@
-;1. iNES header
-	.include SCR_HEADER
-;2. Constants and variables
-	.include SCR_SYSTEM_CONSTANTS
-	.include "GameData\macroList.asm"
-	.include SCR_MEMORY_MAP
-;3. Include sound handling scripts needed
-	.include "Sound\ggsound.inc"
-;3. Handle bank assignments
-	.include SCR_ASSIGN_BANKS
-;4 The Reset
-	.include SCR_RESET
-;5 Initialization of things.
-	.include SCR_INITIALIZE
-	JMP StartMainGameLoop
-;6 NMI
-	.include SCR_NMI
-;7. main game loop
-StartMainGameLoop:
-	.include SCR_MAIN_LOOP	
-;8. subroutines
-	.include "GameData\ScriptTables.asm"
-	.include SCR_MATH_FUNCTIONS
-	.include SCR_LOAD_SUBROUTINES
-;9. Vectors
-	.include SCR_VECTORS
-	
+
+;; iNES header
+.include SCR_HEADER
+
+;; Constants, macros and variables
+.include SCR_SYSTEM_CONSTANTS
+.include "GameData\macroList.asm"
+.include SCR_MEMORY_MAP
+
+;; Sound handling scripts
+.include "Sound\ggsound.inc"
+
+;; Bank assignments
+.include SCR_ASSIGN_BANKS
+
+;; Reset routine
+.include SCR_RESET
+
+;; Initialization of things
+.include SCR_INITIALIZE
+
+;; Main game loop
+.include SCR_MAIN_LOOP
+
+;; NMI routine
+.include SCR_NMI
+
+;; Tables and subroutines
+.include "GameData\ScriptTables.asm"
+.include SCR_MATH_FUNCTIONS
+.include SCR_LOAD_SUBROUTINES
+
+;; Vectors
+.include SCR_VECTORS
+
