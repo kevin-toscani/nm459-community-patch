@@ -1,0 +1,15 @@
+*
+
+!.gitignore
+
+!GameEngineData
+!GameEngineData/Routines
+!GameEngineData/Routines/BASE_4_5
+!GameEngineData/Routines/BASE_4_5/**/*
+
+!Modules
+!Modules/**/*
+
+!Patch Tips
+!Patch Tips/**/*
+!Fixes.md
