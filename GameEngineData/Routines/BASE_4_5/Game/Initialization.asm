@@ -1,4 +1,7 @@
 ;;initialization
+;;with Minor Bugfix for metroVania Projectile Initialization
+;;https://www.nesmakers.com/index.php?threads/4-5-6-minor-bugfix-for-metrovania-projectile-initialization.5883/
+
 ;;; on a game to game basis, what data needs to be initialized will change.
 	.include "ScreenData\init.ini"
 	;;; this contains CONSTANTS information, like the starting screen and the game object palettes.
@@ -22,39 +25,15 @@
 	STA currentNametable
 	STA camScreen
 	
-	AND #%00001111
+	LDA #START_SCREEN_X
 	STA camX_hi
-	LDA #START_ON_SCREEN
-	LSR
-	LSR
-	LSR
-	LSR
+	LDA #START_SCREEN_Y
 	STA camY_hi
 	
-	; LDA #START_ON_SCREEN
-	; AND #%00000001
-	; BNE gameStartsInRightNametable
-	; ;; game starts in left nametable
-	; LDA #$20
-	; STA updateNametable
-	; LDA #$23
-	; STA updateAttributeTable
-	; JMP gotNameAndAttributeTableStart
-; gameStartsInRightNametable:
-	; LDA #$24
-	; STA updateNametable
-	; LDA #$27
-	; STA updateAttributeTable
-; gotNameAndAttributeTableStart:
-	
-
 	LDA #START_LEVEL ;; right now, this is set up backwards, where 0 is underground.
 	EOR #%00000001
 	STA warpMap
 
-
-	;JSR doLoadScreen2 ;; loads the second screen to the second nametable.
-	;JSR doLoadScreen
 	LDA gameHandler
 	ORA #%10000000
 	STA gameHandler
@@ -63,11 +42,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 		CreateObject #START_POSITION_PIX_X, #START_POSITION_PIX_Y, #$00, #$00
-		TXA
-		STA player1_object	
-		STA camObject
+		STX player1_object	
+		STX camObject
 		LDA currentNametable
 		STA Object_screen,x
+		
+		LDA #FACE_RIGHT ;; default facing direction
+		STA Object_direction,x
 		
 		LDA #START_POSITION_PIX_X
 		STA newX
@@ -75,16 +56,7 @@
 		LDA #START_POSITION_PIX_Y
 		STA newY
 		STA continueY
-		
 
-		
-	;CreateObject #$A0, #$A0, #$10
-	;TXA 
-	;STA player2_object
-	
-	;LDA #%11110000
-	
-	;LDA #%00110000
 	LDA #$00
 	STA scrollTrigger
 	;;;;; this sets up to ignore "screen edge" behavior

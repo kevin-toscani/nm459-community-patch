@@ -1,3 +1,18 @@
+;;Prevent button mashing during text boxes fix by Dale Coop
+;;https://www.nesmakers.com/index.php?threads/4-5-9-prevent-button-mashing-during-text-boxes.8424/
+;; checking if the text box is already displayed
+LDA gameStatusByte
+AND #%00000001
+BEQ +continue:
+    ;;; we also check if text box is about to be drawn / or currently drawing
+    LDA textQueued
+    AND #%00000011
+    BEQ +skip
+        JMP dontSkipNPCtext
+    +skip:
+        RTS
++continue:
+
 NPC_WIDTH = #$10
 NPC_HEIGHT = #$10   
 

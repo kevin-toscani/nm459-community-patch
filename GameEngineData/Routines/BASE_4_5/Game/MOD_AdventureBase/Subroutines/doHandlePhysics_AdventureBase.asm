@@ -231,11 +231,10 @@ doHandlePhysics:
         STA self_center_y ;; self center in the vertical direction.
     ;;; jump out to bank 1C to load in physics values.
     ;SwitchBank #$1C
+	
 	;;;; THESE CONSTANTS WILL DETERMINE THE SPEED OF RECOIL
-	;;;; THE HURT STATE DURATION
-	RECOIL_SPEED_HI = #$4
+	;RECOIL_SPEED_HI
 	RECOIL_SPEED_LO = #$00
-	HURT_DURATION = #$40
 	
 	
 		TXA
@@ -259,7 +258,7 @@ doHandlePhysics:
 			+isMovingV
 				LDA #RECOIL_SPEED_LO 
 					STA Object_v_speed_lo,x
-					LDA #RECOIL_SPEED_HI
+					LDA #RECOIL_SPEED
 					STA Object_v_speed_hi,x
 					
 					LDA #$00
@@ -271,7 +270,7 @@ doHandlePhysics:
 
 					LDA #RECOIL_SPEED_LO 
 					STA Object_h_speed_lo,x
-					LDA #RECOIL_SPEED_HI
+					LDA #RECOIL_SPEED
 					STA Object_h_speed_hi,x
 					
 					LDA #$00

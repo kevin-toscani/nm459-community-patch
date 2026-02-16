@@ -1,3 +1,9 @@
+;;Fixed Row of Black Tiles glitch in Metroidvania, by Board-B
+;;https://www.nesmakers.com/index.php?threads/row-of-black-tiles-metrovania-4-5-9.8728/
+
+;;Fixed Textbox don't cancel Paths
+;;https://www.nesmakers.com/index.php?threads/4-5-9-fix-for-the-the-paths-and-text-box-issue.7697/
+
 doDrawBox:
 	LDA gameStatusByte
 	AND #%00000010
@@ -214,10 +220,11 @@ currentlyUpdatingQueuedTiles:
 							STA temp ;; it is this value that doGetSingleMetaTileValues uses.
 						
 						
-					ReturnBank
+					;; ReturnBank 				;;dale coop commented out
 						
 					LDA temp
 					JSR doGetSingleMetaTileValues
+					ReturnBank
 					LDA updateTile_00
 					STA tempA
 					LDA updateTile_01
@@ -358,6 +365,8 @@ LDY tempy
 			LDA updateScreenData
 			ORA #%0000100
 			STA updateScreenData
+			
+			JSR doWaitFrame
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 	
@@ -581,6 +590,8 @@ currentlyUpdatingQueuedAttribtues:
 			LDA updateScreenData
 			ORA #%0000100
 			STA updateScreenData
+			
+			JSR doWaitFrame
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 			RTS

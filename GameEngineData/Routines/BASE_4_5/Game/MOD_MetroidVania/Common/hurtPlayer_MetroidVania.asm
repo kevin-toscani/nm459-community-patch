@@ -100,17 +100,33 @@
 	STA warpToScreen
 	STA camScreen
 	
-
+	;;Reset Health Values
 	LDA myMaxHealth
 	STA myHealth
 	
+	;;Player is Action Step 00
+	ChangeActionStep player1_object, #$00
 	
+	;; stop player:
+	LDA #$00
+	STA Object_h_speed_hi,x
+	STA Object_h_speed_lo,x
+	LDA Object_direction,x
+	AND #%00000111
+	STA Object_direction,x
+
+	;; stop the scrolling :
+	LDA scrollByte
+	AND #%00111110
+	ORA #%00000010
+	STA scrollByte
 	
+	;;Reset Screen
 	WarpToScreen warpToMap, warpToScreen, #$02
 		;; arg0 = warp to map.  0= map1.  1= map2.
 		;; arg1 = screen to warp to.
 		;; arg2 = screen transition type - most likely use 1 here.
-			;; 1 = warp, where it observes the warp in position for the player.
+		;; 1 = warp, where it observes the warp in position for the player.
 
 	
 +skipHurt

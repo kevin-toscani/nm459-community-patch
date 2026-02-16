@@ -561,21 +561,4 @@ GetScreenTriggerInfo:
 	PLA
 	TAY
 		
-	RTS
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
+	RTS	

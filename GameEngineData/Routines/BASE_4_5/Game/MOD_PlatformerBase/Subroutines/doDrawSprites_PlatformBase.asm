@@ -43,6 +43,7 @@ doDrawThisSprite:
 	STA tempA
 	LDA Object_y_hi,x
 	sec
+	;SBC #$01
 	SBC camY
 	STA tempB
 	LDY Object_type,x

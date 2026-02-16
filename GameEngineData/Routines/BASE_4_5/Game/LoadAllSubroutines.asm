@@ -44,7 +44,7 @@
 	.include ROOT\Game\Subroutines\doHandleInputReads.asm
 	.include ROOT\Game\Subroutines\doCreateObject.asm
 	.include ROOT\Game\Subroutines\locationFinders.asm
-	.include SCR_LOAD_SCROLL_COLUMN
+	;.include SCR_LOAD_SCROLL_COLUMN
 	.include SCR_MENU_MANAGER
 	
 	

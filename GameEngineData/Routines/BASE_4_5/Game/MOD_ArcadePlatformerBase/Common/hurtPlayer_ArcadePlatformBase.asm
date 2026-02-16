@@ -7,27 +7,6 @@
 	BEQ +canHurtPlayer
 		JMP +skipHurt
 +canHurtPlayer:
-	; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	; ;;;;;;;;;; is the monster below our feet?
-	; ;;;;;;;;;; and are we moving downward?
-	
-	; LDA Object_v_speed_hi,x
-	; BEQ +doHurtPlayer ;; equal to zero
-	; BMI +doHurtPlayer ;; or negative
-	 ; ;; here we are moving downward.
-	; TXA
-	; PHA
-		; LDX otherObject
-		; DestroyObject
-	; PLA
-	; TAX
-
-	 ; ;; Do a hop
-	 ; LDA #$FC
-	 ; STA Object_v_speed_hi,x
-	 
-
-	 ; JMP +skipHurt
 
 	
 +doHurtPlayer	

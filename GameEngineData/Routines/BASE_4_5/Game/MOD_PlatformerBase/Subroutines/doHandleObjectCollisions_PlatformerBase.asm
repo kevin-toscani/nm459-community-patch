@@ -1,7 +1,10 @@
 	;;; object collions have to check from current index
 	;;; through the rest of the objects on the field of play.
 	;;; Objects prior to its index have already checked against this particular object
-	;SwitchBank #$1C
+	
+	;;;with Monster Weapons collision restored by TolerantX/NightMusic
+	;;https://www.nesmakers.com/index.php?threads/4-5-9-bring-back-monster-weapons-maze-module-and-others.5966/
+	
 ;;STEP 1: Check for inactivity.
 	LDA Object_status,x
 	AND #%10000000
@@ -240,7 +243,31 @@
 									JMP +done
 									
 							+isNotPlayerNPCCol
-							
+							;;;;;;; THIS IS WHERE I WANT TO ADD A CHECK FOR MONSTER WEAPON ;;;;;;;
+
+                            LDA Object_flags,x
+                            AND #%00010000
+                            BNE +isPlayerMonsterWeaponCol
+                                JMP +isNotPlayerMonsterWeaponCol
+                            +isPlayerMonsterWeaponCol
+                                JSR getOtherColBox
+                                JSR doCompareBoundingBoxes
+                                BNE +doCollision
+                                    JMP +skipCollision
+                                +doCollision
+                                    TXA
+                                    STA otherObject
+                                    ;; There was a collision between a player and a monster weapon.
+                                    ;; player is self.
+                                    ;; monster weapon is other.
+                               
+                                    ;DestroyObject                    ;; normally we destroy it because its a weapon ;;
+                                    LDX selfObject                    ;; 9Panzer edit ;;    
+                                    JSR doHandleHurtPlayer
+                                    JMP +done
+       
+                        +isNotPlayerMonsterWeaponCol:
+				;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 							+skipCollision
 					
 							INX

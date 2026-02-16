@@ -162,10 +162,8 @@ doHandlePhysics:
 
 		
 	;;;; THESE CONSTANTS WILL DETERMINE THE SPEED OF RECOIL
-	;;;; THE HURT STATE DURATION
-	RECOIL_SPEED_HI = #$2
-	RECOIL_SPEED_LO = #$00
-	HURT_DURATION = #$01
+	;RECOIL_SPEED - which can be changed in the UI
+	RECOIL_SPEED_LO = #$00 ;;always stays as 0, because changing it never really produces any effects
 	
 	
 		TXA
@@ -180,7 +178,7 @@ doHandlePhysics:
 			
 					LDA #RECOIL_SPEED_LO 
 					STA Object_h_speed_lo,x
-					LDA #RECOIL_SPEED_HI
+					LDA #RECOIL_SPEED
 					STA Object_h_speed_hi,x
 					
 					JMP gotHandVspeeds
@@ -318,8 +316,9 @@ gotHmoveDirection:
 	
 	LDA directionByte
 	AND #%01000000
-	BNE doMoveRight
-;;doMoveLeft:
+	BEQ doMoveLeft			;; dale_coop
+		JMP doMoveRight		;; dale_coop
+doMoveLeft:					;; dale_coop
 	LDA Object_x_lo,x
 	SEC
 	SBC tempA
@@ -337,16 +336,21 @@ gotHmoveDirection:
 		LDA camX_hi
 		;AND #%00001111
 		SBC #$00
-		AND #%00001111
+		;AND #%00001111		;; dale_coop
+		CLC 				;; dale_coop
+		ADC #$01			;; dale_coop
 		STA temp16+1 ;; high left cam clip
 	;;; Player's position is in xHold_lo and xHold_hi
-	
+
 		LDA Object_x_hi,x
 		sec
 		sbc #$04
 		STA temp
 		LDA Object_screen,x
 		AND #%00001111
+		SBC #$00			;; dale_coop
+		CLC 				;; dale_coop
+		ADC #$01			;; dale_coop
 		STA temp1
 		Compare16 temp16+1, temp16, temp1, temp
 			+	
@@ -394,15 +398,28 @@ doMoveRight:
 		STA temp16+1 ;; high left cam clip
 	;;; Player's position is in xHold_lo and xHold_hi
 	
-		LDA xHold_hi
-		CLC		
-		ADC self_right
-		ADC #$03 ;; a good number here is one more than the speed of the player.  That seems to contain him to a screen edge.
-		STA temp
-		LDA Object_screen,x
-		ADC #$00
-		AND #%00001111
-		STA temp1
+		; LDA xHold_hi		;; dale_coop: I commented out those lines
+		; CLC				;; dale_coop: I commented out those lines
+		; ADC self_right	;; dale_coop: I commented out those lines
+		; ADC #$03 ;; a good number here is one more than the speed of the player.  That seems to contain him to a screen edge.
+		; STA temp			;; dale_coop: I commented out those lines
+		; LDA Object_screen,x; dale_coop: I commented out those lines
+		; ADC #$00			;; dale_coop: I commented out those lines
+		; AND #%00001111	;; dale_coop: I commented out those lines
+		; STA temp1			;; dale_coop: I commented out those lines
+		;; dale_coop: and replaced by:
+		LDA self_right		;; dale_coop
+		CLC					;; dale_coop
+		ADC #$01			;; dale_coop
+		STA temp			;; dale_coop
+		LDA xHold_hi		;; dale_coop
+		CLC					;; dale_coop
+		ADC temp			;; dale_coop
+		STA temp			;; dale_coop
+		LDA Object_screen,x	;; dale_coop
+		ADC #$00			;; dale_coop
+		AND #%00001111		;; dale_coop
+		STA temp1			;; dale_coop
 		Compare16 temp16+1, temp16, temp1, temp
 			JMP +
 			++	
@@ -448,43 +465,53 @@ doneWithH:
 		;;; What should we do if vulnerability bit 0 is flipped?
 		JMP doneWithGravity
 	+skip
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;; GRAVITY VALUES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Here, you can manipulate the constants for MAX_FALL_SPEED, GRAVITY_LO and GRAVITY_HI
-;;;; to work with your game.  
-;;;;; MAX_FALL_SPEED = the maximum speed a player can fall.  It is good to give this a max speed
-;;;;; so the player doesn't begin falling so fast that he falls through blocks.
-;;;;; GRAVITY_LO / HI = the low and high bytes for gravity.  The two bytes work sort of like 
-;;;;; a minute and hour hand on a watch.  So if you thought about it like minutes and hours, if you put "1" in hi and "30" in low
-;;;;; you would add an hour and a half every time that gravity was engaged.  If you put 1 in hi and 45 in low,
-;;;;; it would add an hour and 45 minutes every time gravity was engaged (a little faster.
-;;;;; ** NOTE, that is not literal, just a way to easily understand it.
-;;;;; HI will likely be a low number...0-4, I would imagine.  Not much more.  Written #$xx.
-;;;;; LO could be anything, #$00 - #$FF if you want to write in hex, or if you just want to write in regular
-;;;;; decimal values, #x will work, any value between #0 and #255.  
+	
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; HANDLE GRAVITY
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;*OLD* By default, these are NESMaker Gravity's Constants:
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;MAX_FALL_SPEED 	= the maximum speed a player can fall.  It is good to give this a max speed
+;;;;GRAVITY_LO		= the low byte for gravity
+;;;;GRAVITY_HI		= the high byte for gravity
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;NOTE: the las two bytes work sort of like 
+;;;;a minute and hour hand on a watch.  So if you thought about it like minutes and hours, if you put "1" in hi and "30" in low
+;;;;you would add an hour and a half every time that gravity was engaged.  If you put 1 in hi and 45 in low,
+;;;;it would add an hour and 45 minutes every time gravity was engaged (a little faster)
+;;;;The explanation is not literal, just a way to easily understand it.
+;;;;HI will likely be a low number...0-4, I would imagine.  Not much more.  Written #$xx.
+;;;;LO could be anything, #$00 - #$FF if you want to write in hex, or if you just want to write in regular
+;;;;decimal values, #x will work, any value between #0 and #255.
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Handle Gravity.
-;;;;;;;;;;;;;;; Change these constants to change gravity's behavior.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;*NEW*
+;;For simplicity's sake, this patch will let you control MAX_FALL_SPEED and GRAVITY_LO in the UI, the last one under a different name
+;;;GRAVITY_LO is now just called GRAVITY
+;;;GRAVITY_HI will not be present in the UI because changing its value of 0 will create unexpected results on the physics
+GRAVITY_HI = #$00;
 
-MAX_FALL_SPEED = #$04
-GRAVITY_LO = #$40
-GRAVITY_HI = #$00
-
-
-
+;;In case you want to have different gravity
+;;depending on your screen, follow this tutorial by Board-B:
+;;https://www.nesmakers.com/index.php?threads/have-different-gravity-on-specific-screen-types-4-5-9.7242/#post-49139
+;;The main difference is that the values are no longer here in code
+;;So, you will delete the constants from the UI and add variables that ressemble them
+;;Apart from that, it's basically the same process
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 	LDA Object_x_hi,x
 	CLC
-	ADC self_left
+	ADC self_left				
 	STA temp
 		JSR getPointColTable
+	STA tempB
 	LDA Object_x_hi,x
 	CLC
 	ADC self_right
 	STA temp3 ;; the right bottom collision point.
+		JSR getPointColTable
 	LDA Object_y_lo,x
 	CLC 
 	ADC Object_v_speed_lo,x
@@ -503,23 +530,11 @@ GRAVITY_HI = #$00
 		;; Here is where we handle the "landing" scenario for all of those possibilities.
 		
 		
-	GetCollisionPoint temp, temp1, tempA ;; is it a solid?
-		CMP #$01
-		BNE +isNotSolid 
-			JMP +isSolid
-		+isNotSolid
-		CMP #$07
-		BNE +isNotOneWaySolid
-			JMP +isOneWaySolid
-		+isNotOneWaySolid
-		CMP #$09
-		BNE +isNotSolid
-			JMP +isSolid
-		+isNotSolid
-		CMP #$0A
-		BEQ +isLadderSolid
+	GetCollisionPoint temp, temp1, tempB ;; is it a solid?
+		BNE +check
 		
 	GetCollisionPoint temp3, temp1, tempA ;; is it a solid?
+		+check
 		CMP #$01
 		BNE +isNotSolid
 			JMP +isSolid
@@ -548,7 +563,7 @@ GRAVITY_HI = #$00
 		SEC
 		SBC Object_v_speed_hi,x
 		STA tempy
-		GetCollisionPoint temp, tempy, tempA ;; is it a solid
+		GetCollisionPoint temp, tempy, tempB ;; is it a solid
 			BEQ +checkForSecondPoint
 			CMP #$0A
 			BEQ +notSolid
@@ -562,7 +577,7 @@ GRAVITY_HI = #$00
 					BEQ +isSolid
 					JMP +notSolid
 				+checkForFirstPoint
-					GetCollisionPoint temp, tempy, tempA ;; is it a solid?
+					GetCollisionPoint temp, tempy, tempB ;; is it a solid?
 					BEQ +isSolid
 					JMP +notSolid
 					
@@ -591,14 +606,22 @@ GRAVITY_HI = #$00
 		
 	
 			;; is not solid, don't land.
-			LDA Object_y_lo,x
-			CLC
-			ADC Object_v_speed_lo,x
-			STA yHold_lo
-			LDA Object_y_hi,x
-			ADC Object_v_speed_hi,x
-			STA Object_y_hi,x
-			STA yHold_hi
+			;; Fixed MetroidVania Jumping Up Screen Issue by goatgary
+			;;https://www.nesmakers.com/index.php?threads/4-5-6-metroidvania-jumping-up-screen-issue-solved.6246/
+			
+            LDA Object_y_lo,x
+            CLC
+            ADC Object_v_speed_lo,x
+            STA yHold_lo
+            LDA Object_y_hi,x
+            EOR #$80
+            ADC Object_v_speed_hi,x
+            EOR #$80
+            BVC +setY
+                LDA #$00    ; fix wrap to bottom
+            +setY
+            STA Object_y_hi,x
+            STA yHold_hi
 			
 			CMP #BOUNDS_BOTTOM
 			BCC +notAtBounds
@@ -610,29 +633,44 @@ GRAVITY_HI = #$00
 					JMP +notAtBounds
 				+destroyNonPlayerObject
 					DestroyObject
-			+notAtBounds
+			+notAtBounds:
 			
-			CMP #$02
-			BCS +notAtBoundsTop
-				CPX player1_object
-				BNE +destroyNonPlayerObject
-					 
-						LDA #$02
-						STA screenUpdateByte
-						JSR doHandleBounds
-					JMP +notAtBoundsTop
-				+destroyNonPlayerObject
-					DestroyObject
-			+notAtBoundsTop
+            CMP #BOUNDS_TOP
+            BEQ +atBoundsTop
+            BCS +notAtBoundsTop
+                
+            +atBoundsTop
+                CPX player1_object
+                BNE +destroyNonPlayerObject
+                        LDA #$02
+                        STA screenUpdateByte
+                        JSR doHandleBounds
+                    JMP +notAtBoundsTop
+                +destroyNonPlayerObject
+                    DestroyObject
+            +notAtBoundsTop
 			
 			
 			LDA Object_v_speed_lo,x
 			CLC
-			ADC #GRAVITY_LO
+			ADC #GRAVITY
 			STA Object_v_speed_lo,x
 			LDA Object_v_speed_hi,x
 			ADC #GRAVITY_HI
 			STA Object_v_speed_hi,x
+	
+			;;; Player fall animation
+			CPX player1_object
+			BNE +notPlayerFalling
+				STX temp
+				GetActionStep temp
+				CMP #7 ;Hurt
+				BEQ +notPlayerFalling
+					LDA Object_v_speed_hi,x
+					BEQ +notPlayerFalling
+					BMI +notPlayerFalling
+						ChangeActionStep temp, #2 ;Jumping
+			+notPlayerFalling:
 			
 				LDA Object_v_speed_hi,x
 				CMP #MAX_FALL_SPEED
@@ -648,6 +686,11 @@ GRAVITY_HI = #$00
 			
 
 isSolidSoLand:
+
+	;;Fixed Walking in Place When Landing by Board-B;;
+	;;https://www.nesmakers.com/index.php?threads/walking-in-place-when-landing-platformer-metrovania-4-5-9.8417/
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 	;; move to position
 	;;; load the top of the tile that is being run into.
 	;;check if in a jumping state.
@@ -657,7 +700,7 @@ isSolidSoLand:
 	CMP #$02 ;; presums jump is in state 2
 	BNE +dontChangeToIdle
 		LDA gamepad
-        AND #%11110000
+        AND #%11000000
 		BNE +isRunningWhenLanding
 			;; is idle when landing
 			LDA #$00
@@ -673,19 +716,80 @@ isSolidSoLand:
 	
 	
 	
-		;; force y to tile boundary.	
-		; LDA tileY
-		; AND #%11110000
-		; SEC
-		; SBC self_bottom
-		; SEC
-		; SBC #$01
-		; STA Object_y_hi,x
-		; STA yHold_hi
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		;;;;This following commented code will smooth out your landing
+		;;;;However, you will not be able to stand on top of a ladder
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		
+		;; force y to tile boundary
+		 ;LDA tileY
+		 ;AND #%11110000
+		 ;SEC
+		 ;SBC self_bottom
+		 ;SEC
+		 ;SBC #$01
+		 ;STA Object_y_hi,x
+		 ;STA yHold_hi
+		 
+		 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		 
 
 		LDA #$00
 		STA Object_v_speed_lo,x
 		STA Object_v_speed_hi,x
+		
 doneWithGravity:
+
+;;;Vertical Movement added back in
+;;;https://www.nesmakers.com/index.php?threads/vertical-movement-ai-for-enemies-in-metroidvania-project.7841/
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+VerticalMovement:
+    LDA Object_direction,x
+    AND #%00100000
+    BEQ +noVertMovement
+        ;; there is vertical movement
+        LDA Object_direction,x
+        AND #%00010000
+        BEQ +isUpMovement
+            ;; is down movement
+            LDA Object_y_lo,x
+            CLC
+            ADC myMaxSpeed;Object_v_speed_lo,x
+            STA yHold_lo
+            LDA Object_y_hi,x
+            ADC myMaxSpeed+1;Object_v_speed_hi,x
+            STA yHold_hi
+                CLC
+                ADC self_bottom
+                CMP #BOUNDS_BOTTOM ;#240
+          
+                BCS doBottomBounds
+                    JMP +noVertMovement
+                doBottomBounds:
+                        LDA yPrev
+                        STA yHold_hi
+                        STA Object_y_hi,x
+                        JMP skipPhysics
+        +isUpMovement
+            LDA Object_y_lo,x
+            SEC
+            SBC myMaxSpeed;Object_v_speed_lo,x
+            STA yHold_lo
+            LDA Object_y_hi,x
+            SBC myMaxSpeed+1;Object_v_speed_hi,x
+            BCC +doTopBounds ;; helps if top bounds is zero.
+            STA yHold_hi
+            CMP #BOUNDS_TOP
+                BEQ +doTopBounds
+                BCC +doTopBounds
+                    JMP +noVertMovement
+                +doTopBounds
+                        LDA yPrev
+                        STA yHold_hi
+                        STA Object_y_hi,x
+
+                        JMP skipPhysics
+    +noVertMovement:
 
 skipPhysics:

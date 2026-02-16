@@ -1,20 +1,11 @@
+;;;Optimized doGetRandomNumber by TakuikaNinja
+;;; https://www.nesmakers.com/index.php?threads/improving-dogetrandomnumber.7927/
 doGetRandomNumber:
-	LDA randomSeed1
-	ASL A
-	ASL A
-	CLC
-	ADC temp2
-	SEC
-	SBC tempx
-	ADC #$11
-	SBC gamepad
-	ADC #$36
-	ADC tileY
-	SBC temp16
-	ADC pointer
-	ADC tempA
-	STA randomSeed1
-	ADC #$03
-	SBC vBlankTimer
-	SBC vBlankTimer
-	RTS
+    LDA randomSeed1
+    ASL
+    BCS +
+    EOR #$9e
++
+    ADC #$81
+    STA randomSeed1
+    RTS

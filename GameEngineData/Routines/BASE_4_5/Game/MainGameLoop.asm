@@ -39,7 +39,9 @@ vBlankTimerLoop:
 noTextUpdates:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;		
-		JSR doHandleInputReads
+		SwitchBank #$1A
+            JSR doHandleInputReads
+        ReturnBank
 		LDA #$00
 		STA spriteRamPointer
 		SwitchBank #$18

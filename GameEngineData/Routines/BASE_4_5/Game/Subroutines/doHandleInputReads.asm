@@ -73,8 +73,8 @@ ReadControllerBytesLoop:
 	STA controllerNumber_hold
 	JSR doCheckControllerInputStates
 	
-	LDy tempBank
-	JSR doBankswitchY
+	;LDy tempBank
+	;JSR doBankswitchY
 
 	PLA
 	TAY
@@ -167,8 +167,8 @@ inputCheckControllerIsCorrect_held
 			BEQ skipThisInput_Held
 		
 	;LDX DefinedTargetObjects_Held,y
-	LDA TargetScriptBank,y
-	STA temp
+	;LDA TargetScriptBank,y
+	;STA temp
 	;LDA currentBank
 	;STA prevBank
 	
@@ -268,9 +268,9 @@ DoInputActionTrampoline:
 			CPX #$FF
 			BEQ skipThisInput_Pressed
 	;LDX DefinedTargetObjects_Pressed,y
-	LDA TargetScriptBank,y
-	STA temp
-	SwitchBank temp
+	;LDA TargetScriptBank,y
+	;STA temp
+	;SwitchBank temp
 	
 	LDY loopTemp ;;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT BEING CALLED
 			;;; from the ScriptAddress table.
@@ -364,9 +364,9 @@ DoInputActionTrampoline_Released:
 	;LDX DefinedTargetObjects_Released,y
 	;LDA DefinedTargetScripts_Released,y
 	;TAY
-	LDA TargetScriptBank,y
-	STA temp
-	SwitchBank temp
+	;LDA TargetScriptBank,y
+	;STA temp
+	;SwitchBank temp
 	
 	LDY loopTemp ;;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT BEING CALLED
 			;;; from the ScriptAddress table.

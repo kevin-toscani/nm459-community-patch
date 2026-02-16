@@ -1,3 +1,7 @@
+;;Move doLoadScreen to Bank 16 by JamesNES
+;;https://www.nesmakers.com/index.php?threads/4-5-x-move-doloadscreen-to-bank-16.7019/
+.include SCR_LOADSCREEN16
+
 AllTextGroups:	
 	.include "ScreenData\npcTextGroup.dat"
 

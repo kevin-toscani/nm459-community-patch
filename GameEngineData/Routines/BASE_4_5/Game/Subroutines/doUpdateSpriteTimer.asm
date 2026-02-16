@@ -1,7 +1,7 @@
-;;Do update object timers.
+;;Do update object timers with EndAnimation working with 8 Frames Animation by DaleCoop
+;;https://www.nesmakers.com/index.php?threads/4-5-9-end-animation-not-working-with-8-frame-animations-fix.7557/
 	;;; Check to see if this object in this state animates.
 	;;; If the animation speed is zero, it does not animate.
-		;SwitchBank #$1C
 		
 		
 			DEC Object_animation_timer,x
@@ -16,10 +16,11 @@
 				CLC
 				ADC #%00000001
 				AND #%00000111
-				CMP animationFrameHolder
-				BNE notAtMaxAnimFrame
-					
-					;; is at max anim frame, so set anim to 00.
+				BEQ atMaxAnimFrame    ;; dale_coop: fix the end animation with 8 frames
+                CMP animationFrameHolder
+                BNE notAtMaxAnimFrame
+                    atMaxAnimFrame:    ;; dale_coop: fix the end animation with 8 frames
+                    ;; is at max anim frame, so set anim to 00.
 					;;; Here, we have reached the max anim frame.
 					;;; we need to check to see what we should do if the max anim is reached.
 						LDY Object_type,x

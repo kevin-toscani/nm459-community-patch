@@ -1,4 +1,6 @@
 ;;; prize tile
+;;;Fix Prize tile not always dissappearing by m8si
+;; https://www.nesmakers.com/index.php?threads/prize-tile-not-always-dissappearing-4-5-9.7643/
 
 CPX player1_object
 BEQ +isPlayer
@@ -8,6 +10,7 @@ BEQ +isPlayer
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; BELOW WILL CHANGE TILE AT COLLISION.
 	
 	ChangeTileAtCollision #$00, #$00
+	JSR doWaitFrame
 	
 	;MACRO AddValue arg0, arg1, arg2, arg3
 	;arg0 = how many places this value has.
@@ -19,6 +22,6 @@ BEQ +isPlayer
 	AddValue #$06, myScore, #$1, #$02
 	UpdateHudElement #$03
 	
-	PlaySound #sfx_cursor
+	;PlaySound #sfx_cursor
 	
 	+notPlayer

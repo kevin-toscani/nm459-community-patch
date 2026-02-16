@@ -12,7 +12,4 @@
 	; arg5 = variable.
 	; arg6 = attribute
 	
-DrawSpriteHud #16, #16, #$1C, #$05, #$1D, myHealth, #%00000010  ;;;; this draws health
-
-
-
+DrawSpriteHud #HUD_HEALTH_X, #HUD_HEALTH_Y, #$1C, #$05, #$1D, myHealth, #%00000010  ;;;; this draws health

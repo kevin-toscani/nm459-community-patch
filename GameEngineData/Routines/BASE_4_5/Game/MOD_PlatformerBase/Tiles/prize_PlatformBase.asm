@@ -1,4 +1,6 @@
-;;; prize tile
+;;; prize tile;;;
+;;;Fix Prize tile not always dissappearing by m8si
+;; https://www.nesmakers.com/index.php?threads/prize-tile-not-always-dissappearing-4-5-9.7643/
 
 	LDA updateScreenData
 	AND #%00000100
@@ -18,6 +20,7 @@ BEQ +isPlayer
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; BELOW WILL CHANGE TILE AT COLLISION.
 	
 	ChangeTileAtCollision #$00, #$00
+	JSR doWaitFrame
 	
 	;MACRO AddValue arg0, arg1, arg2, arg3
 	;arg0 = how many places this value has.

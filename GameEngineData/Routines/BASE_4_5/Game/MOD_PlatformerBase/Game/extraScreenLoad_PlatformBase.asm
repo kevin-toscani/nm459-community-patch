@@ -11,15 +11,4 @@
 		ShowSprites
 	doneWithExtraScreenCheckForSprites:
 
-	LDA ScreenFlags00
-	AND #%01000000
-	BEQ doNotTurnOffHud
-		HideHud
-		JMP doneWithExtraScreenCheckForHud
-	doNotTurnOffHud:
-		ShowHud
-	doneWithExtraScreenCheckForHud:
-
-
-
 	doneWithExtraCheck:

@@ -28,8 +28,6 @@ MACRO WarpToScreen arg0, arg1, arg2
 	LDA #$00
 	STA scrollOffsetCounter
 	
-
-	
 	LDA gameHandler
 	ORA #%10000000
 	STA gameHandler ;; this will set the next game loop to update the screen.
