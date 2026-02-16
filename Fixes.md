@@ -6,7 +6,7 @@ _Here's a list of patches that have been applied, in no particular order, groupe
   - Modified to work with both two-way and one-way scrolling modules, by Smile Hero
   - Applies [Scrolling platformer seam collision fix](https://www.nesmakers.com/index.php?threads/scrolling-platformer-seam-collision-fix-4-5-9.7266/), by TakuikaNinja & Dale Coop
   - [Adjust the speed of your ship along with the scrolling](https://www.nesmakers.com/index.php?threads/lets-improve-scrolling-together-4-5-9-dohandlecamera-updates-fixes.7929/page-4#post-48125), by SciNEStist
-- [Vertical movement re-added for platformer modules](https://www.nesmakers.com/index.php?threads/vertical-movement-ai-for-enemies-in-metroidvania-project.7841/), by kevin81
+- [Vertical movement re-added for platformer modules](https://www.nesmakers.com/index.php?threads/vertical-movement-ai-for-enemies-in-metroidvania-project.7841/)
 - [Column of black tiles glitch in Metroidvania fix](https://www.nesmakers.com/index.php?threads/row-of-black-tiles-metrovania-4-5-9.8728/), by Board-B
 - [Abrupt stop when player collides with solid above fix](https://www.nesmakers.com/index.php?threads/4-5-9-physics-script-help-abrupt-stop-when-player-collides-with-solid-above.7133/#post-52144), by Jonny & Rusty Retro Entertainment System
 - [Fix to invisible hurt on the player](https://www.nesmakers.com/index.php?threads/enemies-falling-off-ledges-on-the-left-side-cause-player-to-die-in-platformer.6969/page-2), by CluckFox
@@ -32,7 +32,7 @@ _Here's a list of patches that have been applied, in no particular order, groupe
 - Added UI option to hide the sprite HUD by default
 - Simplified inputs for all modules, by crazygrouptrio and B-Board
 - Removed unused constants
-- Refactoring of script files (work in progress), by kevin81
+- Refactoring of script files (work in progress)
 
 ## Optimizations
 - [Optimized doGetRandomNumber](https://www.nesmakers.com/index.php?threads/improving-dogetrandomnumber.7927/), by TakuikaNinja
@@ -42,7 +42,8 @@ _Here's a list of patches that have been applied, in no particular order, groupe
   - Bytes related to an unused camera system
   - Recoil bytes that are never used in code
 - More space in Zero Page RAM by deleting unnecessary bytes (saves 2 bytes in ZP)
-- ROM space optimization in Bank18 (saves 192 bytes in ROM), by kevin81
+- ROM space optimization in Bank18 (saves 192 bytes in ROM)
+- NMI optimization by removing unnecessary pushes (saves at least 192 bytes in the static bank)
 
 ## Added content
 - UntriggerScreen macro, by Dale Coop
