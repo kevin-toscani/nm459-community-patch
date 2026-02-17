@@ -16,7 +16,7 @@
 
 doDrawSprites:
     .include SCR_HANDLE_DRAWING_SPRITES
-    RTS
+    ; RTS handled within script now
 
 doUpdateSpriteTimer:
     .include SCR_UPDATE_SPRITE_TIMER
