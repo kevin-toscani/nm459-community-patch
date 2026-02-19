@@ -1,60 +1,60 @@
+
 doDrawVariableTiles:
     LDA arg0_hold
     STA temp
-    ; LDA #BOX_0_ORIGIN_Y ;; the y value, in metatiles, of the box draw.
-    ; ASL ;; multiplied by two, since metatiles are 16x16, but ppu addresses are 8x8.
-    ; CLC
-    ; ADC 
+
     LDA arg1_hold
     STA temp1
-        ASL
-        ASL
-        ASL
-        ASL
-        ASL
-        CLC 
-        ADC temp
-        STA temp3 ;; low byte.
 
-        
+    ASL
+    ASL
+    ASL
+    ASL
+    ASL
+    CLC 
+    ADC temp
+    STA temp3 ;; low byte.
+
     LDA temp1
-        LSR
-        LSR
-        LSR
-        CLC
-        ADC camFocus_tiles
-        STA temp2 ;; high byte
-            
+    LSR
+    LSR
+    LSR
+    CLC
+    ADC camFocus_tiles
+    STA temp2 ;; high byte
         
-    LDX #$00;arg2_hold ; this is the FULL length of the tile thing.
-    
+    LDX #$00 ;; this is the FULL length of the tile thing.
+
     LDA arg5_hold ;; the tile to draw
     STA temp
     
     loop_doDrawVar
         LDA arg4_hold
         BEQ changeToEmpty ;; if it's zero, change to empty.
-        CPX arg4_hold
-        BCC dontChangeToEmpty
-        changeToEmpty
+            CPX arg4_hold
+            BCC dontChangeToEmpty
+        changeToEmpty:
             LDA arg3_hold
             STA temp
-        dontChangeToEmpty
+        dontChangeToEmpty:
         
         LDA temp2
         STA $2006
+
         LDA temp3
         STA $2006
+
         LDA temp
-            CLC
-            ADC #HUD_OFFSET
+        CLC
+        ADC #HUD_OFFSET
         STA $2007
+
         INC temp3
         INX
         CPX arg2_hold
         BEQ done_loop_doDrawVar
-        
-        JMP loop_doDrawVar
+    JMP loop_doDrawVar
+
     done_loop_doDrawVar:
     
     RTS
@@ -63,32 +63,28 @@ doDrawVariableTiles:
 doDrawVariableTiles_update:
     LDA arg0_hold
     STA temp
-    ; LDA #BOX_0_ORIGIN_Y ;; the y value, in metatiles, of the box draw.
-    ; ASL ;; multiplied by two, since metatiles are 16x16, but ppu addresses are 8x8.
-    ; CLC
-    ; ADC 
+
     LDA arg1_hold
     STA temp1
-        ASL
-        ASL
-        ASL
-        ASL
-        ASL
-        CLC 
-        ADC temp
-        STA temp3 ;; low byte.
 
-        
+    ASL
+    ASL
+    ASL
+    ASL
+    ASL
+    CLC 
+    ADC temp
+    STA temp3 ;; low byte.
+
     LDA temp1
-        LSR
-        LSR
-        LSR
-        CLC
-        ADC camFocus_tiles
-        STA temp2 ;; high byte
-            
+    LSR
+    LSR
+    LSR
+    CLC
+    ADC camFocus_tiles
+    STA temp2 ;; high byte
         
-    LDX #$00;arg2_hold ; this is the FULL length of the tile thing.
+    LDX #$00 ;; arg2_hold ; this is the FULL length of the tile thing.
     LDY #$00
     LDA arg5_hold ;; the tile to draw
     STA temp
@@ -99,8 +95,8 @@ doDrawVariableTiles_update:
     loop_doDrawVar_update:
         LDA arg4_hold
         BEQ changeToEmpty_update ;; if it's zero, change to empty.
-        CPX arg4_hold
-        BCC dontChangeToEmpty_update
+            CPX arg4_hold
+            BCC dontChangeToEmpty_update
         changeToEmpty_update
             LDA arg3_hold
             STA temp
@@ -108,27 +104,33 @@ doDrawVariableTiles_update:
         
         LDA temp2
         STA scrollUpdateRam,y
-        INy
+        INY
+
         LDA temp3
         STA scrollUpdateRam,y
-        INy
+        INY
+
         LDA temp
-            CLC
-            ADC #HUD_OFFSET
+        CLC
+        ADC #HUD_OFFSET
         STA scrollUpdateRam,y
         INY
+
         INC temp3
+
         INX
         CPX arg2_hold
         BEQ done_loop_doDrawVar_update
-        
-        JMP loop_doDrawVar_update
+    JMP loop_doDrawVar_update
+
     done_loop_doDrawVar_update:
-        STY maxScrollOffsetCounter
+
+    STY maxScrollOffsetCounter
         
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;;; Turn on update screen on next frame.
-            LDA updateScreenData
-            ORA #%0000100
-            STA updateScreenData
+    ;; Turn on update screen on next frame.
+    LDA updateScreenData
+    ORA #%0000100
+    STA updateScreenData
+
     RTS
+

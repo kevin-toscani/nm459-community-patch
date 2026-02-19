@@ -1,1 +1,3 @@
-;do object destroy state
+
+    ;; Do object destroy state
+

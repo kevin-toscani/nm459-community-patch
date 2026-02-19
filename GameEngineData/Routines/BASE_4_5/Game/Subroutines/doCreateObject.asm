@@ -1,3 +1,4 @@
+
 doCreateObject:
 
     LDA #%01111110
@@ -15,12 +16,12 @@ doCreateObject:
     ASL
     ASL
     STA temp
+
     LDA Object_frame,x
     AND #%11000000
     ORA temp
     STA Object_frame,x ;; now we have the 4th argument telling the object
                         ;; which action frame he should begin with.
-
 
     LDA #$00
     STA Object_direction,x
@@ -30,3 +31,4 @@ doCreateObject:
     STA Object_v_speed_hi,x
 
     RTS
+

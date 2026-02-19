@@ -1,3 +1,4 @@
+
 doHandleHurtPlayer:
     JMP RESET
-    RTS
+

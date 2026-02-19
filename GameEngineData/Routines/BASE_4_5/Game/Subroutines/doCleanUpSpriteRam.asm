@@ -1,12 +1,16 @@
-;; do clean up sprite ram
+
 doCleanUpSpriteRam:
+    ;; Clean up sprite ram
     LDY spriteRamPointer
-    clearSpriteRamLoop:
+
+    -clearSpriteRamLoop:
         LDA #$FE
         STA SpriteRam,y
         INY
         INY
         INY
         INY
-        BNE clearSpriteRamLoop
+    BNE -clearSpriteRamLoop
+
     RTS
+

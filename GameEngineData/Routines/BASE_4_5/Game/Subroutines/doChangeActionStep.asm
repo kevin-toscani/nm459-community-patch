@@ -1,12 +1,16 @@
+
 doChangeActionStep:
     TXA
     PHA
+
     LDX arg0_hold
+
     LDA arg1_hold
     ASL
     ASL
     ASL
     STA temp
+
     LDA Object_frame,x
     AND #%11000111
     ORA temp
@@ -16,4 +20,6 @@ doChangeActionStep:
     
     PLA
     TAX
+
     RTS
+
