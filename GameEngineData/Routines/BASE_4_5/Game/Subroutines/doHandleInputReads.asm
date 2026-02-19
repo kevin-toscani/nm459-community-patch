@@ -135,28 +135,12 @@ doCheckControllerInputStates:
                              ;; BEING CALLED from the ScriptAddress table.
                 LDA DefinedTargetScripts_Held,y
                 TAY
+
                 LDA ScriptAddressLo,y
                 STA temp16
                 LDA ScriptAddressHi,y
                 STA temp16+1
-
-                JSR UseInputTrampoline_Held
-                JMP passedInputTrampoline_Held
-
-                ;; ADVANCED CONCEPT:
-                ;; since there is no such thing as an indirect JSR
-                ;; we have to use an indirect jump.  However, we want this
-                ;; to behave as a JSR and jump back to this point in code
-                ;; at the end of the eventual routine.
-                ;; So we use this trampoline method, where
-                ;; Our JSR above sets the *return* point to that point in code.
-                ;; Then, at the end of the routine we jump to, when it hits an 
-                ;; RTS, that return will return to the JSR above, which will
-                ;; immediately jump to the passedInputTrampoline below.
-                UseInputTrampoline_Held:
-                JMP (temp16)
-                passedInputTrampoline_Held:
-
+                JSR doTemp16
             ReturnBank
         skipThisInput_Held:
 
@@ -221,13 +205,7 @@ doCheckControllerInputStates:
         STA temp16
         LDA ScriptAddressHi,y
         STA temp16+1
-
-        JSR UseInputTrampoline
-        JMP passedInputTrampoline
-
-        UseInputTrampoline:
-        JMP (temp16)
-        passedInputTrampoline: 
+        JSR doTemp16
 
         ReturnBank ;; @TODO  Figure out why this is here.
     skipThisInput_Pressed:
@@ -296,13 +274,7 @@ doCheckControllerInputStates:
             STA temp16
             LDA ScriptAddressHi,y
             STA temp16+1
-
-            JSR UseInputReleasedTrampoline
-            JMP passedInputReleasedTrampoline
-            
-            UseInputReleasedTrampoline:
-            JMP (temp16)
-            passedInputReleasedTrampoline:
+            JSR doTemp16
 
             ReturnBank ;; @TODO  Figure out why this is here.
         skipThisInput_Released:

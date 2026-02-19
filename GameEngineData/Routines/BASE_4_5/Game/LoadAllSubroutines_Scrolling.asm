@@ -58,6 +58,10 @@ doDrawHud:
 ;    .include SCR_HANDLE_HUD
 ;    RTS
 
+doTemp16:
+    JMP (temp16)
+    ; does not need a RTS
+
 
 ;; Controller input routines
 .include "GameData\DataBank01_Includes.asm"

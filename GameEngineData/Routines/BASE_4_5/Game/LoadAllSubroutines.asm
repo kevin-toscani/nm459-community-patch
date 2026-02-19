@@ -58,6 +58,10 @@ doDrawHud:
     .include SCR_HANDLE_HUD
     RTS
 
+doTemp16:
+    JMP (temp16)
+    ; does not need a RTS
+
 
 ;; Controller input routines
 .include "GameData\DataBank01_Includes.asm"
@@ -135,4 +139,3 @@ AI_table_lo:
 AI_table_hi:
     .db #>AI_0, #>AI_1, #>AI_2, #>AI_3, #>AI_4, #>AI_5, #>AI_6, #>AI_7
     .db #>AI_8, #>AI_9, #>AI_A, #>AI_B, #>AI_C, #>AI_D, #>AI_E, #>AI_F
-
