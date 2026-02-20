@@ -83,14 +83,8 @@ doObjectAction:
             STA temp16
             LDA AI_table_hi,y
             STA temp16+1
-        
-            JSR doObjectActionTrampoline
-                 JMP pastObjectActionTrampoline
-                 doObjectActionTrampoline:
-                    JMP (temp16)
-                    ; ;;; make sure that the behavior ends in an RTS, and then it will 
-                    ; ;;; slide right back to this part of the code.
-                 pastObjectActionTrampoline:
+            JSR doTemp16
+
         ;;; Set this step's vulnerabilities.
             LDY Object_type,x
             LDA VulnerabilityTableLo,y

@@ -33,14 +33,7 @@
             STA temp16
             LDA EndAnimAndActions_Hi,y
             STA temp16+1
-        
-            JSR doEndActionTrampoline
-                 JMP pastEndActionTrampoline
-                 doEndActionTrampoline:
-                     JMP (temp16)
-                    ; ;;; make sure that the behavior ends in an RTS, and then it will 
-                    ; ;;; slide right back to this part of the code.
-                 pastEndActionTrampoline:
+            JSR doTemp16
                  
 
                  

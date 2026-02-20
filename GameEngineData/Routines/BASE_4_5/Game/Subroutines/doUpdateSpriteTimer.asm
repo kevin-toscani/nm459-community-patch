@@ -48,14 +48,8 @@
                         STA temp16
                         LDA EndAnimAndActions_Hi,y
                         STA temp16+1
-                    
-                        JSR doEndAnimationTrampoline
-                             JMP pastEndAnimationTrampoline
-                             doEndAnimationTrampoline:
-                                 JMP (temp16)
-                                ; ;;; make sure that the behavior ends in an RTS, and then it will 
-                                ; ;;; slide right back to this part of the code.
-                             pastEndAnimationTrampoline:
+                        JSR doTemp16
+
                     LDA #$00
                 notAtMaxAnimFrame:
                 STA temp

@@ -48,15 +48,7 @@ doTileObservationLogic
                     STA temp16
                     LDA TileTableHi,y
                     STA temp16+1
-                    JSR doTileTrampoline
-                    JMP doneWithTileTrampoline
-                    doTileTrampoline:
-                        JMP (temp16) ;;; this now does the action
-                            ;; and when it hits the RTS in that action,
-                            ;; it will jump back to the last JSR it saw,
-                            ;; which was doNewActionTrampoline...which will immediately
-                            ;; jump to pastDoNewActionTrampoline.
-                        doneWithTileTrampoline:
+                    JSR doTemp16
                         
 
                 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
