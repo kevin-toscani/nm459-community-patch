@@ -1,12 +1,14 @@
+
 doLoadObjectSubPalettes:
     ;; This is tied to the macro LoadObjectPalettes.
     ;; It uses bank and 16 bit label.
+
     TXA
     PHA
     TYA
     PHA
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;Get Palette Label based on INDEX
+
+    ;; Get Palette Label based on INDEX
     SwitchBank #$16
         LDY arg0_hold
         LDA ObjectPaletteDataLo,y
@@ -20,20 +22,20 @@ doLoadObjectSubPalettes:
             LDA (temp16),y
             STA sprPal,x
             INY
-            INx
+            INX
             CPY #$04
-            BNE loop_LoadSpriteSubPalette
-        ;;;; end of loop.
+        BNE loop_LoadSpriteSubPalette
+        ;; end of loop.
+
         LDA updateScreenData
         ORA #%00000010 ;; sprite palette
         STA updateScreenData
-    
-    
     ReturnBank
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    
+
     PLA
     TAY
     PLA
     TAX
+
     RTS
+

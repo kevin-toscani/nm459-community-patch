@@ -1,19 +1,19 @@
+
 doHandleUpdateScreen:
-     LDA hudUpdates
-     BEQ noHudUpdatesThisFrame
-        ; ;; there is hud updates this frame.
-        ;;; PRESUMES THAT SECOND SCREEN FLAGS BIT IS FOR HIDING HUD
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    LDA hudUpdates
+    BEQ noHudUpdatesThisFrame
+        ;; There are hud updates this frame.
+        ;; Presumes that second screen flags bit is for hiding hud
         LDA ScreenFlags00
         AND #%01000000
         BNE noHudUpdatesThisFrame
-        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-            SwitchBank #$18
-                JSR doUpdateHudElement_bank18
-            ReturnBank
- noHudUpdatesThisFrame:
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set focus variables to know which nametable is the one to update.
+
+        SwitchBank #$18
+            JSR doUpdateHudElement_bank18
+        ReturnBank
+    noHudUpdatesThisFrame:
+
+    ;; Set focus variables to know which nametable is the one to update.
     LDX player1_object
     LDA Object_screen,x
     AND #%00000001
@@ -33,36 +33,33 @@ doHandleUpdateScreen:
 
     LDA gameHandler
     AND #%10000000
-    BNE doUpdateToNewScreen
-    JMP dontUpdateToNewScreen
-doUpdateToNewScreen:
-    LDA #$00
-    STA soft2001    
-    JSR doWaitFrame
-    
+    BEQ dontUpdateToNewScreen
+        ;; Turn off screen
+        LDA #$00
+        STA soft2001    
+        JSR doWaitFrame
 
-    
-    LDA currentNametable
-    LDX player1_object
-    STA Object_screen,x
-    
-    LSR
-    LSR
-    LSR
-    LSR
-    STA camY_hi
-    LDA currentNametable
-    AND #%00001111
-    STA camX_hi
+        LDA currentNametable
+        LDX player1_object
+        STA Object_screen,x
+        
+        LSR
+        LSR
+        LSR
+        LSR
+        STA camY_hi
 
-    
-    JSR doLoadScreen2
-    JSR doLoadScreen
-    LDA gameHandler
-    AND #%01111111
-    STA gameHandler
-    RTS
-dontUpdateToNewScreen:    
-;
+        LDA currentNametable
+        AND #%00001111
+        STA camX_hi
+
+        JSR doLoadScreen2
+        JSR doLoadScreen
+
+        LDA gameHandler
+        AND #%01111111
+        STA gameHandler
+    dontUpdateToNewScreen:    
 
     RTS
+

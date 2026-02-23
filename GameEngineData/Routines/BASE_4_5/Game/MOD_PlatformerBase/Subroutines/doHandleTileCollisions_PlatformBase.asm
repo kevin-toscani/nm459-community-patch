@@ -1,6 +1,4 @@
 
-
-
 MACRO CheckCollisionAtTileXY
     JSR GetTileAtPosition
     LDA tempx
@@ -35,13 +33,6 @@ MACRO CheckCollisionAtTileXY
         STY tempy
     +checkNextPoint:
 ENDM
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; doHandleTileCollisionsLikeANormalPerson.asm
-;;
 
 
     ;; Reset the end result variable
