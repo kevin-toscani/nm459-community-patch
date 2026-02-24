@@ -1,3 +1,4 @@
+
 ;; Pickup scripts.
 ;; Right now, we need to look at the type of object that is in X.
 ;; Then, we have to do pickup behavior accordingly.

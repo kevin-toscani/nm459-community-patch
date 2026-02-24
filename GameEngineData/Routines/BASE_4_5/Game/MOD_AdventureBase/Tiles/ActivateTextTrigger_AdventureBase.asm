@@ -1,3 +1,4 @@
+
     LDA npcTrigger
     ORA #%00000001
     STA npcTrigger
@@ -6,3 +7,4 @@
     STA npc_text
     
     RTS
+
