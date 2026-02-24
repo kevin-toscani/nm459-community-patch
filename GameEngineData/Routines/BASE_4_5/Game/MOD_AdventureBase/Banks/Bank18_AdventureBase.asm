@@ -1,85 +1,78 @@
-;;; Extra data bank
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; TILE TABLES AND DATA
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-
-
+    ;; Extra data bank
 
 ObjectReaction:
-    .include "ScreenData\ObjectData\SolidEdgeObjectReaction.dat" ;; put this in lut table
+    .include "ScreenData\ObjectData\SolidEdgeObjectReaction.dat"
 
 doScreenPreDraw:
     .include SCR_SPRITE_PREDRAW
     RTS
     
-; doHandlePickups: ;; moved directly to object collision routine
-    ; .include SCR_PICKUP_SCRIPTS
-    ; RTS
-    
 doScreenPostDraw:
     .include SCR_SPRITE_POSTDRAW
     RTS
+
 doTileObservationLogic
     LDA Object_status,x
-            AND #OBJECT_OBSERVES_TILES
-            BNE doesObserveTiles
+    AND #OBJECT_OBSERVES_TILES
+    BNE +
+        JMP ObjectDoesNotObserveTiles
+    +
             
-                JMP ObjectDoesNotObserveTiles
-            doesObserveTiles:
-            
-                LDA #$00
-                STA ObjectUpdateByte ;; reset ObjectUpdateByte
-                                ;; the collision routines will set up 
-                                ;; what should happen on this update.
-                                ;; for instance, by default, bit 0 
-                                ;; lets the update know there was a solic collision
-                                ;; so skip the positioning update.
-                ;;;;; TILE Collisions
-                JSR doHandleTileCollisionState
-                JSR doHandleTileCollisions ;; in overflow bank
-            
-                ;;;;;;; here, we will have the collision byte stored in the accumulator
-                ;;;;;;; if they were all zero, there is no collision to check for.
-                BEQ ObjectDoesNotObserveTiles
-                    STA temp ;; store the tile value into temp
-                    ;;; now, we do the trampoline based on the tile type that is in the accumulator.
-                    STY temp1 ;; this now holds the y offset of collisionTable representing the tile that saw collision.
-                    ;;; and temp2 is 0 if we were in collisionTable and 1 if we were in collisionTable2
-                    ;;; the combination above will allow us to affect the tile that we just collided with.
-                    
-                    ;; if it is hurt and it hit a non 0 tile type, it should probably regard it as solid.
-                    ;; otherwise it will fly through doors and whatnot if they are not simply solid tile types.
-                    STX tempz
-                    GetActionStep tempz
-                    CMP #$07
-                    BNE +notHurtState
-                        LDA ObjectUpdateByte
-                        ORA #%00000001 ;; is it solid?
-                        STA ObjectUpdateByte
-                        JMP ObjectDoesNotObserveTiles
-                    +notHurtState
-                    LDY temp
-                    LDA TileTableLo,y
-                    STA temp16
-                    LDA TileTableHi,y
-                    STA temp16+1
-                    JSR doTemp16
-                        
+    LDA #$00
+    STA ObjectUpdateByte ;; reset ObjectUpdateByte
+                         ;; the collision routines will set up 
+                         ;; what should happen on this update.
+                         ;; for instance, by default, bit 0 
+                         ;; lets the update know there was a solic collision
+                         ;; so skip the positioning update.
 
-                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; Tile collisions
+    ;JSR doHandleTileCollisionState
+    JSR doHandleTileCollisions ;; in overflow bank
+
+    ;; here, we will have the collision byte stored in the accumulator
+    ;; if they were all zero, there is no collision to check for.
+    BEQ ObjectDoesNotObserveTiles
+
+        STA temp ;; store the tile value into temp
         
-            ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-            ObjectDoesNotObserveTiles:
+        ;; now, we do the trampoline based on the tile type that is in the
+        ;; accumulator.
+
+        STY temp1 ;; this now holds the y offset of collisionTable representing
+                  ;; the tile that saw collision. And temp2 is 0 if we were in
+                  ;; collisionTable and 1 if we were in collisionTable2. The
+                  ;; combination above will allow us to affect the tile that we
+                  ;; just collided with.
+                    
+        ;; if it is hurt and it hit a non 0 tile type, it should probably regard
+        ;; it as solid. Otherwise, it will fly through doors and whatnot if they
+        ;; are not simply solid tile types.
+
+        STX tempz
+        GetActionStep tempz
+        CMP #$07
+        BNE +notHurtState
+            LDA ObjectUpdateByte
+            ORA #%00000001 ;; is it solid?
+            STA ObjectUpdateByte
+            JMP ObjectDoesNotObserveTiles
+        +notHurtState
+
+        LDY temp
+        LDA TileTableLo,y
+        STA temp16
+        LDA TileTableHi,y
+        STA temp16+1
+        JSR doTemp16
+
+        ObjectDoesNotObserveTiles:
     RTS
 
-doHandleTileCollisionState
-    .include SCR_TILE_COLLISION_STATE ;; custom tile collision state stuff.
-    RTS
-
-
+;doHandleTileCollisionState:
+;    .include SCR_TILE_COLLISION_STATE ;; custom tile collision state stuff.
+;    RTS
 
 doHandleTileCollisions:
     .include SCR_HANDLE_TILE_COLLISIONS
@@ -159,10 +152,8 @@ Tile_15:
     .include SCR_TILE_15
     RTS
     
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Object overflow
+;; Object overflow
 
 doUpdateState:    
     .include SCR_UPDATE_STATE
@@ -171,40 +162,39 @@ doUpdateState:
 doHandleObjectUpdate:
     .include SCR_HANDLE_OBJECT_UPDATE
     RTS
-    
-    
+
+
 doAiReaction1:
     .include SCR_AI_REACTION_1
     RTS
+
 doAiReaction2:
     .include SCR_AI_REACTION_2
     RTS
+
 doAiReaction3:
     .include SCR_AI_REACTION_3
     RTS
+
 doAiReaction4:
     .include SCR_AI_REACTION_4
     RTS
+
 doAiReaction5:
     .include SCR_AI_REACTION_5
     RTS
+
 doAiReaction6:
     .include SCR_AI_REACTION_6
     RTS
+
 doAiReaction7:
     .include SCR_AI_REACTION_7
     RTS
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;; DO UPDATE STATE
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;; AIMED PHYSICS
-
-    .include ROOT\Game\Subroutines\doMoveTowardsPoint.asm
-
+;; Aimed physics
+.include ROOT\Game\Subroutines\doMoveTowardsPoint.asm
     
 octant_adjust:
     .db #%00111111
@@ -215,7 +205,6 @@ octant_adjust:
     .db #%01111111
     .db #%10111111
     .db #%10000000
-    
     
 atan_tab:
         .db $00,$00,$00,$00,$00,$00,$00,$00
@@ -251,9 +240,6 @@ atan_tab:
         .db $19,$19,$19,$1a,$1a,$1b,$1b,$1c
         .db $1c,$1c,$1d,$1d,$1e,$1e,$1f,$1f
 
-
-        ;;;;;;;; log2(x)*32 ;;;;;;;;
-
 log2_tab:
         .db $00,$00,$20,$32,$40,$4a,$52,$59
         .db $60,$65,$6a,$6e,$72,$76,$79,$7d
@@ -287,9 +273,6 @@ log2_tab:
         .db $fb,$fb,$fb,$fc,$fc,$fc,$fc,$fc
         .db $fd,$fd,$fd,$fd,$fd,$fd,$fe,$fe
         .db $fe,$fe,$fe,$ff,$ff,$ff,$ff,$ff    
-        
-        
-        
         
 AngleToHVelLo:
     .db $fe, $fe, $fe, $fe, $fd, $fd, $fd, $fc
@@ -334,29 +317,25 @@ AngleToVVelLo:
     .db $c6, $c3, $c0, $be, $bb, $b8, $b5, $b2
     .db $b0, $ad, $aa, $a7, $a4, $a1, $9e, $9b
     .db $98, $95, $92, $8f, $8b, $88, $85, $82
-    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     
 doHandleBounds_bank18:
-
-    ;;; stop monster at edge if hurt.
-    
+    ;; stop monster at edge if hurt
     LDA EdgeSolidReaction
-    AND #%00001111 ;; this is the edge reaction for this object, grabbed in the physics script prior to this point.
-    BNE dontIgnoreEdge
-    JMP ignoreEdge
-dontIgnoreEdge:
+    AND #%00001111 ;; this is the edge reaction for this object,
+                   ;; grabbed in the physics script prior to this point.
+    BNE +
+        JMP ignoreEdge
+    +
+
     CMP #$01
     BEQ atOneEdge
         JMP notOneEdge
     atOneEdge:
-        
         ;; is one edge
         .include SCR_EDGE_1
-        JMP ignoreEdge
+        RTS
     notOneEdge
-
     
     CMP #$02
     BEQ atTwoEdge
@@ -364,475 +343,311 @@ dontIgnoreEdge:
     atTwoEdge:
         ;; is two edge
         .include SCR_EDGE_2
-        JMP ignoreEdge
+        RTS
     notTwoEdge:
+
     CMP #$03
     BEQ atThreeEdge
         JMP notThreeEdge
     atThreeEdge:
         ;; is three edge
         .include SCR_EDGE_3
-        JMP ignoreEdge
+        RTS
     notThreeEdge:
+
     CMP #$04
     BEQ atFourEdge
         JMP notFourEdge
     atFourEdge:
         ;; is four edge
         .include SCR_EDGE_4
-        JMP ignoreEdge
+        RTS
     notFourEdge:
+
     CMP #$05
     BEQ atFiveEdge
         JMP notFiveEdge
     atFiveEdge:
         ;; is five edge
         .include SCR_EDGE_5
-        JMP ignoreEdge
+        RTS
     notFiveEdge:
+
     CMP #$06
     BEQ atSixEdge
         JMP notSixEdge
     atSixEdge:
         ;; is sixEdge
         .include SCR_EDGE_6
-        JMP ignoreEdge
+        RTS
     notSixEdge:
-        ;; must be seven edge
-        .include SCR_EDGE_7
-        jmp ignoreEdge
-    
-    StopObjectFromMovingAtEdge:
-        LDA #$00
-        STA Object_x_lo,x
-        STA Object_y_lo,x
-        STA Object_h_speed_hi,x
-        STA Object_h_speed_lo,x
-        STA Object_v_speed_hi,x
-        STA Object_v_speed_lo,x
-        STA xHold_lo
-        STA yHold_lo
-        LDA xPrev
-        STA Object_x_hi,x
-        STA xHold_hi
-        LDA yPrev
-        STA Object_y_hi,x
-        STA yHold_hi
-    
-ignoreEdge:
+
+    ;; must be seven edge
+    .include SCR_EDGE_7
+
+ignoreEdge: ;; In case SCR_EDGE_* still references this label
     RTS
-    
-    
-    
- doEraseBox_bank18:
-;;; draw box will update one metatile row at a time,
-    ; ;;; so at max, it will be updating 16x4 tiles (64) x 3 bytes per tile (192).
-    ; ;;; This makes multple frames of updates easy.
-    ; ;;; If the queue flag bit 0 is activated, that means that we have moved on to another row, but are not done yet.
-    
-    ; LDA queueFlags
-    ; AND #%00000001
-    ; BEQ +notCurrentlyErasingQueuedTiles
-    ; ;; currently updating queued tiles
-    
-    ; JMP +currentlyErasingQueuedTiles
-; +notCurrentlyErasingQueuedTiles:
-    ; ;;;;; We are JUST starting a box update.
-    ; ; arg0_hold = X value, in metatiles
-    ; ; arg1_hold = y value, in metatiles
-    ; ; arg2_hold = width, in metatiles
-    ; ; arg3_hold = height, in metatiles
-    
-    ; LDA queueFlags
-    ; ORA #%00000001
-    ; STA queueFlags
-    
-    ; LDA arg0_hold
-    ; STA Box_x_origin
-    ; LDA arg1_hold
-    ; STA Box_y_origin
-    ; STA Box_y_hold
-    ; LDA arg2_hold
-    ; STA Box_width
-    ; LDA arg3_hold
-    ; STA Box_height
-    
-; +currentlyErasingQueuedTiles:
-    
-    ; LDA Box_x_origin ;; the x value, in metatiles, of the box draw.
-    ; ASL ;; multiplied by two, since metatiles are 16x16, but PPU addresses are 8x8.
-    ; STA temp
-    ; LDA Box_y_origin ;; the y value, in metatiles, of the box draw.
-    ; ASL ;; multiplied by two, since metatiles are 16x16, but ppu addresses are 8x8.
-    ; STA temp1
-        ; ASL
-        ; ASL
-        ; ASL
-        ; ASL
-        ; ASL
-        ; CLC 
-        ; ADC temp
-        ; STA temp3
-        ; STA tempC
-        
-    ; LDA temp1
-        ; LSR
-        ; LSR
-        ; LSR
-    ; CLC
-    ; ADC #$20
-    ; STA temp2
-    ; STA tempD
-    
-    
-    
-    
-    ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ; ;;; LOAD THE BYTES INTO SCRATCH RAM:
-    ; ;;; High, Low, Tile.
-    ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-        ; LDA #$00
-        ; STA scrollOffsetCounter
-        ; TAY
-        
-        ; -doEraseBoxLoop:
-    
-            ; LDX Box_width ;; load the width into x.
 
-            ; -doEraseBoxLoop_inner:
-                ; LDA temp2
-                ; STA scrollUpdateRam,y
-                ; INY
-                ; LDA temp3
-                ; STA scrollUpdateRam,y
-                ; INY
-                ; LDA #$F5
-                ; STA scrollUpdateRam,y
-                ; INY
-                
-                ; LDA temp2
-                ; STA scrollUpdateRam,y
-                ; INY
-                ; LDA temp3
-                ; CLC
-                ; ADC #$01
-                ; STA scrollUpdateRam,y
-                ; INY
-                ; LDA #$F5
-                ; STA scrollUpdateRam,y
-                ; INY
-                
-                    ; LDA temp3
-                    ; CLC
-                    ; ADC #$20
-                    ; STA temp3
-                    ; LDA temp2
-                    ; ADC #$00
-                    ; STA temp2
-                
-                ; LDA temp2
-                ; STA scrollUpdateRam,y
-                ; INY
-                ; LDA temp3
-                ; STA scrollUpdateRam,y
-                ; INY
-                ; LDA #$F5
-                ; STA scrollUpdateRam,y
-                ; INY
-                
-                ; LDA temp2
-                ; STA scrollUpdateRam,y
-                ; INY
-                ; LDA temp3
-                ; CLC
-                ; ADC #$01
-                ; STA scrollUpdateRam,y
-                ; INY
-                ; LDA #$F5
-                ; STA scrollUpdateRam,y
-                ; INY
-                    
-                ; DEX
-                ; BEQ +doneWithEraseBoxRow
-                ; ;;; more box row to draw.
-                    ; LDA temp3
-                    ; SEC
-                    ; SBC #$1E 
-                    ; STA temp3
-                    ; LDA temp2
-                    ; SBC #$00
-                    ; STA temp2
-                    ; JMP -doDrawBoxLoop_inner
-                ; +doneWithEraseBoxRow:
-                        ; DEC Box_height
-                        ; LDA Box_height
-                        ; BEQ +doneWithBoxEraseOutterLoop
+StopObjectFromMovingAtEdge:
+    LDA #$00
+    STA Object_x_lo,x
+    STA Object_y_lo,x
+    STA Object_h_speed_hi,x
+    STA Object_h_speed_lo,x
+    STA Object_v_speed_hi,x
+    STA Object_v_speed_lo,x
+    STA xHold_lo
+    STA yHold_lo
 
-                            ; LDA Box_y_origin
-                            ; CLC
-                            ; ADC #$01
-                            ; STA Box_y_origin
-                            ; JMP +notDoneWithBoxEraseOutterLoop
-                ; +doneWithBoxEraseOutterLoop:
-                    ; LDA queueFlags
-                    ; AND #%11111110
-                    ; STA queueFlags
-                    ; LDA gameStatusByte
-                    ; AND #%11111110 ;;; this will skip object handling.
-                    ; STA gameStatusByte
-            ; +notDoneWithBoxEraseOutterLoop:
-        
-        
-        
-    ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ; ;;; Push the offset so we know how many tiles to update.
-    ; ;;; max would be 85 tiles.
-    ; ;;; could make this metatiles to get more out of this.
-        ; TYA
-        ; STA maxScrollOffsetCounter
-        
-        
-                
-        
-    ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ; ;;; Turn on update screen on next frame.
-            ; LDA updateScreenData
-            ; ORA #%0000100
-            ; STA updateScreenData
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     RTS
-    
+    LDA xPrev
+    STA Object_x_hi,x
+    STA xHold_hi
+
+    LDA yPrev
+    STA Object_y_hi,x
+    STA yHold_hi
+
+doEraseBox_bank18:
+    RTS
+
     
 doDrawHud_bank18:
     LDA gameHandler
     AND #%00100000
-    BEQ doDrawHudStuff
+    BEQ +
+        JMP doneHudUpdate
+    +
     
-    JMP doneHudUpdate
-doDrawHudStuff:
-;;; draw hud box
+    ;; draw hud box
     LDA #BOX_0_WIDTH
     ASL
     STA tempA
+    
     LDA #BOX_0_HEIGHT
     ASL
     STA tempB
+    
     LDA #BOX_0_ORIGIN_X ;; the x value, in metatiles, of the box draw.
-    ASL ;; multiplied by two, since metatiles are 16x16, but PPU addresses are 8x8.
+    ASL                 ;; multiplied by two, since metatiles are 16x16, but
+                        ;; PPU addresses are 8x8.
     STA temp
-    LDA #BOX_0_ORIGIN_Y ;; the y value, in metatiles, of the box draw.
-    ASL ;; multiplied by two, since metatiles are 16x16, but ppu addresses are 8x8.
-    STA temp1
-        ASL
-        ASL
-        ASL
-        ASL
-        ASL
-        CLC 
-        ADC temp
-        STA temp3 ;; low byte.
 
-        
+    LDA #BOX_0_ORIGIN_Y ;; the y value, in metatiles, of the box draw.
+    ASL                 ;; multiplied by two, since metatiles are 16x16, but
+                        ;; PPU addresses are 8x8.
+    STA temp1
+
+    ASL
+    ASL
+    ASL
+    ASL
+    ASL
+    CLC 
+    ADC temp
+    STA temp3 ;; low byte.
+
     LDA temp1
-        LSR
-        LSR
-        LSR
+    LSR
+    LSR
+    LSR
     CLC
     ADC camFocus_tiles
     STA temp2 ;; high byte
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; DRW BUX;;;;;;;;;;;;;;;;;;;;;;;;;;    
-    doDrawHudBoxLoop:
+
+
+    ;; Draw box
+    -drawHudBoxLoop:
         LDA temp2
         STA $2006
         LDA temp3
         STA $2006
         LDA #$F5 ;; blank tile
         STA $2007
+
         INC temp3
         DEC tempA
         LDA tempA
-        BNE doDrawHudBoxLoop
-            LDA #BOX_0_WIDTH
-            ASL
-            STA tempA
-            LDA temp3
-            SEC
-            SBC tempA
-            CLC
-            ADC #$20
-            STA temp3
-            LDA temp2
-            ADC #$00
-            STA temp2
-            
-            DEC tempB
-            LDA tempB
-            BNE doDrawHudBoxLoop
-        ;; done.    
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; DO ATTRIBUTES
+        BNE -drawHudBoxLoop
 
-        LDA #BOX_0_ORIGIN_X
-        LSR
-        STA tempA
-        LDA #BOX_0_ORIGIN_Y
-        LSR
-        STA tempB
-        
         LDA #BOX_0_WIDTH
-        LSR 
-        ;; allow for odd starts, if on odd, will need to add 1
-        STA tempC
-        STA tempz    
-        
-        LDA #BOX_0_HEIGHT
-        LSR
-        STA tempD
-        
-        
-        
-            LDA tempB
-            ASL
-            ASL
-            ASL
-            CLC 
-            ADC tempA
-            sta tempx ;; tempx is our offset for the Attribute table.
+        ASL
+        STA tempA
+
+        LDA temp3
+        SEC
+        SBC tempA
+        CLC
+        ADC #$20
+        STA temp3
+
+        LDA temp2
+        ADC #$00
+        STA temp2
             
+        DEC tempB
+        LDA tempB
+    BNE -drawHudBoxLoop
+
+    ;; Do attributes
+
+    LDA #BOX_0_ORIGIN_X
+    LSR
+    STA tempA
+    LDA #BOX_0_ORIGIN_Y
+    LSR
+    STA tempB
+        
+    ;; @TODO  allow for odd starts, if on odd, will need to add 1
+    LDA #BOX_0_WIDTH
+    LSR 
+    STA tempC
+    STA tempz 
+
+    LDA #BOX_0_HEIGHT
+    LSR
+    STA tempD
+
+    LDA tempB
+    ASL
+    ASL
+    ASL
+    CLC 
+    ADC tempA
+    STA tempx ;; tempx is our offset for the attribute table.
+
+    LDA camFocus_att ;; high byte, have to change based on which nametable
+                     ;; we are in.
+    STA temp1
+
+    LDA #$C0
+    CLC
+    ADC tempx
+    STA temp2
             
-            LDA camFocus_att ;; high byte, have to change based on which nametable we are in.
-            STA temp1
-            LDA #$C0
-            CLC
-            ADC tempx
-            STA temp2
-            
-        doDrawHudAttLoop
-            LDA temp1
-            STA $2006
+    -drawHudAttLoop:
+        LDA temp1
+        STA $2006
+        LDA temp2
+        STA $2006
+        LDA #$FF
+        STA $2007
+
+        INC temp2
+        DEC tempC
+        LDA tempC
+        BNE -drawHudAttLoop
+
+        DEC tempD
+        BEQ doneWithDrawHudAttLoop
             LDA temp2
-            STA $2006
-            LDA #$FF
-            STA $2007
-            INC temp2
-            DEC tempC
-            LDA tempC
-            BNE doDrawHudAttLoop
-                DEC tempD
-                BEQ doneWithDrawHudAttLoop
-                ;; not done with draw hud att loop.
-                LDA temp2
-                SEC
-                SBC tempz
-                CLC
-                ADC #$08
-                STA temp2
-                LDA tempz
-                STA tempC
-                JMP doDrawHudAttLoop
-                
-        doneWithDrawHudAttLoop:
+            SEC
+            SBC tempz
+            CLC
+            ADC #$08
+            STA temp2
+            LDA tempz
+            STA tempC
+        JMP -drawHudAttLoop
+    doneWithDrawHudAttLoop:
+
     RTS
-    
-    
+
+
 .include GameData\HUD_UPDATES.dat
 
 
 doUpdateHudElement_bank18:
-    
-checkForHudUpdates:
-    
+;checkForHudUpdates:
     LDA hudUpdates
-    BNE notNoHudUpdates
-    RTS
-notNoHudUpdates:
+    BNE +
+        RTS
+    +
+
     LDA updateScreenData
     AND #%00000101 ;; if queued to push tiles or attributes
     BEQ +screenNotCurrentlyUpdating
-    RTS
-+screenNotCurrentlyUpdating
-
+        RTS
+    +screenNotCurrentlyUpdating:
 
     LDA hudUpdates
     AND #%00000001
-    BEQ notZeroTypeHudUpdate
+    BEQ +notZeroTypeHudUpdate
         JSR updateHudElement0
         LDA hudUpdates
         AND #%11111110
         STA hudUpdates
         JMP doneHudUpdate
-    notZeroTypeHudUpdate:
+    +notZeroTypeHudUpdate:
+
     LDA hudUpdates
     AND #%00000010
-    BEQ notOneTypeHudUpdate
+    BEQ +notOneTypeHudUpdate
         JSR updateHudElement1
         LDA hudUpdates
         AND #%11111101
         STA hudUpdates
         JMP doneHudUpdate
-    notOneTypeHudUpdate:
+    +notOneTypeHudUpdate:
+
     LDA hudUpdates
     AND #%00000100
-    BEQ notTwoTypeHudUpdate
-    
+    BEQ +notTwoTypeHudUpdate
         JSR updateHudElement2
         LDA hudUpdates
         AND #%11111011
         STA hudUpdates
         JMP doneHudUpdate
-    notTwoTypeHudUpdate:
+    +notTwoTypeHudUpdate:
+
     LDA hudUpdates
     AND #%00001000
-    BEQ notThreeTypeHudUpdate
+    BEQ +notThreeTypeHudUpdate
         JSR updateHudElement3
         LDA hudUpdates
         AND #%11110111
         STA hudUpdates
         JMP doneHudUpdate
-    notThreeTypeHudUpdate
+    +notThreeTypeHudUpdate
+
     LDA hudUpdates
     AND #%00010000
-    BEQ notFourTypeHudUpdate
+    BEQ +notFourTypeHudUpdate
         JSR updateHudElement4
         LDA hudUpdates
         AND #%11101111
         STA hudUpdates
         JMP doneHudUpdate
-    notFourTypeHudUpdate:
+    +notFourTypeHudUpdate:
+
     LDA hudUpdates
     AND #%00100000
-    BEQ notFiveTypeHudUpdate
+    BEQ +notFiveTypeHudUpdate
         JSR updateHudElement5
         LDA hudUpdates
         AND #%11011111
         STA hudUpdates
         JMP doneHudUpdate
-    notFiveTypeHudUpdate:
+    +notFiveTypeHudUpdate:
+
     LDA hudUpdates
     AND #%01000000
-    BEQ notSixTypeHudUpdate
+    BEQ +notSixTypeHudUpdate
         JSR updateHudElement6
         LDA hudUpdates
         AND #%10111111
         STA hudUpdates
         JMP doneHudUpdate
-    notSixTypeHudUpdate
+    +notSixTypeHudUpdate
+
     LDA hudUpdates
     AND #%10000000
-    BEQ doneHudUpdate
+    BEQ +doneHudUpdate
         JSR updateHudElement7
         LDA hudUpdates
         AND #%01111111
         STA hudUpdates
-    doneHudUpdate:
-
+    +doneHudUpdate:
     
     RTS
         
-    
-
-    
-    
-    

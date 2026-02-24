@@ -1,33 +1,33 @@
-;;;;;;;
-;;;;;;;
-;; UNDER WHAT CONDITION SHOULD WE HIDE SPRITES?
+
+    ;; UNDER WHAT CONDITION SHOULD WE HIDE SPRITES?
     LDA ScreenFlags00
     AND #%10000000
-    BEQ doNotTurnOffSprites
-
+    BEQ +show
         HideSprites
-        JMP doneWithExtraScreenCheckForSprites
-    doNotTurnOffSprites:
+        JMP +continue
+    +show:
         ShowSprites
-    doneWithExtraScreenCheckForSprites:
+    +continue:
     
-;; UNDER WHAT CONDITIONS SHOULD WE HIDE THE HUD?
+    ;; UNDER WHAT CONDITIONS SHOULD WE HIDE THE HUD?
     LDA ScreenFlags00
     AND #%01000000
-    BEQ doNotTurnOffHud
+    BEQ +show
         HideHud
-        JMP doneWithExtraScreenCheckForHud
-    doNotTurnOffHud:
+        JMP +continue
+    +show:
         ShowHud
-    doneWithExtraScreenCheckForHud:
+    +continue:
     
-;;; ARE THERE ANY SPECIAL CONSIDERATIONS FOR TRIGGERED SCREENS?
-    ;;; if a screen is triggered, make the lock block go away.
-    GetTrigger
-    BNE +screenIsTriggered
-        JMP +noTrigger
-    +screenIsTriggered
-        
-    +noTrigger
+;    ;; Are there any special considerations for triggered screens?
+;    ;; For example: if a screen is triggered, should the lock block go away?
+;
+;    GetTrigger
+;    BNE +screenIsTriggered
+;        JMP +noTrigger
+;    +screenIsTriggered
+;        
+;    +noTrigger
+;
+;    doneWithExtraCheck:
 
-    doneWithExtraCheck:

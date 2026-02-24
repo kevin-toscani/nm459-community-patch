@@ -1,12 +1,17 @@
-;;;; Choose out of 4 directions, UDLR.
-    TXA    
-    STA tempA
+
+    ;; Choose out of 4 directions, UDLR.
+    STX tempA
+
     JSR doGetRandomNumber
     AND #%00000111
     TAY
+
     LDA DirectionTable,y
     STA tempB
+
     LDA FacingTable,y
     STA tempC
+
     StartMoving tempA, tempB, #$00
     ChangeFacingDirection tempA, tempC
+
