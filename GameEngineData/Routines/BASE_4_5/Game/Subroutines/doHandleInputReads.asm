@@ -130,18 +130,16 @@ doCheckControllerInputStates:
             CPX #$FF
             BEQ skipThisInput_Held
 
-            SwitchBank temp
-                LDY loopTemp ;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT
-                             ;; BEING CALLED from the ScriptAddress table.
-                LDA DefinedTargetScripts_Held,y
-                TAY
+            LDY loopTemp ;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT
+                         ;; BEING CALLED from the ScriptAddress table.
+            LDA DefinedTargetScripts_Held,y
+            TAY
 
-                LDA ScriptAddressLo,y
-                STA temp16
-                LDA ScriptAddressHi,y
-                STA temp16+1
-                JSR doTemp16
-            ReturnBank
+            LDA ScriptAddressLo,y
+            STA temp16
+            LDA ScriptAddressHi,y
+            STA temp16+1
+            JSR doTemp16
         skipThisInput_Held:
 
         INC loopTemp
@@ -206,8 +204,6 @@ doCheckControllerInputStates:
         LDA ScriptAddressHi,y
         STA temp16+1
         JSR doTemp16
-
-        ReturnBank ;; @TODO  Figure out why this is here.
     skipThisInput_Pressed:
 
     INC loopTemp
@@ -275,8 +271,6 @@ doCheckControllerInputStates:
             LDA ScriptAddressHi,y
             STA temp16+1
             JSR doTemp16
-
-            ReturnBank ;; @TODO  Figure out why this is here.
         skipThisInput_Released:
 
         INC loopTemp

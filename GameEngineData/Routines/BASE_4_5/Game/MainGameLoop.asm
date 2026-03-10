@@ -64,6 +64,8 @@ dontDoBoxUpdate:
     ;; Do screen post-draw
     SwitchBank #$18
         JSR doScreenPostDraw
+
+        ;; Handle the game timer(s)
         .include SCR_HANDLE_GAME_TIMER
     ReturnBank
 
