@@ -89,8 +89,6 @@
     STA tempA ;; High byte of "speed" will determine how many times we should
               ;; update move towards speed.
 
-    ;; use aimed physics.
-    ;; Aimed physics doesn't need to update speed.
     LDA Object_x_lo,x
     STA xHold_lo
     LDA Object_x_hi,x
