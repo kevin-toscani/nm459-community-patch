@@ -5,7 +5,7 @@ doHandleInputReads:
     STA $4016
     LSR
     STA $4016
-    
+
     LDA #$80
     STA gamepad
     STA gamepad2
@@ -28,9 +28,10 @@ doHandleInputReads:
     TYA
     PHA
 
-    LDA currentBank
-    STA tempBank
-    
+    ;; @TODO  Verify we can omit this code
+;   LDA currentBank
+;   STA tempBank
+
     LDA gamepad
     STA gamepad_hold
     LDA buttonStates
@@ -40,7 +41,7 @@ doHandleInputReads:
     STA controllerNumber_hold
 
     JSR doCheckControllerInputStates
-    
+
     LDA gamepad2
     STA gamepad_hold
     LDA buttonStates2
@@ -55,7 +56,7 @@ doHandleInputReads:
     TAY
     PLA
     TAX    
-    
+
     LDA gamepad
     STA buttonStates
     LDA gamepad2
@@ -84,29 +85,29 @@ findObjectOfType:
 doCheckControllerInputStates:
     ;; Handle held inputs
     LDA #HELD_INPUTS
-    BNE doHeldInputs
-        JMP doneWithInputLoops_Held
-    doHeldInputs:
+    BNE +
+        JMP +checkPressedInputs
+    +
 
     LDA #$00
     STA loopTemp
 
-    GetDefinedInputsLoop_Held:
+    -heldInputsLoop:
         LDX loopTemp ;; Set x temporarily to loopTemp variable for table reads.
                      ;; We need to check to see if this input uses current
                      ;; game state. If not, skip it.
         LDA DefinedScriptGameStates_Held,x
         CMP gameState
-        BEQ inputCheckGameStateIsCorrect_Held
-            JMP skipThisInput_Held
-        inputCheckGameStateIsCorrect_Held:
+        BEQ +
+            JMP +checkNextHeldInput
+        +
 
         LDA DefinedTargetController_Held,x
         CMP controllerNumber_hold
-        BEQ inputCheckControllerIsCorrect_held
-            JMP skipThisInput_Held
-        inputCheckControllerIsCorrect_held
-    
+        BEQ +
+            JMP +checkNextHeldInput
+        +
+
         ;; now check gamepad variable against the
         ;; DefinedInputs table to see if the current
         ;; gamepad state matches any of the chosen inputs.
@@ -120,7 +121,7 @@ doCheckControllerInputStates:
                                  ;; will still do left things even if b-button
                                  ;; is pressed, for example.
         CMP DefinedInputs_Held,x
-        BNE skipThisInput_Held
+        BNE +checkNextHeldInput
             LDY loopTemp ;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT BEING
                          ;; CALLED from the ScriptAddress table.
             LDA DefinedTargetObjects_Held,y ;; this is the type of object we're
@@ -128,7 +129,7 @@ doCheckControllerInputStates:
             STA tempB
             JSR findObjectOfType
             CPX #$FF
-            BEQ skipThisInput_Held
+            BEQ +checkNextHeldInput
 
             LDY loopTemp ;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT
                          ;; BEING CALLED from the ScriptAddress table.
@@ -140,50 +141,50 @@ doCheckControllerInputStates:
             LDA ScriptAddressHi,y
             STA temp16+1
             JSR doTemp16
-        skipThisInput_Held:
+        +checkNextHeldInput:
 
         INC loopTemp
         LDA loopTemp
         CMP #HELD_INPUTS ;; the total number of scripts to jump through
-        BCS doneWithInputLoops_Held
-    JMP GetDefinedInputsLoop_Held
+        BCS +checkPressedInputs
+    JMP -heldInputsLoop
 
-    doneWithInputLoops_Held:
-    ;; End held
-        
-    ;; PRESSED    
+
+    ;; Pressed    
+    +checkPressedInputs:
+
     LDA #PRESSED_INPUTS
-    BNE doPressedInputs
-        JMP doneWithInputLoops_Pressed
-    doPressedInputs:
+    BNE +
+        JMP +checkReleasedInputs
+    +
 
     LDA #$00
     STA loopTemp
 
-    GetDefinedPressedInputsLoop:
-    
-    LDX loopTemp ;; Set x temporarily to loopTemp variable for table reads
-                 ;; We need to check to see if this input uses current game
-                 ;; stat. If not, skip it.
-    LDA DefinedScriptGameStates_Pressed,x
-    CMP gameState
-    BEQ inputCheckGameStateIsCorrect_Pressed
-        JMP skipThisInput_Pressed
-    inputCheckGameStateIsCorrect_Pressed:
+    -pressedInputsLoop:
 
-    LDA DefinedTargetController_Pressed,x
-    CMP controllerNumber_hold
-    BEQ inputCheckControllerIsCorrect_Pressed
-        JMP skipThisInput_Pressed
-    inputCheckControllerIsCorrect_Pressed
+        LDX loopTemp ;; Set x temporarily to loopTemp variable for table reads
+                     ;; We need to check to see if this input uses current game
+                     ;; stat. If not, skip it.
+        LDA DefinedScriptGameStates_Pressed,x
+        CMP gameState
+        BEQ +
+            JMP +checkNextPressedInput
+        +
 
-    LDA buttonStates_hold
-    AND DefinedInputs_Pressed,x
-    BNE skipThisInput_Pressed
-    
+        LDA DefinedTargetController_Pressed,x
+        CMP controllerNumber_hold
+        BEQ +
+            JMP +checkNextPressedInput
+        +
+
+        LDA buttonStates_hold
+        AND DefinedInputs_Pressed,x
+        BNE +checkNextPressedInput
+
         LDA gamepad_hold
         AND DefinedInputs_Pressed,x
-        BEQ skipThisInput_Pressed
+        BEQ +checkNextPressedInput
 
         ;; Trampoline
         LDY loopTemp ;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT BEING CALLED
@@ -192,63 +193,64 @@ doCheckControllerInputStates:
         STA tempB
         JSR findObjectOfType
         CPX #$FF
-        BEQ skipThisInput_Pressed
-    
-        LDY loopTemp ;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT BEING
-                     ;; CALLED from the ScriptAddress table.
-        LDA DefinedTargetScripts_Pressed,y
-        TAY
+        BEQ +checkNextPressedInput
 
-        LDA ScriptAddressLo,y
-        STA temp16
-        LDA ScriptAddressHi,y
-        STA temp16+1
-        JSR doTemp16
-    skipThisInput_Pressed:
+            LDY loopTemp ;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT BEING
+                         ;; CALLED from the ScriptAddress table.
+            LDA DefinedTargetScripts_Pressed,y
+            TAY
 
-    INC loopTemp
-    LDA loopTemp
-    CMP #PRESSED_INPUTS ;;; the total number of scripts to jump through
-    BCS doneWithInputLoops_Pressed
-        JMP GetDefinedPressedInputsLoop
-    doneWithInputLoops_Pressed:
+            LDA ScriptAddressLo,y
+            STA temp16
+            LDA ScriptAddressHi,y
+            STA temp16+1
+            JSR doTemp16
+        +checkNextPressedInput:
+
+        INC loopTemp
+        LDA loopTemp
+        CMP #PRESSED_INPUTS ;;; the total number of scripts to jump through
+        BCS +checkReleasedInputs
+    JMP -pressedInputsLoop
+
 
     ;; Released
+    +checkReleasedInputs:
     LDA #RELEASED_INPUTS
-    BNE doReleasedInputs
-        JMP doneWithInputLoops_Released
-    doReleasedInputs:
+    BNE +
+        JMP +doneCheckingInputs
+    +
 
     LDA #$00
     STA loopTemp
-    
-    GetDefinedInputsReleasedLoop:
+
+    -releasedInputsLoop:
         LDX loopTemp ;; set x temporarily to loopTemp variable for table reads
                      ;; we need to check to see if this input uses current game
                      ;; state. if not, skip it.
         LDA DefinedScriptGameStates_Released,x
         CMP gameState
-        BEQ inputCheckGameStateIsCorrect_Released
-            JMP skipThisInput_Released
-        inputCheckGameStateIsCorrect_Released:
+        BEQ +
+            JMP +checkNextReleasedInput
+        +
 
         LDA DefinedTargetController_Released,x
         CMP controllerNumber_hold
-        BEQ inputCheckControllerIsCorrect_released
-            JMP skipThisInput_Released
-        inputCheckControllerIsCorrect_released:
+        BEQ +
+            JMP +checkNextReleasedInput
+        +
 
         ;; now check gamepad variable against the
         ;; DefinedInputs table to see if the current
         ;; gamepad state matches any of the chosen inputs.
-    
+
         LDA buttonStates_hold
         AND DefinedInputs_Released,x
-        BEQ skipThisInput_Released
-    
-            LDA gamepad_hold
-            AND DefinedInputs_Released,x
-            BNE skipThisInput_Released
+        BEQ +checkNextReleasedInput
+
+        LDA gamepad_hold
+        AND DefinedInputs_Released,x
+        BNE +checkNextReleasedInput
 
             ;; TRAMPOLINE
             LDY loopTemp ;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT BEING
@@ -259,7 +261,7 @@ doCheckControllerInputStates:
 
             JSR findObjectOfType
             CPX #$FF
-            BEQ skipThisInput_Released
+            BEQ +checkNextReleasedInput
 
             LDY loopTemp ;; THIS NEEDS TO EQUAL THE INDEX OF THE SCRIPT BEING
                          ;; CALLED from the ScriptAddress table.
@@ -271,15 +273,15 @@ doCheckControllerInputStates:
             LDA ScriptAddressHi,y
             STA temp16+1
             JSR doTemp16
-        skipThisInput_Released:
+        +checkNextReleasedInput:
 
         INC loopTemp
         LDA loopTemp
         CMP #RELEASED_INPUTS ;;; the total number of scripts to jump through
-        BCS doneWithInputLoops_Released
-    JMP GetDefinedInputsReleasedLoop
+        BCS +doneCheckingInputs
+    JMP -releasedInputsLoop
 
-    doneWithInputLoops_Released:
-   
+    +doneCheckingInputs:
+
     RTS
 
