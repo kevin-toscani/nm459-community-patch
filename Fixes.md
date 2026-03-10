@@ -57,3 +57,4 @@ _Here's a list of patches that have been applied, in no particular order, groupe
 - [Variable gravity per screen type](https://www.nesmakers.com/index.php?threads/have-different-gravity-on-specific-screen-types-4-5-9.7242/#post-49139), by Board-B
 - Diagonal movement options for the Adventure module
 - Added variable to limit projectiles per screen
+- [Arbitrary Bankswitch](https://www.nesmakers.com/index.php?threads/arbitrary-bankswitch.8271/), by JamesNES

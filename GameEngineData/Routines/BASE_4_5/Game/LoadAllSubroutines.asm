@@ -24,6 +24,7 @@
     .include ROOT\Game\Subroutines\doLoadScreen.asm
     .include ROOT\Game\Subroutines\doLoadScreen2.asm
     .include ROOT\Game\Subroutines\doLoadScreenData.asm
+    .include ROOT\Game\Subroutines\doSuperSwitch.asm
     .include ROOT\Game\Subroutines\doUpdateHudElement.asm
     .include ROOT\Game\Subroutines\doUpdateHudNumber.asm
     .include ROOT\Game\Subroutines\doUpdateHudTiles.asm
